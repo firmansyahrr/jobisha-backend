@@ -20,5 +20,7 @@ class CandidateEducation extends Model implements Auditable
 
     protected $table = 'candidate_educations';
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
+
+    protected $hidden = ['major', 'year_from', 'year_to'];
 }

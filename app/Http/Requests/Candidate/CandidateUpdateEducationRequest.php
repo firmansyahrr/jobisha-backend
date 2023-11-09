@@ -28,7 +28,7 @@ class CandidateUpdateEducationRequest extends FormRequest
             'educations.*.name' => ['required', 'max:255'],
             'educations.*.level_of_education' => ['required', 'max:255'],
             'educations.*.description' => ['max:1000'],
-            'educations.*.month_graduation' => ['required', 'date_format:mm'],
+            'educations.*.month_graduation' => ['required', 'date_format:m'],
             'educations.*.year_graduation' => ['required', 'date_format:Y'],
         ];
     }
