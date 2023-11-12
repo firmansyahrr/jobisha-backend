@@ -24,6 +24,20 @@ return [
             'unauthorized' => 'You are not authorized to access this feature.',
         ],
 
+        'job' => [
+            'not_found' => 'Job not found',
+            'save' => [
+                'success' => 'Successfully saved Job',
+                'failed' => 'Failed saved Job',
+                'already' => 'You have already save for this Job.',
+            ],
+            'apply' => [
+                'success' => 'Successfully apply this Job',
+                'failed' => 'Failed apply this Job',
+                'already' => 'You have already apply for this Job.',
+            ],
+        ],
+
         'register' => [
             'success' => 'Registered! Please verify your email address.',
             'failed' => 'Create data failed.'

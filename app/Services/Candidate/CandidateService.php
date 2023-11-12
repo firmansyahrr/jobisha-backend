@@ -3,7 +3,9 @@
 namespace App\Services\Candidate;
 
 use App\Filters\Candidate\CandidateFilter;
+use App\Repositories\Candidate\CandidateJobRepository;
 use App\Repositories\Candidate\CandidateRepository;
+use App\Repositories\Job\JobRepository;
 use App\Repositories\UserRepository;
 use App\Services\BaseService;
 use Exception;
@@ -16,7 +18,9 @@ use Illuminate\Support\Facades\Log;
 class CandidateService extends BaseService
 {
     protected $userRepo;
-    public function __construct(CandidateRepository $repo, CandidateFilter $filter, UserRepository $userRepo)
+    protected $jobRepo;
+    protected $candidateJobRepo;
+    public function __construct(CandidateRepository $repo, CandidateFilter $filter, UserRepository $userRepo, JobRepository $jobRepo, CandidateJobRepository $candidateJobRepo)
     {
         parent::__construct();
         $this->repo = $repo;
@@ -24,6 +28,8 @@ class CandidateService extends BaseService
         $this->filterClass = $filter;
 
         $this->userRepo = $userRepo;
+        $this->jobRepo = $jobRepo;
+        $this->candidateJobRepo = $candidateJobRepo;
     }
 
     public function profile(Request $request)
@@ -112,6 +118,89 @@ class CandidateService extends BaseService
         } catch (Exception $exc) {
             Log::error($exc->getMessage());
             return $this->failedResponse(null, $exc->getMessage());
+        }
+    }
+
+    public function saveJob(Request $request, $slug)
+    {
+        try {
+            $user = $this->userRepo->find($request->user()->id);
+            $candidate = $user->candidate;
+
+            $job = $this->jobRepo->with($this->detailWith)->get(['slug' => $slug])->first();
+
+            if (!$job) {
+                throw new Exception(__('content.message.job.not_found'));
+            }
+
+            $candidateJob = $this->candidateJobRepo->findWhere([
+                'candidate_id' => $candidate->id,
+                'job_id' => $job->id,
+                'type' => 'saved',
+            ]);
+
+            if ($candidateJob) {
+                throw new Exception(__('content.message.job.save.already'));
+            }
+
+            $candidate->job()->updateOrCreate([
+                'candidate_id' => $candidate->id,
+                'job_id' => $job->id,
+                'type' => 'saved'
+            ], [
+                'candidate_id' => $candidate->id,
+                'job_id' => $job->id,
+                'type' => 'saved'
+            ]);
+
+            $success['data'] = [$candidate->refresh()];
+
+            return $this->successResponse($success, __('content.message.job.save.success'), 200);
+        } catch (Exception $exc) {
+            Log::error($exc->getMessage());
+            return $this->failedResponse([], __('content.message.job.save.failed') . ': ' . $exc->getMessage());
+        }
+    }
+
+    public function applyJob(Request $request, $slug)
+    {
+        try {
+            $user = $this->userRepo->find($request->user()->id);
+            $candidate = $user->candidate;
+
+            $job = $this->jobRepo->with($this->detailWith)->get(['slug' => $slug])->first();
+
+            if (!$job) {
+                throw new Exception(__('content.message.job.not_found'));
+            }
+
+            $candidateJob = $this->candidateJobRepo->findWhere([
+                'candidate_id' => $candidate->id,
+                'job_id' => $job->id,
+                'type' => 'applied',
+            ]);
+
+            if ($candidateJob) {
+                throw new Exception(__('content.message.job.apply.already'));
+            }
+
+            $candidate->job()->updateOrCreate([
+                'candidate_id' => $candidate->id,
+                'job_id' => $job->id,
+                'type' => 'applied',
+            ], [
+                'candidate_id' => $candidate->id,
+                'job_id' => $job->id,
+                'type' => 'applied',
+                'description' => $request->description
+            ]);
+
+            $success['data'] = [$candidate->refresh()];
+
+            return $this->successResponse($success, __('content.message.job.apply.success'), 200);
+        } catch (Exception $exc) {
+            Log::error($exc->getMessage());
+            return $this->failedResponse([], __('content.message.job.apply.failed') . ': ' . $exc->getMessage());
         }
     }
 }

@@ -101,7 +101,7 @@ trait ApiResponseTrait
         );
     }
 
-    public function failedResponse($result = null, $message = '', $statusCode = 400, $errors = null): JsonResponse
+    public function failedResponse($result = [], $message = '', $statusCode = 400, $errors = null): JsonResponse
     {
         return $this->apiResponse(
             [

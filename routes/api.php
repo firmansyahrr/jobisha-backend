@@ -34,6 +34,19 @@ Route::post('/login', [AuthenticationController::class, 'login']);
 // Resend link to verify email
 Route::post('/email/verify/resend', [EmailVerifyController::class, 'resend'])->middleware(['auth:api', 'throttle:6,1'])->name('verification.send');
 
+Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+    Route::prefix('profile')->group(function () {
+        Route::get('/', [CandidateController::class, 'profile']);
+        Route::post('/about-me', [CandidateController::class, 'postUpdateAboutMe']);
+        Route::post('/educations', [CandidateController::class, 'postUpdateEducation']);
+    });
+
+    Route::prefix('jobs')->group(function () {
+        Route::post('/{slug}/save', [CandidateController::class,'postSaveJob']);
+        Route::post('/{slug}/apply', [CandidateController::class,'postApplyJob']);
+    });
+});
+
 Route::middleware(['custom_api'])->namespace('Api')->group(function () {
     Route::prefix('landing')->group(function () {
         Route::get('/testimonies', [LandingPageController::class, 'getTestimony']);
@@ -51,13 +64,5 @@ Route::middleware(['custom_api'])->namespace('Api')->group(function () {
         Route::get('/', [CompanyController::class, 'index']);
         Route::get('/{slug}', [CompanyController::class, 'getBySlug']);
         Route::get('/{slug}/jobs', [JobController::class, 'getByCompany']);
-    });
-});
-
-Route::middleware(['auth:sanctum', 'verified'])->group(function () {
-    Route::prefix('profile')->group(function () {
-        Route::get('/', [CandidateController::class, 'profile']);
-        Route::post('/about-me', [CandidateController::class, 'postUpdateAboutMe']);
-        Route::post('/educations', [CandidateController::class, 'postUpdateEducation']);
     });
 });
