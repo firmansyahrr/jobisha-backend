@@ -80,46 +80,6 @@ class CandidateService extends BaseService
         }
     }
 
-    public function updateAboutMe(Request $request)
-    {
-        try {
-            $user = $this->userRepo->find($request->user()->id);
-            $candidate = $user->candidate;
-
-            $this->repo->update(['about_me' => $request->about_me], $candidate->id);
-
-            $success['data'] = [$candidate->refresh()];
-
-            return $this->successResponse($success, __('content.message.update.success'), 201);
-        } catch (Exception $exc) {
-            Log::error($exc->getMessage());
-            return $this->failedResponse(null, $exc->getMessage());
-        }
-    }
-
-    public function updateEducation(Request $request)
-    {
-        try {
-            $user = $this->userRepo->find($request->user()->id);
-            $candidate = $user->candidate;
-
-            $educations = collect($request->educations);
-            $educations->each(function ($data) use ($candidate) {
-                $candidate->educations()->updateOrCreate([
-                    'id' => $data['id'] ?? null,
-                ], ($data['id'] != null ? $data : Arr::except($data, ['id'])));
-            });
-
-            $this->repo->update(['about_me' => $request->about_me], $candidate->id);
-
-            $success['data'] = [$candidate->refresh()];
-
-            return $this->successResponse($success, __('content.message.update.success'), 201);
-        } catch (Exception $exc) {
-            Log::error($exc->getMessage());
-            return $this->failedResponse(null, $exc->getMessage());
-        }
-    }
 
     public function saveJob(Request $request, $slug)
     {
@@ -201,6 +161,67 @@ class CandidateService extends BaseService
         } catch (Exception $exc) {
             Log::error($exc->getMessage());
             return $this->failedResponse([], __('content.message.job.apply.failed') . ': ' . $exc->getMessage());
+        }
+    }
+
+    public function updateAboutMe(Request $request)
+    {
+        try {
+            $user = $this->userRepo->find($request->user()->id);
+            $candidate = $user->candidate;
+
+            $this->repo->update(['about_me' => $request->about_me], $candidate->id);
+
+            $success['data'] = [$candidate->refresh()];
+
+            return $this->successResponse($success, __('content.message.update.success'), 201);
+        } catch (Exception $exc) {
+            Log::error($exc->getMessage());
+            return $this->failedResponse(null, $exc->getMessage());
+        }
+    }
+
+    public function updateEducation(Request $request)
+    {
+        try {
+            $user = $this->userRepo->find($request->user()->id);
+            $candidate = $user->candidate;
+
+            $educations = collect($request->educations);
+            $educations->each(function ($data) use ($candidate) {
+                $candidate->educations()->updateOrCreate([
+                    'id' => $data['id'] ?? null,
+                ], ($data['id'] != null ? $data : Arr::except($data, ['id'])));
+            });
+
+            $success['data'] = [$candidate->refresh()];
+
+            return $this->successResponse($success, __('content.message.update.success'), 201);
+        } catch (Exception $exc) {
+            Log::error($exc->getMessage());
+            return $this->failedResponse(null, $exc->getMessage());
+        }
+    }
+
+    public function updateWorkExperience(Request $request)
+    {
+        try {
+            $user = $this->userRepo->find($request->user()->id);
+            $candidate = $user->candidate;
+
+            $workExperiences = collect($request->work_experiences);
+            $workExperiences->each(function ($data) use ($candidate) {
+                $candidate->work_experiences()->updateOrCreate([
+                    'id' => $data['id'] ?? null,
+                ], ($data['id'] != null ? $data : Arr::except($data, ['id'])));
+            });
+
+            $success['data'] = [$candidate->refresh()];
+
+            return $this->successResponse($success, __('content.message.update.success'), 201);
+        } catch (Exception $exc) {
+            Log::error($exc->getMessage());
+            return $this->failedResponse(null, $exc->getMessage());
         }
     }
 }

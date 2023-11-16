@@ -64,4 +64,9 @@ class Candidate extends Model implements Auditable, HasMedia
     {
         return $this->hasMany(CandidateJob::class);
     }
+
+    public function work_experiences(): HasMany
+    {
+        return $this->hasMany(CandidateWorkExperience::class);
+    }
 }
