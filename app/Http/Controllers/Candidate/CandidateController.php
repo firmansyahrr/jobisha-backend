@@ -22,36 +22,24 @@ class CandidateController extends Controller
 
     public function profile(Request $request)
     {
-        if (!$request->ajax()) {
-            return redirect('/');
-        }
         
         return $this->service->profile($request);
     }
 
     public function register(RegisterCandidateRequest $request)
     {
-        if (!$request->ajax()) {
-            return redirect('/');
-        }
         
         return $this->service->register($request);
     }
 
     public function postSaveJob(Request $request, $slug)
     {
-        if (!$request->ajax()) {
-            return redirect('/');
-        }
         
         return $this->service->saveJob($request, $slug);
     }
 
     public function postApplyJob(CandidateApplyJobRequest $request, $slug)
     {
-        if (!$request->ajax()) {
-            return redirect('/');
-        }
         
         return $this->service->applyJob($request, $slug);
     }
@@ -59,36 +47,24 @@ class CandidateController extends Controller
     // ============================================== UPDATE PROFILE MANAGEMENT
     public function postUpdateAboutMe(CandidateUpdateAboutMeRequest $request)
     {
-        if (!$request->ajax()) {
-            return redirect('/');
-        }
         
         return $this->service->updateAboutMe($request);
     }
 
     public function postUpdateEducation(CandidateUpdateEducationRequest $request)
     {
-        if (!$request->ajax()) {
-            return redirect('/');
-        }
         
         return $this->service->updateEducation($request);
     }
 
     public function postUpdateWorkExperience(CandidateUpdateWorkExperienceRequest $request)
     {
-        if (!$request->ajax()) {
-            return redirect('/');
-        }
         
         return $this->service->updateWorkExperience($request);
     }
 
     public function postUpdateSkill(CandidateUpdateSkillRequest $request)
     {
-        if (!$request->ajax()) {
-            return redirect('/');
-        }
         
         return $this->service->updateSkill($request);
     }

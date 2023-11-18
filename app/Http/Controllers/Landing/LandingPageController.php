@@ -22,18 +22,12 @@ class LandingPageController extends Controller
 
     public function getTestimony(Request $request)
     {
-        if (!$request->ajax()) {
-            return redirect('/');
-        }
         
         return $this->service->all($request->all());
     }
 
     public function getCounter(Request $request)
     {
-        if (!$request->ajax()) {
-            return redirect('/');
-        }
         
         $datas = ['data' => [[
             'registerd_candidates' => rand(1000, 5000),
@@ -47,9 +41,6 @@ class LandingPageController extends Controller
 
     public function getPopularJob(Request $request)
     {
-        if (!$request->ajax()) {
-            return redirect('/');
-        }
         
         $datas = [
             'data' => [

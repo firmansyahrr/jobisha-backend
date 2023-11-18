@@ -17,6 +17,7 @@ class SkillController extends Controller
 
     public function index(Request $request)
     {
+        
         return $this->service->all($request->all());
     }
 }
