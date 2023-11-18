@@ -258,4 +258,28 @@ class CandidateService extends BaseService
             return $this->failedResponse(null, $exc->getMessage());
         }
     }
+
+    public function updateResume(Request $request)
+    {
+        try {
+            $user = $this->userRepo->find($request->user()->id);
+            $candidate = $user->candidate;
+
+            $path = $request->file('resume')->store('candidate-resumes');
+
+            $data = [];
+            $data['filename'] = $path;
+            $data['is_active'] = true;
+
+            $candidate->candidate_resumes()->create($data);
+
+            $success['data'] = [$candidate->refresh()];
+
+            return $this->successResponse($success, __('content.message.update.success'), 201);
+        } catch (Exception $exc) {
+            Log::error($exc->getMessage());
+            return $this->failedResponse(null, $exc->getMessage());
+        }
+    }
+
 }
