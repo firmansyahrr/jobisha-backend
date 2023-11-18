@@ -6,9 +6,12 @@ use App\Http\Controllers\Candidate\CandidateController;
 use App\Http\Controllers\Company\CompanyController;
 use App\Http\Controllers\EmailVerifyController;
 use App\Http\Controllers\Job\JobController;
+use App\Http\Controllers\Job\JobRoleController;
+use App\Http\Controllers\Job\JobSpecializationController;
 use App\Http\Controllers\JobBoard\JobBoardController;
 use App\Http\Controllers\Landing\LandingPageController;
 use App\Http\Controllers\Master\ApplicationParameterController;
+use App\Http\Controllers\Master\SkillController;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -53,9 +56,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 Route::middleware(['custom_api'])->group(function () {
 
     Route::prefix('master')->group(function () {
-        Route::get('/job-specializations', [CandidateController::class, '']);
-        Route::get('/job-roles', [CandidateController::class, '']);
-        Route::get('/skills', [CandidateController::class, '']);
+        Route::get('/job-specializations', [JobSpecializationController::class, 'index']);
+        Route::get('/job-roles', [JobRoleController::class, 'index']);
+        Route::get('/skills', [SkillController::class, 'index']);
         Route::get('/career-levels', [ApplicationParameterController::class, 'index']);
         Route::get('/company-industries', [ApplicationParameterController::class, 'index']);
         Route::get('/employee-sizes', [ApplicationParameterController::class, 'index']);
