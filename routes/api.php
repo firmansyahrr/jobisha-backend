@@ -40,6 +40,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         Route::post('/about-me', [CandidateController::class, 'postUpdateAboutMe']);
         Route::post('/educations', [CandidateController::class, 'postUpdateEducation']);
         Route::post('/work-experiences', [CandidateController::class, 'postUpdateWorkExperience']);
+        Route::post('/skills', [CandidateController::class, 'postUpdateSkill']);
     });
 
     Route::prefix('jobs')->group(function () {

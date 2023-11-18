@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Candidate\CandidateApplyJobRequest;
 use App\Http\Requests\Candidate\CandidateUpdateAboutMeRequest;
 use App\Http\Requests\Candidate\CandidateUpdateEducationRequest;
+use App\Http\Requests\Candidate\CandidateUpdateSkillRequest;
 use App\Http\Requests\Candidate\CandidateUpdateWorkExperienceRequest;
 use App\Http\Requests\Candidate\RegisterCandidateRequest;
 use App\Services\Candidate\CandidateService;
@@ -53,5 +54,10 @@ class CandidateController extends Controller
     public function postUpdateWorkExperience(CandidateUpdateWorkExperienceRequest $request)
     {
         return $this->service->updateWorkExperience($request);
+    }
+
+    public function postUpdateSkill(CandidateUpdateSkillRequest $request)
+    {
+        return $this->service->updateSkill($request);
     }
 }

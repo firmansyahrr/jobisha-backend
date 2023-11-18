@@ -6,6 +6,7 @@ use App\Filters\Candidate\CandidateFilter;
 use App\Repositories\Candidate\CandidateJobRepository;
 use App\Repositories\Candidate\CandidateRepository;
 use App\Repositories\Job\JobRepository;
+use App\Repositories\Master\SkillRepository;
 use App\Repositories\UserRepository;
 use App\Services\BaseService;
 use Exception;
@@ -20,7 +21,8 @@ class CandidateService extends BaseService
     protected $userRepo;
     protected $jobRepo;
     protected $candidateJobRepo;
-    public function __construct(CandidateRepository $repo, CandidateFilter $filter, UserRepository $userRepo, JobRepository $jobRepo, CandidateJobRepository $candidateJobRepo)
+    protected $skillRepo;
+    public function __construct(CandidateRepository $repo, CandidateFilter $filter, UserRepository $userRepo, JobRepository $jobRepo, CandidateJobRepository $candidateJobRepo, SkillRepository $skillRepo)
     {
         parent::__construct();
         $this->repo = $repo;
@@ -30,6 +32,7 @@ class CandidateService extends BaseService
         $this->userRepo = $userRepo;
         $this->jobRepo = $jobRepo;
         $this->candidateJobRepo = $candidateJobRepo;
+        $this->skillRepo = $skillRepo;
     }
 
     public function profile(Request $request)
@@ -212,6 +215,37 @@ class CandidateService extends BaseService
             $workExperiences = collect($request->work_experiences);
             $workExperiences->each(function ($data) use ($candidate) {
                 $candidate->work_experiences()->updateOrCreate([
+                    'id' => $data['id'] ?? null,
+                ], ($data['id'] != null ? $data : Arr::except($data, ['id'])));
+            });
+
+            $success['data'] = [$candidate->refresh()];
+
+            return $this->successResponse($success, __('content.message.update.success'), 201);
+        } catch (Exception $exc) {
+            Log::error($exc->getMessage());
+            return $this->failedResponse(null, $exc->getMessage());
+        }
+    }
+
+    public function updateSkill(Request $request)
+    {
+        try {
+            $user = $this->userRepo->find($request->user()->id);
+            $candidate = $user->candidate;
+
+            $skills = collect($request->skills);
+            $skills->each(function ($data) use ($candidate) {
+
+                $skillLabel = ucwords($data['skill']);
+                $skill = $this->skillRepo->findWhere(['label' => $skillLabel]);
+                if (!$skill) {
+                    $skill = $this->skillRepo->create(['label' => $skillLabel]);
+                }
+
+                $data['skill'] = $skillLabel;
+
+                $candidate->candidate_skills()->updateOrCreate([
                     'id' => $data['id'] ?? null,
                 ], ($data['id'] != null ? $data : Arr::except($data, ['id'])));
             });
