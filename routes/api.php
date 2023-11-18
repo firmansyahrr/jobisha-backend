@@ -8,6 +8,7 @@ use App\Http\Controllers\EmailVerifyController;
 use App\Http\Controllers\Job\JobController;
 use App\Http\Controllers\JobBoard\JobBoardController;
 use App\Http\Controllers\Landing\LandingPageController;
+use App\Http\Controllers\Master\ApplicationParameterController;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -44,12 +45,26 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     });
 
     Route::prefix('jobs')->group(function () {
-        Route::post('/{slug}/save', [CandidateController::class,'postSaveJob']);
-        Route::post('/{slug}/apply', [CandidateController::class,'postApplyJob']);
+        Route::post('/{slug}/save', [CandidateController::class, 'postSaveJob']);
+        Route::post('/{slug}/apply', [CandidateController::class, 'postApplyJob']);
     });
 });
 
-Route::middleware(['custom_api'])->namespace('Api')->group(function () {
+Route::middleware(['custom_api'])->group(function () {
+
+    Route::prefix('master')->group(function () {
+        Route::get('/job-specializations', [CandidateController::class, '']);
+        Route::get('/job-roles', [CandidateController::class, '']);
+        Route::get('/skills', [CandidateController::class, '']);
+        Route::get('/career-levels', [ApplicationParameterController::class, 'index']);
+        Route::get('/company-industries', [ApplicationParameterController::class, 'index']);
+        Route::get('/employee-sizes', [ApplicationParameterController::class, 'index']);
+        Route::get('/job-types', [ApplicationParameterController::class, 'index']);
+        Route::get('/work-preferences', [ApplicationParameterController::class, 'index']);
+        Route::get('/salary-ranges', [ApplicationParameterController::class, 'index']);
+        Route::get('/skill-levels', [ApplicationParameterController::class, 'index']);
+    });
+
     Route::prefix('landing')->group(function () {
         Route::get('/testimonies', [LandingPageController::class, 'getTestimony']);
         Route::get('/counters', [LandingPageController::class, 'getCounter']);

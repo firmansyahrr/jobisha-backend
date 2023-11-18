@@ -14,11 +14,11 @@ class AppParamJobType extends Seeder
     public function run(): void
     {
         $lists = collect([
-            ['type' => 'job_type', 'code' => 'jt_fulltime', 'label' => 'Full Time',],
-            ['type' => 'job_type', 'code' => 'jt_parttime', 'label' => 'Part Time',],
-            ['type' => 'job_type', 'code' => 'jt_contract', 'label' => 'Contract',],
-            ['type' => 'job_type', 'code' => 'jt_internship', 'label' => 'Internship',],
-            ['type' => 'job_type', 'code' => 'jt_project', 'label' => 'Project',],
+            ['type' => 'job_types', 'code' => 'jt_fulltime', 'label' => 'Full Time',],
+            ['type' => 'job_types', 'code' => 'jt_parttime', 'label' => 'Part Time',],
+            ['type' => 'job_types', 'code' => 'jt_contract', 'label' => 'Contract',],
+            ['type' => 'job_types', 'code' => 'jt_internship', 'label' => 'Internship',],
+            ['type' => 'job_types', 'code' => 'jt_project', 'label' => 'Project',],
         ]);
 
         $lists->map(function ($list) {

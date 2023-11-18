@@ -13,9 +13,9 @@ class AppParamCareerLevel extends Seeder
     public function run(): void
     {
         $lists = collect([
-            ['type' => 'career_level', 'code' => 'cl_level_1', 'label' => 'Staff (non-management & non-supervisor)',],
-            ['type' => 'career_level', 'code' => 'cl_level_2', 'label' => 'Management',],
-            ['type' => 'career_level', 'code' => 'cl_level_3', 'label' => 'Supervisor',],
+            ['type' => 'career_levels', 'code' => 'cl_level_1', 'label' => 'Staff (non-management & non-supervisor)',],
+            ['type' => 'career_levels', 'code' => 'cl_level_2', 'label' => 'Management',],
+            ['type' => 'career_levels', 'code' => 'cl_level_3', 'label' => 'Supervisor',],
         ]);
 
         $lists->map(function ($list) {

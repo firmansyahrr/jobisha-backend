@@ -13,9 +13,9 @@ class AppParamSkillLevel extends Seeder
     public function run(): void
     {
         $lists = collect([
-            ['type' => 'skill_level', 'code' => 'skill_level_1', 'label' => 'Beginner',],
-            ['type' => 'skill_level', 'code' => 'skill_level_2', 'label' => 'Amateur',],
-            ['type' => 'skill_level', 'code' => 'skill_level_3', 'label' => 'Pro',],
+            ['type' => 'skill_levels', 'code' => 'skill_level_1', 'label' => 'Beginner',],
+            ['type' => 'skill_levels', 'code' => 'skill_level_2', 'label' => 'Amateur',],
+            ['type' => 'skill_levels', 'code' => 'skill_level_3', 'label' => 'Pro',],
         ]);
 
         $lists->map(function ($list) {

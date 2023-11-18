@@ -14,9 +14,9 @@ class AppParamJobPreference extends Seeder
     public function run(): void
     {
         $lists = collect([
-            ['type' => 'work_preference', 'code' => 'wp_onsite', 'label' => 'Onsite',],
-            ['type' => 'work_preference', 'code' => 'wp_hybrid', 'label' => 'Hybrid',],
-            ['type' => 'work_preference', 'code' => 'wp_remote', 'label' => 'Remote',],
+            ['type' => 'work_preferences', 'code' => 'wp_onsite', 'label' => 'Onsite',],
+            ['type' => 'work_preferences', 'code' => 'wp_hybrid', 'label' => 'Hybrid',],
+            ['type' => 'work_preferences', 'code' => 'wp_remote', 'label' => 'Remote',],
         ]);
 
         $lists->map(function ($list) {
