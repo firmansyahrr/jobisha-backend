@@ -16,6 +16,10 @@ class ApplicationParameterController extends Controller
 
     public function index(Request $request)
     {
+        if (!$request->ajax()) {
+            return redirect('/');
+        }
+        
         $object = $request->segment(3);
 
         return $this->service->allByType($request->all(), $object);

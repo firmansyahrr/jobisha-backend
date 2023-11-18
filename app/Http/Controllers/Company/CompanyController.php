@@ -15,11 +15,19 @@ class CompanyController extends Controller
 
     public function index(Request $request)
     {
+        if (!$request->ajax()) {
+            return redirect('/');
+        }
+        
         return $this->service->all($request->all());
     }
 
     public function getBySlug(Request $request, $slug)
     {
+        if (!$request->ajax()) {
+            return redirect('/');
+        }
+        
         return $this->service->getBySlug($slug);
     }
 }
