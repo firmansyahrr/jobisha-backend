@@ -5,6 +5,7 @@ namespace App\Models\Candidate;
 use App\Models\Master\ApplicationParameter;
 use App\Traits\AddCreatedUser;
 use App\Traits\SoftDeleteWithUser;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -27,6 +28,15 @@ class CandidateEducation extends Model implements Auditable
     protected $hidden = ['major', 'year_from', 'year_to', 'month_graduation', 'year_graduation'];
     
     protected $appends = ['graduation_date'];
+    
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope('order', function (Builder $builder) {
+            $builder->orderBy('created_at', 'ASC');
+        });
+    }
 
     public function getGraduationDateAttribute()
     {

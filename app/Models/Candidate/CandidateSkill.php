@@ -4,6 +4,7 @@ namespace App\Models\Candidate;
 
 use App\Traits\AddCreatedUser;
 use App\Traits\SoftDeleteWithUser;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
@@ -21,4 +22,13 @@ class CandidateSkill extends Model implements Auditable
     protected $table = 'candidate_skills';
 
     protected $guarded = ['id'];
+    
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope('order', function (Builder $builder) {
+            $builder->orderBy('created_at', 'ASC');
+        });
+    }
 }

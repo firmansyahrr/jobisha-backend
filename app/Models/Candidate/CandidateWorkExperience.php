@@ -7,6 +7,7 @@ use App\Models\Job\JobSpecialization;
 use App\Models\Master\ApplicationParameter;
 use App\Traits\AddCreatedUser;
 use App\Traits\SoftDeleteWithUser;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -29,6 +30,15 @@ class CandidateWorkExperience extends Model implements Auditable
     protected $hidden = ['start_of_month', 'start_of_year', 'end_of_month', 'end_of_year'];
 
     protected $appends = ['start_of_work', 'end_of_work'];
+    
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope('order', function (Builder $builder) {
+            $builder->orderBy('created_at', 'ASC');
+        });
+    }
 
     public function getStartOfWorkAttribute()
     {
