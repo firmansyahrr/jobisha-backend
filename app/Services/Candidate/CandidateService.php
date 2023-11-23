@@ -38,7 +38,7 @@ class CandidateService extends BaseService
     public function profile(Request $request)
     {
         try {
-            $user = $this->userRepo->with(['candidate.work_experiences', 'candidate.educations'])->find($request->user()->id);
+            $user = $this->userRepo->with(['candidate.work_experiences', 'candidate.educations', 'candidate.skills', 'candidate.resumes'])->find($request->user()->id);
             $success['data'] = [$user];
 
             return $this->successResponse($success, __('content.message.read.success'), 201);
@@ -258,21 +258,19 @@ class CandidateService extends BaseService
             $user = $this->userRepo->find($request->user()->id);
             $candidate = $user->candidate;
 
-            $skills = collect($request->skills);
-            $skills->each(function ($data) use ($candidate) {
+            $data = $request->all();
 
-                $skillLabel = ucwords($data['skill']);
-                $skill = $this->skillRepo->findWhere(['label' => $skillLabel]);
-                if (!$skill) {
-                    $skill = $this->skillRepo->create(['label' => $skillLabel]);
-                }
+            $skillLabel = ucwords($data['skill']);
+            $skill = $this->skillRepo->findWhere(['label' => $skillLabel]);
+            if (!$skill) {
+                $skill = $this->skillRepo->create(['label' => $skillLabel]);
+            }
 
-                $data['skill'] = $skillLabel;
+            $data['skill'] = $skillLabel;
 
-                $candidate->candidate_skills()->updateOrCreate([
-                    'id' => $data['id'] ?? null,
-                ], ($data['id'] != null ? $data : Arr::except($data, ['id'])));
-            });
+            $candidate->skills()->updateOrCreate([
+                'id' => $data['id'] ?? null,
+            ], ($data['id'] != null ? $data : Arr::except($data, ['id'])));
 
             $success['data'] = [$candidate->refresh()];
 
@@ -295,7 +293,7 @@ class CandidateService extends BaseService
             $data['filename'] = $path;
             $data['is_active'] = true;
 
-            $candidate->candidate_resumes()->create($data);
+            $candidate->resumes()->create($data);
 
             $success['data'] = [$candidate->refresh()];
 
