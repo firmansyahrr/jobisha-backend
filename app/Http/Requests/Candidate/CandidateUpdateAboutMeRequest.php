@@ -23,6 +23,14 @@ class CandidateUpdateAboutMeRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'name' => ['required', 'max:255'],
+            'address' => ['nullable', 'max:500'],
+            'province_id' => ['nullable', 'exists:provinces,id'],
+            'city_id' => ['nullable', 'exists:cities,id'],
+            'place_of_birth' => ['nullable', 'max:100'],
+            'birthday' => ['nullable', 'date_format:Y-m-d'],
+            'gender_id' => ['exists:application_parameters,id'],
+            'phone_number' => ['string', 'max:15'],
             'about_me' => ['required', 'max:1000'],
         ];
     }

@@ -40,6 +40,8 @@ class CandidateService extends BaseService
         try {
             $user = $this->userRepo->with(
                 [
+                    'candidate.gender',
+
                     'candidate.work_experiences.salary_range',
                     'candidate.work_experiences.career_level',
                     'candidate.work_experiences.job_specialization',
@@ -186,7 +188,9 @@ class CandidateService extends BaseService
             $user = $this->userRepo->find($request->user()->id);
             $candidate = $user->candidate;
 
-            $this->repo->update(['about_me' => $request->about_me], $candidate->id);
+            $data = $request->all();
+
+            $this->repo->update($data, $candidate->id);
 
             $success['data'] = [$candidate->refresh()];
 

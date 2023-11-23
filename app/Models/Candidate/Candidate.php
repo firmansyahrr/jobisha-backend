@@ -2,10 +2,12 @@
 
 namespace App\Models\Candidate;
 
+use App\Models\Master\ApplicationParameter;
 use App\Traits\AddCreatedUser;
 use App\Traits\SoftDeleteWithUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use OwenIt\Auditing\Contracts\Auditable;
 use Illuminate\Support\Str;
@@ -19,18 +21,7 @@ class Candidate extends Model implements Auditable, HasMedia
     use \OwenIt\Auditing\Auditable;
     use HasFactory, AddCreatedUser, SoftDeleteWithUser, InteractsWithMedia;
 
-    protected $fillable = [
-        'name',
-        'email',
-        'phone_number',
-        'place_of_birth',
-        'birthday',
-        'gender',
-        'current_sallary',
-        'expected_sallary',
-        'slug',
-        'about_me',
-    ];
+    protected $guarded = ['id'];
 
     protected static function boot()
     {
@@ -78,5 +69,10 @@ class Candidate extends Model implements Auditable, HasMedia
     public function resumes(): HasMany
     {
         return $this->hasMany(CandidateResume::class);
+    }
+
+    public function gender(): BelongsTo
+    {
+        return $this->belongsTo(ApplicationParameter::class, 'gender_id', 'id');
     }
 }

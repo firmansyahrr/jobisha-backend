@@ -68,6 +68,7 @@ Route::middleware(['custom_api'])->group(function () {
         Route::get('/salary-ranges', [ApplicationParameterController::class, 'index']);
         Route::get('/skill-levels', [ApplicationParameterController::class, 'index']);
         Route::get('/education-levels', [ApplicationParameterController::class, 'index']);
+        Route::get('/genders', [ApplicationParameterController::class, 'index']);
     });
 
     Route::prefix('landing')->group(function () {
