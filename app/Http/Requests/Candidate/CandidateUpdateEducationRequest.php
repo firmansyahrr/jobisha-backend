@@ -25,7 +25,7 @@ class CandidateUpdateEducationRequest extends FormRequest
         return [
             'id' => ['nullable', 'exists:candidate_educations,id'],
             'name' => ['required', 'max:255'],
-            'level_of_education' => ['required', 'max:255'],
+            'education_level_id' => ['required', 'exists:application_parameters,id'],
             'description' => ['max:1000'],
             'is_till_current' => ['boolean'],
             'graduation_date' => ['required_if:is_till_current,false', 'date_format:Y-m'],

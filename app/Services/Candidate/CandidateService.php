@@ -38,7 +38,18 @@ class CandidateService extends BaseService
     public function profile(Request $request)
     {
         try {
-            $user = $this->userRepo->with(['candidate.work_experiences', 'candidate.educations', 'candidate.skills', 'candidate.resumes'])->find($request->user()->id);
+            $user = $this->userRepo->with(
+                [
+                    'candidate.work_experiences.salary_range',
+                    'candidate.work_experiences.career_level',
+                    'candidate.work_experiences.job_specialization',
+                    'candidate.work_experiences.job_role',
+
+                    'candidate.educations.education_level',
+                    'candidate.skills',
+                    'candidate.resumes'
+                ]
+            )->find($request->user()->id);
             $success['data'] = [$user];
 
             return $this->successResponse($success, __('content.message.read.success'), 201);
@@ -192,13 +203,13 @@ class CandidateService extends BaseService
 
             $data = $request->all();
 
-            if(isset($data['graduation_date'])){
+            if (isset($data['graduation_date'])) {
                 $explodeEnd = explode("-", $data['graduation_date']);
                 $data['month_graduation'] = $explodeEnd[1];
                 $data['year_graduation'] = $explodeEnd[0];
             }
 
-            if($data['is_till_current']){
+            if ($data['is_till_current']) {
                 $data['year_graduation'] = null;
                 $data['month_graduation'] = null;
             }
@@ -228,13 +239,13 @@ class CandidateService extends BaseService
             $data['start_of_month'] = $explodeStart[1];
             $data['start_of_year'] = $explodeStart[0];
 
-            if(isset($data['end_of_work'])){
+            if (isset($data['end_of_work'])) {
                 $explodeEnd = explode("-", $data['end_of_work']);
                 $data['end_of_month'] = $explodeEnd[1];
                 $data['end_of_year'] = $explodeEnd[0];
             }
 
-            if($data['is_till_current']){
+            if ($data['is_till_current']) {
                 $data['end_of_month'] = null;
                 $data['end_of_year'] = null;
             }

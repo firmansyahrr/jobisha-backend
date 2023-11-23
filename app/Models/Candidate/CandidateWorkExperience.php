@@ -2,10 +2,14 @@
 
 namespace App\Models\Candidate;
 
+use App\Models\Job\JobRole;
+use App\Models\Job\JobSpecialization;
+use App\Models\Master\ApplicationParameter;
 use App\Traits\AddCreatedUser;
 use App\Traits\SoftDeleteWithUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use OwenIt\Auditing\Contracts\Auditable;
 use Illuminate\Support\Str;
 use Spatie\Image\Manipulations;
@@ -38,5 +42,25 @@ class CandidateWorkExperience extends Model implements Auditable
         }
 
         return null;
+    }
+
+    public function salary_range(): BelongsTo
+    {
+        return $this->belongsTo(ApplicationParameter::class, 'salary_range_id', 'id');
+    }
+
+    public function career_level(): BelongsTo
+    {
+        return $this->belongsTo(ApplicationParameter::class, 'career_level_id', 'id');
+    }
+
+    public function job_specialization(): BelongsTo
+    {
+        return $this->belongsTo(JobSpecialization::class);
+    }
+
+    public function job_role(): BelongsTo
+    {
+        return $this->belongsTo(JobRole::class);
     }
 }

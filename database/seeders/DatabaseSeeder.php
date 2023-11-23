@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
             AppParamJobPreference::class,
             AppParamRangeSalary::class,
             AppParamSkillLevel::class,
+            AppParamEducationLevel::class,
 
             MasterCountrySeeder::class,
             MasterProvinceSeeder::class,
