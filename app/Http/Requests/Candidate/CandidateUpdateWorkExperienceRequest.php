@@ -22,20 +22,17 @@ class CandidateUpdateWorkExperienceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'work_experiences' => ['required', 'min:1'],
-            'work_experiences.*.id' => ['nullable', 'exists:candidate_work_experiences,id'],
-            'work_experiences.*.company_name' => ['required', 'max:255'],
-            'work_experiences.*.job_title' => ['required', 'max:255'],
-            'work_experiences.*.description' => ['nullable', 'max:1000'],
-            'work_experiences.*.salary_range_id' => ['required', 'exists:application_parameters,id'],
-            'work_experiences.*.start_of_month' => ['required', 'date_format:m'],
-            'work_experiences.*.start_of_year' => ['required', 'date_format:Y'],
-            'work_experiences.*.end_of_month' => ['required', 'date_format:m'],
-            'work_experiences.*.end_of_year' => ['required', 'date_format:Y'],
-            'work_experiences.*.is_till_current' => ['boolean'],
-            'work_experiences.*.career_level_id' => ['required', 'exists:application_parameters,id'],
-            'work_experiences.*.job_role_id' => ['required', 'exists:application_parameters,id'],
-            'work_experiences.*.job_specialization_id' => ['required', 'exists:application_parameters,id'],
+            'id' => ['nullable', 'exists:candidate_work_experiences,id'],
+            'company_name' => ['required', 'max:255'],
+            'job_title' => ['required', 'max:255'],
+            'description' => ['nullable', 'max:1000'],
+            'salary_range_id' => ['required', 'exists:application_parameters,id'],
+            'is_till_current' => ['boolean'],
+            'start_of_work' => ['required', 'date_format:Y-m'],
+            'end_of_work' => ['required_if:is_till_current,false', 'date_format:Y-m'],
+            'career_level_id' => ['required', 'exists:application_parameters,id'],
+            'job_role_id' => ['required', 'exists:application_parameters,id'],
+            'job_specialization_id' => ['required', 'exists:application_parameters,id'],
         ];
     }
 }

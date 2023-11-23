@@ -38,7 +38,7 @@ class CandidateService extends BaseService
     public function profile(Request $request)
     {
         try {
-            $user = $this->userRepo->with(['candidate.addresses', 'candidate.educations'])->find($request->user()->id);
+            $user = $this->userRepo->with(['candidate.work_experiences'])->find($request->user()->id);
             $success['data'] = [$user];
 
             return $this->successResponse($success, __('content.message.read.success'), 201);
@@ -212,12 +212,26 @@ class CandidateService extends BaseService
             $user = $this->userRepo->find($request->user()->id);
             $candidate = $user->candidate;
 
-            $workExperiences = collect($request->work_experiences);
-            $workExperiences->each(function ($data) use ($candidate) {
-                $candidate->work_experiences()->updateOrCreate([
-                    'id' => $data['id'] ?? null,
-                ], ($data['id'] != null ? $data : Arr::except($data, ['id'])));
-            });
+            $data = $request->all();
+
+            $explodeStart = explode("-", $data['start_of_work']);
+            $data['start_of_month'] = $explodeStart[1];
+            $data['start_of_year'] = $explodeStart[0];
+
+            if(isset($data['end_of_work'])){
+                $explodeEnd = explode("-", $data['end_of_work']);
+                $data['end_of_month'] = $explodeEnd[1];
+                $data['end_of_year'] = $explodeEnd[0];
+            }
+
+            if($data['is_till_current']){
+                $data['end_of_month'] = null;
+                $data['end_of_year'] = null;
+            }
+
+            $candidate->work_experiences()->updateOrCreate([
+                'id' => $data['id'] ?? null,
+            ], ($data['id'] != null ? $data : Arr::except($data, ['id'])));
 
             $success['data'] = [$candidate->refresh()];
 

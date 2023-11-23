@@ -21,4 +21,22 @@ class CandidateWorkExperience extends Model implements Auditable
     protected $table = 'candidate_work_experiences';
 
     protected $guarded = ['id'];
+
+    protected $hidden = ['start_of_month', 'start_of_year', 'end_of_month', 'end_of_year'];
+
+    protected $appends = ['start_of_work', 'end_of_work'];
+
+    public function getStartOfWorkAttribute()
+    {
+        return $this->start_of_year . '-' . $this->start_of_month;
+    }
+
+    public function getEndOfWorkAttribute()
+    {
+        if (!$this->is_till_current) {
+            return $this->end_of_year . '-' . $this->end_of_month;
+        }
+
+        return null;
+    }
 }
