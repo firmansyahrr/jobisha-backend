@@ -38,7 +38,7 @@ class CandidateService extends BaseService
     public function profile(Request $request)
     {
         try {
-            $user = $this->userRepo->with(['candidate.work_experiences'])->find($request->user()->id);
+            $user = $this->userRepo->with(['candidate.work_experiences', 'candidate.educations'])->find($request->user()->id);
             $success['data'] = [$user];
 
             return $this->successResponse($success, __('content.message.read.success'), 201);
@@ -190,12 +190,22 @@ class CandidateService extends BaseService
             $user = $this->userRepo->find($request->user()->id);
             $candidate = $user->candidate;
 
-            $educations = collect($request->educations);
-            $educations->each(function ($data) use ($candidate) {
-                $candidate->educations()->updateOrCreate([
-                    'id' => $data['id'] ?? null,
-                ], ($data['id'] != null ? $data : Arr::except($data, ['id'])));
-            });
+            $data = $request->all();
+
+            if(isset($data['graduation_date'])){
+                $explodeEnd = explode("-", $data['graduation_date']);
+                $data['month_graduation'] = $explodeEnd[1];
+                $data['year_graduation'] = $explodeEnd[0];
+            }
+
+            if($data['is_till_current']){
+                $data['year_graduation'] = null;
+                $data['month_graduation'] = null;
+            }
+
+            $candidate->educations()->updateOrCreate([
+                'id' => $data['id'] ?? null,
+            ], ($data['id'] != null ? $data : Arr::except($data, ['id'])));
 
             $success['data'] = [$candidate->refresh()];
 

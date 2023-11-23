@@ -22,5 +22,16 @@ class CandidateEducation extends Model implements Auditable
 
     protected $guarded = ['id'];
 
-    protected $hidden = ['major', 'year_from', 'year_to'];
+    protected $hidden = ['major', 'year_from', 'year_to', 'month_graduation', 'year_graduation'];
+    
+    protected $appends = ['graduation_date'];
+
+    public function getGraduationDateAttribute()
+    {
+        if (!$this->is_till_current) {
+            return $this->year_graduation . '-' . $this->month_graduation;
+        }
+
+        return null;
+    }
 }

@@ -23,13 +23,12 @@ class CandidateUpdateEducationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'educations' => ['required', 'min:1'],
-            'educations.*.id' => ['nullable', 'exists:candidate_educations,id'],
-            'educations.*.name' => ['required', 'max:255'],
-            'educations.*.level_of_education' => ['required', 'max:255'],
-            'educations.*.description' => ['max:1000'],
-            'educations.*.month_graduation' => ['required', 'date_format:m'],
-            'educations.*.year_graduation' => ['required', 'date_format:Y'],
+            'id' => ['nullable', 'exists:candidate_educations,id'],
+            'name' => ['required', 'max:255'],
+            'level_of_education' => ['required', 'max:255'],
+            'description' => ['max:1000'],
+            'is_till_current' => ['boolean'],
+            'graduation_date' => ['required_if:is_till_current,false', 'date_format:Y-m'],
         ];
     }
 }
