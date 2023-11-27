@@ -23,6 +23,8 @@ class Candidate extends Model implements Auditable, HasMedia
 
     protected $guarded = ['id'];
 
+    protected $appends = ['photo'];
+
     protected static function boot()
     {
         parent::boot();
@@ -74,5 +76,10 @@ class Candidate extends Model implements Auditable, HasMedia
     public function gender(): BelongsTo
     {
         return $this->belongsTo(ApplicationParameter::class, 'gender_id', 'id');
+    }
+
+    public function getPhotoAttribute()
+    {
+        return $this->getFirstMedia('profile-image');
     }
 }

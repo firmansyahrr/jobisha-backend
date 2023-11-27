@@ -32,6 +32,7 @@ class CandidateUpdateAboutMeRequest extends FormRequest
             'gender_id' => ['exists:application_parameters,id'],
             'phone_number' => ['string', 'max:15'],
             'about_me' => ['required', 'max:1000'],
+            'photo' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:1024'],
         ];
     }
 }

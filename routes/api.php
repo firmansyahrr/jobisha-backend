@@ -38,7 +38,9 @@ Route::post('/login', [AuthenticationController::class, 'login']);
 // Resend link to verify email
 Route::post('/email/verify/resend', [EmailVerifyController::class, 'resend'])->middleware(['auth:api', 'throttle:6,1'])->name('verification.send');
 
-Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+// Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('/user-profile', [CandidateController::class, 'userProfile']);
     Route::prefix('profile')->group(function () {
         Route::get('/', [CandidateController::class, 'profile']);
         Route::post('/about-me', [CandidateController::class, 'postUpdateAboutMe']);

@@ -40,7 +40,7 @@ class JobService extends BaseService
         $data = $this->repo->with($this->detailWith)->get(['slug' => $slug])->first();
         $success['data'] = [];
         if (isset($data)) {
-            $success['data'] = [$data];
+            $success['data'] = $data;
         }
 
         return $this->successResponse($success, __('content.message.default.success'));

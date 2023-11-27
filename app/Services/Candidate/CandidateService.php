@@ -35,6 +35,22 @@ class CandidateService extends BaseService
         $this->skillRepo = $skillRepo;
     }
 
+    public function userProfile(Request $request)
+    {
+        try {
+            $user = $this->userRepo->find($request->user()->id);
+
+            // $user->getMedia();
+
+            $success['data'] = $user;
+
+            return $this->successResponse($success, __('content.message.read.success'), 201);
+        } catch (Exception $exc) {
+            Log::error($exc->getMessage());
+            return $this->failedResponse(null, $exc->getMessage());
+        }
+    }
+
     public function profile(Request $request)
     {
         try {
@@ -54,7 +70,10 @@ class CandidateService extends BaseService
                     'candidate.resumes'
                 ]
             )->find($request->user()->id);
-            $success['data'] = [$user];
+
+            // $user->getMedia();
+
+            $success['data'] = $user;
 
             return $this->successResponse($success, __('content.message.read.success'), 201);
         } catch (Exception $exc) {
@@ -189,6 +208,11 @@ class CandidateService extends BaseService
             $candidate = $user->candidate;
 
             $data = $request->all();
+
+            if ($request->hasFile('photo')) {
+                $candidate->clearMediaCollection('profile-image');
+                $candidate->addMediaFromRequest('photo')->toMediaCollection('profile-image');
+            }
 
             $this->repo->update($data, $candidate->id);
 
