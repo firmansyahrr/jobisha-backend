@@ -11,6 +11,8 @@ use App\Http\Controllers\Job\JobSpecializationController;
 use App\Http\Controllers\JobBoard\JobBoardController;
 use App\Http\Controllers\Landing\LandingPageController;
 use App\Http\Controllers\Master\ApplicationParameterController;
+use App\Http\Controllers\Master\CityController;
+use App\Http\Controllers\Master\ProvinceController;
 use App\Http\Controllers\Master\SkillController;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -71,6 +73,8 @@ Route::middleware(['custom_api'])->group(function () {
         Route::get('/skill-levels', [ApplicationParameterController::class, 'index']);
         Route::get('/education-levels', [ApplicationParameterController::class, 'index']);
         Route::get('/genders', [ApplicationParameterController::class, 'index']);
+        Route::get('/provinces', [ProvinceController::class, 'index']);
+        Route::get('/provinces/{id}/cities', [CityController::class, 'index']);
     });
 
     Route::prefix('landing')->group(function () {
