@@ -50,6 +50,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('/work-experiences', [CandidateController::class, 'postUpdateWorkExperience']);
         Route::post('/skills', [CandidateController::class, 'postUpdateSkill']);
         Route::post('/resumes', [CandidateController::class, 'postUpdateResumes']);
+        Route::get('/job-saved', [CandidateController::class,'getJobSaved']);
+        Route::get('/job-applied', [CandidateController::class,'getJobHistory']);
     });
 
     Route::prefix('jobs')->group(function () {

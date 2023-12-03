@@ -45,6 +45,16 @@ class CandidateController extends Controller
         return $this->service->applyJob($request, $slug);
     }
 
+    public function getJobSaved(Request $request)
+    {
+        return $this->service->getJobSaved($request);
+    }
+
+    public function getJobHistory(Request $request)
+    {
+        return $this->service->getJobHistory($request);
+    }
+
     // ============================================== UPDATE PROFILE MANAGEMENT
     public function postUpdateAboutMe(CandidateUpdateAboutMeRequest $request)
     {

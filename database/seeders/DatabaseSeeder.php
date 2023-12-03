@@ -33,6 +33,10 @@ class DatabaseSeeder extends Seeder
 
             JobSpecializationSeeder::class,
             JobRoleSeeder::class,
+
+            UserPermission::class,
+            UserRole::class,
+            UserSuperAdmin::class,
         ]);
 
         if(Testimony::get()->count() == 0){

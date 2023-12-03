@@ -117,7 +117,6 @@ class CandidateService extends BaseService
         }
     }
 
-
     public function saveJob(Request $request, $slug)
     {
         try {
@@ -158,7 +157,6 @@ class CandidateService extends BaseService
             return $this->failedResponse([], __('content.message.job.save.failed') . ': ' . $exc->getMessage());
         }
     }
-
     public function applyJob(Request $request, $slug)
     {
         try {
@@ -198,6 +196,67 @@ class CandidateService extends BaseService
         } catch (Exception $exc) {
             Log::error($exc->getMessage());
             return $this->failedResponse([], __('content.message.job.apply.failed') . ': ' . $exc->getMessage());
+        }
+    }
+
+    public function getJobSaved($request)
+    {
+        $indexWith = [
+            'company',
+            'job_type',
+            'career_level',
+            'job_role',
+            'job_specialization',
+            'job_preferences',
+            'job_locations'
+        ];
+        try {
+            $user = $this->userRepo->find($request->user()->id);
+            $candidate = $user->candidate;
+
+            $jobs = $candidate->job()->where('type', 'saved')->pluck('job_id');
+
+            $req = $request->all();
+            $req['job_ids'] = $jobs->implode(',');
+
+            $datas = $this->jobRepo->with($indexWith)->all($req, $this->jobFilter);
+
+            $success = $datas;
+
+            return $this->successResponse($success, __('content.message.default.success'));
+        } catch (\Throwable $th) {
+            return $this->failedResponse([], $th->getMessage());
+        }
+    }
+
+    public function getJobHistory($request)
+    {
+        
+        $indexWith = [
+            'company',
+            'job_type',
+            'career_level',
+            'job_role',
+            'job_specialization',
+            'job_preferences',
+            'job_locations'
+        ];
+        try {
+            $user = $this->userRepo->find($request->user()->id);
+            $candidate = $user->candidate;
+
+            $jobs = $candidate->job()->where('type', 'applied')->pluck('job_id');
+
+            $req = $request->all();
+            $req['job_ids'] = $jobs->implode(',');
+
+            $datas = $this->jobRepo->with($indexWith)->all($req, $this->jobFilter);
+
+            $success = $datas;
+
+            return $this->successResponse($success, __('content.message.default.success'));
+        } catch (\Throwable $th) {
+            return $this->failedResponse([], $th->getMessage());
         }
     }
 

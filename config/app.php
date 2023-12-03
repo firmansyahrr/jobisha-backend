@@ -171,6 +171,7 @@ return [
 
         // ADDITIONAL PACKAGE
         OwenIt\Auditing\AuditingServiceProvider::class,
+        Spatie\Permission\PermissionServiceProvider::class,
     ])->toArray(),
 
     /*
