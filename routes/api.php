@@ -55,7 +55,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     });
 
     Route::prefix('jobs')->group(function () {
-        Route::post('/', [JobController::class, 'postCreateJob']);
+        Route::post('/', [JobController::class, 'postCreateJob'])->middleware(['can:create_jobs']);
         Route::post('/{slug}/save', [CandidateController::class, 'postSaveJob']);
         Route::post('/{slug}/apply', [CandidateController::class, 'postApplyJob']);
     });

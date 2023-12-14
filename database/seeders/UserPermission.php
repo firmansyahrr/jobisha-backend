@@ -13,9 +13,9 @@ class UserPermission extends Seeder
      */
     public function run(): void
     {
-        // $permissions = collect([
+        $permissions = collect([
         //     // ['name' => 'view_job', 'module_name' => 'job',],
-        //     // ['name' => 'create_job', 'module_name' => 'job',],
+            ['name' => 'create_job', 'module_name' => 'job',],
         //     // ['name' => 'update_job', 'module_name' => 'job',],
         //     // ['name' => 'delete_job', 'module_name' => 'job',],
         //     // ['name' => 'save_job', 'module_name' => 'job',],
@@ -25,22 +25,25 @@ class UserPermission extends Seeder
         //     // ['name' => 'search_candidate', 'module_name' => 'candidate',],
         //     // ['name' => 'create_candidate', 'module_name' => 'candidate',],
         //     // ['name' => 'update_profile_candidate', 'module_name' => 'candidate',],
-        // ]);
+        ]);
 
-        // $api = collect([]);
+        $api = collect([]);
 
-        // $permissions->map(function ($permission) use ($api) {
-        //     $api->push([
-        //         'name' => $permission['name'],
-        //         'module_name' => $permission['module_name'],
-        //         'guard_name' => 'api',
-        //         'created_at' => now(),
-        //         'updated_at' => now(),
-        //     ]);
-        // });
+        $permissions->map(function ($permission) use ($api) {
+            $api->push([
+                'name' => $permission['name'],
+                'module_name' => $permission['module_name'],
+                'guard_name' => 'api',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        });
 
-        // $datas = $api->toArray();
+        $datas = $api->toArray();
 
-        // Permission::updateOrCreate(['name' => $datas['name']], $datas);
+        foreach ($datas as $data) {
+            Permission::updateOrCreate(['name' => $data['name']], $data);
+        }
+        
     }
 }

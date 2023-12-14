@@ -64,6 +64,11 @@ class CandidateWorkExperience extends Model implements Auditable
         return $this->belongsTo(ApplicationParameter::class, 'career_level_id', 'id');
     }
 
+    public function job_type(): BelongsTo
+    {
+        return $this->belongsTo(ApplicationParameter::class, 'career_level_id', 'id');
+    }
+
     public function job_specialization(): BelongsTo
     {
         return $this->belongsTo(JobSpecialization::class);

@@ -37,6 +37,9 @@ class DatabaseSeeder extends Seeder
             UserPermission::class,
             UserRole::class,
             UserSuperAdmin::class,
+            
+            SetCandidateRole::class,
+            
         ]);
 
         if(Testimony::get()->count() == 0){

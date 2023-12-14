@@ -69,8 +69,7 @@ class BaseService
 
             return $this->successResponse($success, __('content.message.create.success'), 201);
         } catch (Exception $exc) {
-            Log::error('Creating data from ' . get_class($this), $exc);
-
+            Log::error($exc);
             return $this->failedResponse(null, __('content.message.create.failed'), 400);
         }
     }

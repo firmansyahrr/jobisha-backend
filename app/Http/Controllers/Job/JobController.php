@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Job;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Job\CreateJobRequest;
 use App\Services\Job\JobService;
 use Illuminate\Http\Request;
 
@@ -30,7 +31,7 @@ class JobController extends Controller
         return $this->service->all($request);
     }
 
-    public function postCreateJob(Request $request)
+    public function postCreateJob(CreateJobRequest $request)
     {
         return $this->service->create($request->all());
     }

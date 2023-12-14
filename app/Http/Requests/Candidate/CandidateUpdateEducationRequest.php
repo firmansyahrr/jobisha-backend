@@ -28,7 +28,7 @@ class CandidateUpdateEducationRequest extends FormRequest
             'education_level_id' => ['required', 'exists:application_parameters,id'],
             'description' => ['max:1000'],
             'is_till_current' => ['boolean'],
-            'graduation_date' => ['required_if:is_till_current,false', 'date_format:Y-m'],
+            'graduation_date' => ['nullable', 'required_if:is_till_current,false', 'date_format:Y-m'],
         ];
     }
 }

@@ -29,7 +29,7 @@ class CandidateUpdateWorkExperienceRequest extends FormRequest
             'salary_range_id' => ['required', 'exists:application_parameters,id'],
             'is_till_current' => ['boolean'],
             'start_of_work' => ['required', 'date_format:Y-m'],
-            'end_of_work' => ['required_if:is_till_current,false', 'date_format:Y-m'],
+            'end_of_work' => ['nullable', 'required_if:is_till_current,false', 'date_format:Y-m'],
             'career_level_id' => ['required', 'exists:application_parameters,id'],
             'job_role_id' => ['required', 'exists:application_parameters,id'],
             'job_specialization_id' => ['required', 'exists:application_parameters,id'],

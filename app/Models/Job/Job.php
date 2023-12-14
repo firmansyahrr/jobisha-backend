@@ -17,24 +17,7 @@ class Job extends Model implements Auditable
     use \OwenIt\Auditing\Auditable;
     use HasFactory, AddCreatedUser, SoftDeleteWithUser;
 
-    protected $fillable = [
-        'company_id',
-        'job_type_id',
-        'title',
-        'job_description',
-        'requirement',
-        'responsibilities',
-        'benefit',
-        'qualification',
-        'year_of_experience',
-        'min_sallary',
-        'max_sallary',
-        'career_level_id',
-        'job_role_id',
-        'job_specialization_id',
-        'valid_until',
-        'slug',
-    ];
+    protected $guarded = ['id', 'slug'];
 
     protected static function boot()
     {

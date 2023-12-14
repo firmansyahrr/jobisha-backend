@@ -60,6 +60,7 @@ class CandidateService extends BaseService
 
                     'candidate.work_experiences.salary_range',
                     'candidate.work_experiences.career_level',
+                    'candidate.work_experiences.job_type',
                     'candidate.work_experiences.job_specialization',
                     'candidate.work_experiences.job_role',
 
@@ -104,6 +105,7 @@ class CandidateService extends BaseService
             $userData['candidate_id'] = $candidate->id;
 
             $user = $this->userRepo->create($userData);
+            $user->assignRole('candidate');
 
             DB::commit();
             event(new Registered($user));
@@ -285,6 +287,9 @@ class CandidateService extends BaseService
             ],
                 $addressData
             );
+
+            $userData = ['name' => $data['name']];
+            $this->userRepo->update($userData, $user->id);
 
             $this->repo->update($data, $candidate->id);
 
