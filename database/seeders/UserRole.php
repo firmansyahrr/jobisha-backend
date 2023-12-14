@@ -21,7 +21,7 @@ class UserRole extends Seeder
         ];
 
         foreach ($roles as $role) {
-            Role::create([
+            Role::updateOrCreate(['name' => $role],[
                 'name' => $role,
                 'guard_name' => 'api',
             ]);

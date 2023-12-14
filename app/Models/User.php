@@ -48,6 +48,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'password' => 'hashed',
     ];
 
+    protected $guard_name = 'api';
+
     public function candidate()
     {
         return $this->belongsTo(Candidate::class);

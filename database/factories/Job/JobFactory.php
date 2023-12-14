@@ -27,8 +27,8 @@ class JobFactory extends Factory
         $jobSpecialization = JobSpecialization::where('code', 'software_engineer')->first();
         $jobRole = JobRole::where('code', 'fullstack_developer')->first();
 
-        $jobType = ApplicationParameter::where('type', 'job_type')->where('code', 'jt_fulltime')->first();
-        $careerLevel = ApplicationParameter::where('type', 'career_level')->where('code', 'cl_level_1')->first();
+        $jobType = ApplicationParameter::where('type', 'job_types')->where('code', 'jt_fulltime')->first();
+        $careerLevel = ApplicationParameter::where('type', 'career_levels')->where('code', 'cl_level_1')->first();
 
         $title = fake()->jobTitle();
         $slugCombination = $company->name . " " . $title . " " . $jobSpecialization->label. " " . $jobRole->label;

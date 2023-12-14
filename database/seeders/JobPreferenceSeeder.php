@@ -17,7 +17,7 @@ class JobPreferenceSeeder extends Seeder
     public function run(): void
     {
         $jobs = Job::all();
-        $preferences = ApplicationParameter::where('type', 'work_preference')->get();
+        $preferences = ApplicationParameter::where('type', 'work_preferences')->get();
     
         $max = ($preferences->count() - 1);
         

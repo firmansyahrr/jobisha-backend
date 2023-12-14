@@ -22,7 +22,7 @@ class CompanyFactory extends Factory
     {
         $province = Province::where('name', 'DAERAH KHUSUS IBUKOTA JAKARTA')->first();
         $city = City::where('name', 'JAKARTA PUSAT')->first();
-        $empSize = ApplicationParameter::where('type', 'employee_size')->where('code', 'cs_size_3')->first();
+        $empSize = ApplicationParameter::where('type', 'employee_sizes')->where('code', 'cs_size_3')->first();
         $compIndstry = ApplicationParameter::where('type', 'company_industries')->where('code', 'cs_industry_3')->first();
         
         $slugCombination = fake()->name();
