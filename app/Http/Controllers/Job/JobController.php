@@ -15,24 +15,23 @@ class JobController extends Controller
 
     public function index(Request $request)
     {
-
-
         return $this->service->all($request->all());
     }
 
     public function getBySlug(Request $request, $slug)
     {
-
-
         return $this->service->getBySlug($slug);
     }
 
     public function getByCompany(Request $request, $slug)
     {
-
-
         $request = $request->all();
         $request['company_slug'] = $slug;
         return $this->service->all($request);
+    }
+
+    public function postCreateJob(Request $request)
+    {
+        return $this->service->create($request->all());
     }
 }

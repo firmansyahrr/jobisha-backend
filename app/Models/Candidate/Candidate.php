@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use OwenIt\Auditing\Contracts\Auditable;
 use Illuminate\Support\Str;
 use Spatie\Image\Manipulations;
@@ -23,7 +24,7 @@ class Candidate extends Model implements Auditable, HasMedia
 
     protected $guarded = ['id'];
 
-    protected $appends = ['photo'];
+    protected $appends = ['photo', 'province_id', 'city_id', 'address'];
 
     protected static function boot()
     {
@@ -43,9 +44,9 @@ class Candidate extends Model implements Auditable, HasMedia
             ->nonQueued();
     }
 
-    public function addresses(): HasMany
+    public function address(): HasOne
     {
-        return $this->hasMany(CandidateAddress::class);
+        return $this->hasOne(CandidateAddress::class);
     }
 
     public function educations(): HasMany
@@ -82,4 +83,21 @@ class Candidate extends Model implements Auditable, HasMedia
     {
         return $this->getFirstMedia('profile-image');
     }
+
+    public function getProvinceIdAttribute()
+    {
+        return ($this->address()->first() != null) ? $this->address()->first()->province_id : null;
+    }
+
+    public function getCityIdAttribute()
+    {
+        return ($this->address()->first() != null) ? $this->address()->first()->city_id : null;
+    }
+
+    public function getAddressAttribute()
+    {
+        return ($this->address()->first() != null) ? $this->address()->first()->address : null;
+    }
+
+    
 }

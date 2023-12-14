@@ -21,7 +21,8 @@ class CandidateController extends Controller
         $this->service = $service;
     }
 
-    public function userProfile(Request $request){
+    public function userProfile(Request $request)
+    {
         return $this->service->userProfile($request);
     }
 

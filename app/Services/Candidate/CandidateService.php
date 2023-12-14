@@ -231,7 +231,7 @@ class CandidateService extends BaseService
 
     public function getJobHistory($request)
     {
-        
+
         $indexWith = [
             'company',
             'job_type',
@@ -272,6 +272,19 @@ class CandidateService extends BaseService
                 $candidate->clearMediaCollection('profile-image');
                 $candidate->addMediaFromRequest('photo')->toMediaCollection('profile-image');
             }
+
+            $addressData = [
+                'type' => 'main',
+                'address' => $data['address'],
+                'province_id' => $data['province_id'],
+                'city_id' => $data['city_id'],
+            ];
+
+            $address = $candidate->address()->updateOrCreate([
+                'candidate_id' => $candidate->id
+            ],
+                $addressData
+            );
 
             $this->repo->update($data, $candidate->id);
 

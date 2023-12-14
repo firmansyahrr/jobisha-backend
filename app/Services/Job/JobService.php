@@ -45,4 +45,9 @@ class JobService extends BaseService
 
         return $this->successResponse($success, __('content.message.default.success'));
     }
+
+    public function create($request)
+    {
+        // 
+    }
 }

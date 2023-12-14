@@ -20,7 +20,7 @@ class AuthenticationController extends Controller
 
             return $this->successResponse($success, 'User login successfully.');
         } else {
-            return $this->failedResponse(null, 'Unauthorised');
+            return $this->failedResponse(null, 'Login Failed. Invalid Credentials.');
         }
     }
 }
