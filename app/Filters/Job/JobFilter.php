@@ -27,4 +27,34 @@ class JobFilter extends BaseFilter
             $q->where('slug', $value);
         });
     }
+
+    public function filterCompany($builder, $value){
+        return $builder->whereHas('company', function ($qry) use ($value) {
+            $qry->whereRaw("UPPER(name) LIKE ?", ["%" . strtoupper($value) . '%']);
+        });
+    }
+
+    public function filterJobRole($builder, $value){
+        return $builder->whereHas('job_role', function ($qry) use ($value) {
+            $qry->whereRaw("UPPER(label) LIKE ?", ["%" . strtoupper($value) . '%']);
+        });
+    }
+
+    public function filterJobSpecialization($builder, $value){
+        return $builder->whereHas('job_specialization', function ($qry) use ($value) {
+            $qry->whereRaw("UPPER(label) LIKE ?", ["%" . strtoupper($value) . '%']);
+        });
+    }
+
+    public function filterLocation($builder, $value){
+        return $builder->whereHas('job_locations', function ($qry) use ($value) {
+            $qry->whereRaw("UPPER(name) LIKE ?", ["%" . strtoupper($value) . '%']);
+        });
+    }
+
+    public function filterCareerLevel($builder, $value){
+        return $builder->whereHas('career_level', function ($qry) use ($value) {
+            $qry->whereRaw("UPPER(label) LIKE ?", ["%" . strtoupper($value) . '%']);
+        });
+    }
 }

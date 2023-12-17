@@ -11,11 +11,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
 use Illuminate\Support\Str;
+use Laravel\Scout\Searchable;
 
 class Job extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
-    use HasFactory, AddCreatedUser, SoftDeleteWithUser;
+    use HasFactory, AddCreatedUser, SoftDeleteWithUser, Searchable;
 
     protected $guarded = ['id', 'slug'];
 
