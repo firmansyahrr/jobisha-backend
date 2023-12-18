@@ -32,6 +32,7 @@ use Illuminate\Support\Facades\Route;
 // Register Candidate
 Route::prefix('register')->group(function () {
     Route::post('/candidates', [CandidateController::class, 'register']);
+    Route::post('/employer', [CompanyController::class, 'register']);
 });
 
 

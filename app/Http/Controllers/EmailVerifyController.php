@@ -20,7 +20,8 @@ class EmailVerifyController extends Controller
             event(new Verified($user));
         }
 
-        return redirect(env('APP_FE') . '/email/verify/success');
+        // return redirect(env('APP_FE') . '/email/verify/success');
+        return redirect(env('APP_FE'));
     }
 
     public function resend(Request $request)

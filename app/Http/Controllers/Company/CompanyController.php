@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Company;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Company\RegisterEmployerRequest;
 use App\Services\Company\CompanyService;
 use Illuminate\Http\Request;
 
@@ -23,5 +24,10 @@ class CompanyController extends Controller
     {
         
         return $this->service->getBySlug($slug);
+    }
+
+    public function register(RegisterEmployerRequest $request)
+    {
+        return $this->service->register($request);
     }
 }
