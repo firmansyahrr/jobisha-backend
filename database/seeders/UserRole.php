@@ -29,5 +29,10 @@ class UserRole extends Seeder
 
         $superAdminWeb = Role::where(['name' => 'super-admin', 'guard_name' => 'api'])->firstOrFail();
         $superAdminWeb->givePermissionTo(Permission::where('guard_name', 'api')->get());
+
+        $companyAdminApi = Role::where(['name' => 'company-admin', 'guard_name' => 'api'])->firstOrFail();
+        $companyAdminApi->givePermissionTo([
+            'create_job',
+        ]);
     }
 }
