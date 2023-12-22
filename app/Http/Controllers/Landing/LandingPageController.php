@@ -22,13 +22,13 @@ class LandingPageController extends Controller
 
     public function getTestimony(Request $request)
     {
-        
+
         return $this->service->all($request->all());
     }
 
     public function getCounter(Request $request)
     {
-        
+
         $datas = ['data' => [[
             'registerd_candidates' => rand(1000, 5000),
             'registerd_companies' => rand(1000, 5000),
@@ -41,7 +41,7 @@ class LandingPageController extends Controller
 
     public function getPopularJob(Request $request)
     {
-        
+
         $datas = [
             'data' => [
                 [
@@ -49,6 +49,8 @@ class LandingPageController extends Controller
                     'title' => 'Graphic Designer',
                     'job_description' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
                     'requirement' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+                    'min_sallary' => '1854784.00',
+                    'max_sallary' => '3174478.00',
                     'company' => [
                         'name' => 'Netflix'
                     ],
@@ -81,6 +83,8 @@ class LandingPageController extends Controller
                     'title' => 'Graphic Designer',
                     'job_description' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
                     'requirement' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+                    'min_sallary' => '1854784.00',
+                    'max_sallary' => '3174478.00',
                     'company' => [
                         'name' => 'Netflix'
                     ],
@@ -113,6 +117,8 @@ class LandingPageController extends Controller
                     'title' => 'Graphic Designer',
                     'job_description' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
                     'requirement' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+                    'min_sallary'=> '1854784.00',
+                    'max_sallary'=> '3174478.00',
                     'company' => [
                         'name' => 'Netflix'
                     ],
