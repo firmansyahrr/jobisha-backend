@@ -43,7 +43,7 @@ class LandingPageController extends Controller
     {
         $req = $request->all();
         $req['limit'] = 3;
-        return $this->service->all($req);
+        return $this->jobService->all($req);
 
         // $datas = [
         //     'data' => [
