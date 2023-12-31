@@ -41,131 +41,134 @@ class LandingPageController extends Controller
 
     public function getPopularJob(Request $request)
     {
+        $req = $request->all();
+        $req['limit'] = 3;
+        return $this->service->all($req);
 
-        $datas = [
-            'data' => [
-                [
-                    'company_id' => rand(1, 10),
-                    'title' => 'Graphic Designer',
-                    'job_description' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-                    'requirement' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-                    'min_sallary' => '1854784.00',
-                    'max_sallary' => '3174478.00',
-                    'company' => [
-                        'name' => 'Netflix'
-                    ],
-                    'job_type' => [
-                        "id" => 19,
-                        "type" => "job_type",
-                        "code" => "jt_fulltime",
-                        "label" => "Full Time",
-                    ],
-                    'job_preferences' => [
-                        [
-                            'id' => '1',
-                            'code' => 'remote',
-                            'name' => 'Remote'
-                        ],
-                        [
-                            'id' => '2',
-                            'code' => 'hybrid',
-                            'name' => 'Hybrid'
-                        ]
-                    ],
-                    'job_locations' => [
-                        [
-                            "name" => "JAKARTA PUSAT",
-                        ]
-                    ]
-                ],
-                [
-                    'company_id' => rand(1, 10),
-                    'title' => 'Graphic Designer',
-                    'job_description' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-                    'requirement' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-                    'min_sallary' => '1854784.00',
-                    'max_sallary' => '3174478.00',
-                    'company' => [
-                        'name' => 'Netflix'
-                    ],
-                    'job_type' => [
-                        "id" => 19,
-                        "type" => "job_type",
-                        "code" => "jt_fulltime",
-                        "label" => "Full Time",
-                    ],
-                    'job_preferences' => [
-                        [
-                            'id' => '1',
-                            'code' => 'remote',
-                            'name' => 'Remote'
-                        ],
-                        [
-                            'id' => '2',
-                            'code' => 'hybrid',
-                            'name' => 'Hybrid'
-                        ]
-                    ],
-                    'job_locations' => [
-                        [
-                            "name" => "JAKARTA PUSAT",
-                        ]
-                    ]
-                ],
-                [
-                    'company_id' => rand(1, 10),
-                    'title' => 'Graphic Designer',
-                    'job_description' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-                    'requirement' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-                    'min_sallary'=> '1854784.00',
-                    'max_sallary'=> '3174478.00',
-                    'company' => [
-                        'name' => 'Netflix'
-                    ],
-                    'job_type' => [
-                        "id" => 19,
-                        "type" => "job_type",
-                        "code" => "jt_fulltime",
-                        "label" => "Full Time",
-                    ],
-                    'job_preferences' => [
-                        [
-                            'id' => '1',
-                            'code' => 'remote',
-                            'name' => 'Remote'
-                        ],
-                        [
-                            'id' => '2',
-                            'code' => 'hybrid',
-                            'name' => 'Hybrid'
-                        ]
-                    ],
-                    'job_locations' => [
-                        [
-                            "name" => "JAKARTA PUSAT",
-                        ]
-                    ]
-                ],
-            ],
-            'links' => [
-                "first" => "http://127.0.0.1:4123/api/landing/popular-jobs?page=1",
-                "last" => "http://127.0.0.1:4123/api/landing/popular-jobs?page=1",
-                "prev" => null,
-                "next" => "http://127.0.0.1:4123/api/landing/popular-jobs?page=1"
-            ],
-            'meta' => [
-                "current_page" => 1,
-                "from" => 1,
-                "last_page" => 2,
-                "path" => "http://127.0.0.1:4123/api/landing/popular-jobs",
-                "per_page" => 10,
-                "to" => 10,
-                "total" => 20
-            ]
-        ];
+        // $datas = [
+        //     'data' => [
+        //         [
+        //             'company_id' => rand(1, 10),
+        //             'title' => 'Graphic Designer',
+        //             'job_description' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+        //             'requirement' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+        //             'min_sallary' => '1854784.00',
+        //             'max_sallary' => '3174478.00',
+        //             'company' => [
+        //                 'name' => 'Netflix'
+        //             ],
+        //             'job_type' => [
+        //                 "id" => 19,
+        //                 "type" => "job_type",
+        //                 "code" => "jt_fulltime",
+        //                 "label" => "Full Time",
+        //             ],
+        //             'job_preferences' => [
+        //                 [
+        //                     'id' => '1',
+        //                     'code' => 'remote',
+        //                     'name' => 'Remote'
+        //                 ],
+        //                 [
+        //                     'id' => '2',
+        //                     'code' => 'hybrid',
+        //                     'name' => 'Hybrid'
+        //                 ]
+        //             ],
+        //             'job_locations' => [
+        //                 [
+        //                     "name" => "JAKARTA PUSAT",
+        //                 ]
+        //             ]
+        //         ],
+        //         [
+        //             'company_id' => rand(1, 10),
+        //             'title' => 'Graphic Designer',
+        //             'job_description' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+        //             'requirement' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+        //             'min_sallary' => '1854784.00',
+        //             'max_sallary' => '3174478.00',
+        //             'company' => [
+        //                 'name' => 'Netflix'
+        //             ],
+        //             'job_type' => [
+        //                 "id" => 19,
+        //                 "type" => "job_type",
+        //                 "code" => "jt_fulltime",
+        //                 "label" => "Full Time",
+        //             ],
+        //             'job_preferences' => [
+        //                 [
+        //                     'id' => '1',
+        //                     'code' => 'remote',
+        //                     'name' => 'Remote'
+        //                 ],
+        //                 [
+        //                     'id' => '2',
+        //                     'code' => 'hybrid',
+        //                     'name' => 'Hybrid'
+        //                 ]
+        //             ],
+        //             'job_locations' => [
+        //                 [
+        //                     "name" => "JAKARTA PUSAT",
+        //                 ]
+        //             ]
+        //         ],
+        //         [
+        //             'company_id' => rand(1, 10),
+        //             'title' => 'Graphic Designer',
+        //             'job_description' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+        //             'requirement' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+        //             'min_sallary'=> '1854784.00',
+        //             'max_sallary'=> '3174478.00',
+        //             'company' => [
+        //                 'name' => 'Netflix'
+        //             ],
+        //             'job_type' => [
+        //                 "id" => 19,
+        //                 "type" => "job_type",
+        //                 "code" => "jt_fulltime",
+        //                 "label" => "Full Time",
+        //             ],
+        //             'job_preferences' => [
+        //                 [
+        //                     'id' => '1',
+        //                     'code' => 'remote',
+        //                     'name' => 'Remote'
+        //                 ],
+        //                 [
+        //                     'id' => '2',
+        //                     'code' => 'hybrid',
+        //                     'name' => 'Hybrid'
+        //                 ]
+        //             ],
+        //             'job_locations' => [
+        //                 [
+        //                     "name" => "JAKARTA PUSAT",
+        //                 ]
+        //             ]
+        //         ],
+        //     ],
+        //     'links' => [
+        //         "first" => "http://127.0.0.1:4123/api/landing/popular-jobs?page=1",
+        //         "last" => "http://127.0.0.1:4123/api/landing/popular-jobs?page=1",
+        //         "prev" => null,
+        //         "next" => "http://127.0.0.1:4123/api/landing/popular-jobs?page=1"
+        //     ],
+        //     'meta' => [
+        //         "current_page" => 1,
+        //         "from" => 1,
+        //         "last_page" => 2,
+        //         "path" => "http://127.0.0.1:4123/api/landing/popular-jobs",
+        //         "per_page" => 10,
+        //         "to" => 10,
+        //         "total" => 20
+        //     ]
+        // ];
 
-        $success = $datas;
+        // $success = $datas;
 
-        return $this->successResponse($success, __('content.message.default.success'));
+        // return $this->successResponse($success, __('content.message.default.success'));
     }
 }
