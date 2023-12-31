@@ -57,4 +57,20 @@ class JobFilter extends BaseFilter
             $qry->whereRaw("UPPER(label) LIKE ?", ["%" . strtoupper($value) . '%']);
         });
     }
+
+    public function filterJobType($builder, $value){
+        return $builder->whereHas('job_type', function ($qry) use ($value) {
+            $qry->whereRaw("UPPER(label) LIKE ?", ["%" . strtoupper($value) . '%']);
+        });
+    }
+
+    public function filterMinSalary($builder, $value)
+    {
+        return $builder->where('min_sallary', '>=', $value);
+    }
+
+    public function filterMaxnSalary($builder, $value)
+    {
+        return $builder->where('max_sallary', '<=', $value);
+    }
 }
