@@ -68,7 +68,8 @@ class CandidateService extends BaseService
 
                     'candidate.skills.skill_level',
 
-                    'candidate.resumes'
+                    'candidate.resumes',
+                    'candidate.gender'
                 ]
             )->find($request->user()->id);
 

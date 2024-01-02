@@ -79,7 +79,6 @@ class Candidate extends Model implements Auditable, HasMedia
         return $this->belongsTo(ApplicationParameter::class, 'gender_id', 'id');
     }
 
-
     public function getPhotoAttribute()
     {
         return $this->getFirstMedia('profile-image');
