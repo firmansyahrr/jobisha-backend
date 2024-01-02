@@ -28,39 +28,54 @@ class JobFilter extends BaseFilter
         });
     }
 
-    public function filterCompany($builder, $value){
+    public function filterCompany($builder, $value)
+    {
         return $builder->whereHas('company', function ($qry) use ($value) {
             $qry->whereRaw("UPPER(name) LIKE ?", ["%" . strtoupper($value) . '%']);
         });
     }
 
-    public function filterJobRole($builder, $value){
+    public function filterJobRole($builder, $value)
+    {
         return $builder->whereHas('job_role', function ($qry) use ($value) {
             $qry->whereRaw("UPPER(label) LIKE ?", ["%" . strtoupper($value) . '%']);
         });
     }
 
-    public function filterJobSpecialization($builder, $value){
+    public function filterJobSpecialization($builder, $value)
+    {
         return $builder->whereHas('job_specialization', function ($qry) use ($value) {
             $qry->whereRaw("UPPER(label) LIKE ?", ["%" . strtoupper($value) . '%']);
         });
     }
 
-    public function filterLocation($builder, $value){
+    public function filterLocation($builder, $value)
+    {
         return $builder->whereHas('job_locations', function ($qry) use ($value) {
             $qry->whereRaw("UPPER(name) LIKE ?", ["%" . strtoupper($value) . '%']);
         });
     }
 
-    public function filterCareerLevel($builder, $value){
+    public function filterCareerLevel($builder, $value)
+    {
         return $builder->whereHas('career_level', function ($qry) use ($value) {
             $qry->whereRaw("UPPER(label) LIKE ?", ["%" . strtoupper($value) . '%']);
         });
     }
 
-    public function filterJobType($builder, $value){
-        return $builder->whereHas('job_type', function ($qry) use ($value) {
-            $qry->whereRaw("UPPER(label) LIKE ?", ["%" . strtoupper($value) . '%']);
+    public function filterJobType($builder, $value)
+    {
+        $strToArray = json_decode($value, true);
+        return $builder->whereHas('job_type', function ($qry) use ($value, $strToArray) {
+            $qry->whereIn("label", $strToArray);
+        });
+    }
+
+    public function filterWorkPreference($builder, $value)
+    {
+        $strToArray = json_decode($value, true);
+        return $builder->whereHas('job_preferences', function ($qry) use ($value, $strToArray) {
+            $qry->whereIn("label", $strToArray);
         });
     }
 
