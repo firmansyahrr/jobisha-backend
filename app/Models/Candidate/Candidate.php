@@ -24,7 +24,7 @@ class Candidate extends Model implements Auditable, HasMedia
 
     protected $guarded = ['id'];
 
-    protected $appends = ['photo', 'province_id', 'city_id', 'address'];
+    protected $appends = ['photo', 'province_id', 'province', 'city_id', 'city', 'address'];
 
     protected static function boot()
     {
@@ -79,6 +79,7 @@ class Candidate extends Model implements Auditable, HasMedia
         return $this->belongsTo(ApplicationParameter::class, 'gender_id', 'id');
     }
 
+
     public function getPhotoAttribute()
     {
         return $this->getFirstMedia('profile-image');
@@ -89,15 +90,23 @@ class Candidate extends Model implements Auditable, HasMedia
         return ($this->address()->first() != null) ? $this->address()->first()->province_id : null;
     }
 
+    public function getProvinceAttribute()
+    {
+        return ($this->address()->first() != null) ? $this->address()->first()->province->name : null;
+    }
+    
     public function getCityIdAttribute()
     {
         return ($this->address()->first() != null) ? $this->address()->first()->city_id : null;
+    }
+
+    public function getCityAttribute()
+    {
+        return ($this->address()->first() != null) ? $this->address()->first()->city->name : null;
     }
 
     public function getAddressAttribute()
     {
         return ($this->address()->first() != null) ? $this->address()->first()->address : null;
     }
-
-    
 }

@@ -60,6 +60,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('/{slug}/save', [CandidateController::class, 'postSaveJob']);
         Route::post('/{slug}/apply', [CandidateController::class, 'postApplyJob']);
     });
+
+    Route::prefix('candidates')->group(function () {
+        Route::post('/', [CandidateController::class, 'store'])->middleware(['create_candidate']);
+        Route::post('/{id}', [CandidateController::class, 'update'])->middleware(['update_candidate']);
+    });
 });
 
 Route::middleware(['custom_api'])->group(function () {

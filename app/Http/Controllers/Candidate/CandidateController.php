@@ -21,6 +21,28 @@ class CandidateController extends Controller
         $this->service = $service;
     }
 
+    // =========================================================== Start of Super Admin
+    public function index(Request $request)
+    {
+        return $this->service->all($request->all());
+    }
+
+    public function store(Request $request)
+    {
+        // 
+    }
+
+    public function update(Request $request, $id)
+    {
+        // 
+    }
+
+    public function delete(Request $request, $id)
+    {
+        // 
+    }
+    // =========================================================== End of Super Admin
+
     public function userProfile(Request $request)
     {
         return $this->service->userProfile($request);

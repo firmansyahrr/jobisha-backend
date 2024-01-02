@@ -14,17 +14,18 @@ class UserPermission extends Seeder
     public function run(): void
     {
         $permissions = collect([
-        //     // ['name' => 'view_job', 'module_name' => 'job',],
+            //     // ['name' => 'view_job', 'module_name' => 'job',],
             ['name' => 'create_job', 'module_name' => 'job',],
-        //     // ['name' => 'update_job', 'module_name' => 'job',],
-        //     // ['name' => 'delete_job', 'module_name' => 'job',],
-        //     // ['name' => 'save_job', 'module_name' => 'job',],
-        //     // ['name' => 'apply_job', 'module_name' => 'job',],
-        //     // ['name' => 'search_job', 'module_name' => 'job',],
+            //     // ['name' => 'update_job', 'module_name' => 'job',],
+            //     // ['name' => 'delete_job', 'module_name' => 'job',],
+            //     // ['name' => 'save_job', 'module_name' => 'job',],
+            //     // ['name' => 'apply_job', 'module_name' => 'job',],
+            //     // ['name' => 'search_job', 'module_name' => 'job',],
 
-        //     // ['name' => 'search_candidate', 'module_name' => 'candidate',],
-        //     // ['name' => 'create_candidate', 'module_name' => 'candidate',],
-        //     // ['name' => 'update_profile_candidate', 'module_name' => 'candidate',],
+            //     // ['name' => 'search_candidate', 'module_name' => 'candidate',],
+            ['name' => 'create_candidate', 'module_name' => 'candidate',],
+            ['name' => 'update_candidate', 'module_name' => 'candidate',],
+            //     // ['name' => 'update_profile_candidate', 'module_name' => 'candidate',],
         ]);
 
         $api = collect([]);
@@ -44,6 +45,6 @@ class UserPermission extends Seeder
         foreach ($datas as $data) {
             Permission::updateOrCreate(['name' => $data['name']], $data);
         }
-        
+
     }
 }

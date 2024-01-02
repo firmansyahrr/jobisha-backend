@@ -2,10 +2,13 @@
 
 namespace App\Models\Candidate;
 
+use App\Models\Master\City;
+use App\Models\Master\Province;
 use App\Traits\AddCreatedUser;
 use App\Traits\SoftDeleteWithUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use OwenIt\Auditing\Contracts\Auditable;
 use Illuminate\Support\Str;
 use Spatie\Image\Manipulations;
@@ -20,5 +23,15 @@ class CandidateAddress extends Model implements Auditable
 
     protected $table = 'candidate_address';
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
+    
+    public function province(): BelongsTo
+    {
+        return $this->belongsTo(Province::class, 'province_id', 'id');
+    }
+
+    public function city(): BelongsTo
+    {
+        return $this->belongsTo(City::class, 'city_id', 'id');
+    }
 }
