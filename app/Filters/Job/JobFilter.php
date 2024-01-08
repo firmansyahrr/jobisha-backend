@@ -20,6 +20,14 @@ class JobFilter extends BaseFilter
         return $builder;
     }
 
+    public function filterJobIds($builder, $value)
+    {
+        if ($value == "") {
+            $value = 0;
+        }
+        return $builder->whereIn('id', isset($value) ? explode(',', $value) : [0]);
+    }
+
     //
     public function filterCompanySlug($builder, $value)
     {
