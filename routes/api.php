@@ -47,10 +47,19 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::prefix('profile')->group(function () {
         Route::get('/', [CandidateController::class, 'profile']);
         Route::post('/about-me', [CandidateController::class, 'postUpdateAboutMe']);
+
         Route::post('/educations', [CandidateController::class, 'postUpdateEducation']);
+        Route::delete('/educations/{id}', [CandidateController::class, 'deleteUpdateEducation']);
+
         Route::post('/work-experiences', [CandidateController::class, 'postUpdateWorkExperience']);
+        Route::delete('/work-experiences/{id}', [CandidateController::class, 'deleteUpdateWorkExperience']);
+
         Route::post('/skills', [CandidateController::class, 'postUpdateSkill']);
+        Route::delete('/skills/{id}', [CandidateController::class, 'deleteUpdateSkill']);
+
         Route::post('/resumes', [CandidateController::class, 'postUpdateResumes']);
+        Route::delete('/resumes/{id}', [CandidateController::class, 'deleteUpdateResumes']);
+        
         Route::get('/job-saved', [CandidateController::class,'getJobSaved']);
         Route::get('/job-applied', [CandidateController::class,'getJobHistory']);
     });

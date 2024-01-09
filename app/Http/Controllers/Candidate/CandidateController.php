@@ -108,4 +108,24 @@ class CandidateController extends Controller
     {
         return $this->service->updateResume($request);
     }
+
+    public function deleteUpdateEducation(Request $request, $id)
+    {
+        return $this->service->deleteUpdateEducation($request, $id);
+    }
+
+    public function deleteUpdateWorkExperience(Request $request, $id)
+    {
+        return $this->service->deleteUpdateWorkExperience($request, $id);
+    }
+
+    public function deleteUpdateSkill(Request $request, $id)
+    {
+        return $this->service->deleteUpdateSkill($request, $id);
+    }
+
+    public function deleteUpdateResumes(Request $request, $id)
+    {
+        return $this->service->deleteUpdateResumes($request, $id);
+    }
 }

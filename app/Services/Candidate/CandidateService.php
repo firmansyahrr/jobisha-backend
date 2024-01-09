@@ -458,4 +458,71 @@ class CandidateService extends BaseService
         }
     }
 
+    public function deleteUpdateEducation($request, $id)
+    {
+        try {
+            $user = $this->userRepo->find($request->user()->id);
+            $candidate = $user->candidate;
+
+            $candidate->educations()->where('id', $id)->delete();
+
+            $success['data'] = $candidate->educations()->get();
+
+            return $this->successResponse($success, __('content.message.delete.success'), 201);
+        } catch (Exception $exc) {
+            Log::error($exc->getMessage());
+            return $this->failedResponse(null, $exc->getMessage());
+        } 
+    }
+
+    public function deleteUpdateWorkExperience($request, $id)
+    {
+        try {
+            $user = $this->userRepo->find($request->user()->id);
+            $candidate = $user->candidate;
+
+            $candidate->work_experiences()->where('id', $id)->delete();
+
+            $success['data'] = $candidate->work_experiences()->get();
+
+            return $this->successResponse($success, __('content.message.delete.success'), 201);
+        } catch (Exception $exc) {
+            Log::error($exc->getMessage());
+            return $this->failedResponse(null, $exc->getMessage());
+        } 
+    }
+
+    public function deleteUpdateSkill($request, $id)
+    {
+        try {
+            $user = $this->userRepo->find($request->user()->id);
+            $candidate = $user->candidate;
+
+            $candidate->skills()->where('id', $id)->delete();
+
+            $success['data'] = $candidate->skills()->get();
+
+            return $this->successResponse($success, __('content.message.delete.success'), 201);
+        } catch (Exception $exc) {
+            Log::error($exc->getMessage());
+            return $this->failedResponse(null, $exc->getMessage());
+        } 
+    }
+
+    public function deleteUpdateResumes($request, $id)
+    {
+        try {
+            $user = $this->userRepo->find($request->user()->id);
+            $candidate = $user->candidate;
+
+            $candidate->resumes()->where('id', $id)->delete();
+
+            $success['data'] = $candidate->resumes()->get();
+
+            return $this->successResponse($success, __('content.message.delete.success'), 201);
+        } catch (Exception $exc) {
+            Log::error($exc->getMessage());
+            return $this->failedResponse(null, $exc->getMessage());
+        } 
+    }
 }
