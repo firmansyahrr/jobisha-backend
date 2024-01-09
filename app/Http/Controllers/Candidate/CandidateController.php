@@ -63,6 +63,11 @@ class CandidateController extends Controller
         return $this->service->saveJob($request, $slug);
     }
 
+    public function postUnSaveJob(Request $request, $slug)
+    {
+        return $this->service->unsaveJob($request, $slug);
+    }
+
     public function postApplyJob(CandidateApplyJobRequest $request, $slug)
     {
         return $this->service->applyJob($request, $slug);

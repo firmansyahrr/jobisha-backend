@@ -152,7 +152,7 @@ class CandidateService extends BaseService
                 'type' => 'saved'
             ]);
 
-            $success['data'] = [$candidate->refresh()];
+            $success['data'] = $candidate->refresh();
 
             return $this->successResponse($success, __('content.message.job.save.success'), 200);
         } catch (Exception $exc) {
@@ -160,6 +160,40 @@ class CandidateService extends BaseService
             return $this->failedResponse([], __('content.message.job.save.failed') . ': ' . $exc->getMessage());
         }
     }
+
+    public function unsaveJob(Request $request, $slug)
+    {
+        try {
+            $user = $this->userRepo->find($request->user()->id);
+            $candidate = $user->candidate;
+
+            $job = $this->jobRepo->with($this->detailWith)->get(['slug' => $slug])->first();
+
+            if (!$job) {
+                throw new Exception(__('content.message.job.not_found'));
+            }
+
+            $candidateJob = $this->candidateJobRepo->findWhere([
+                'candidate_id' => $candidate->id,
+                'job_id' => $job->id,
+                'type' => 'saved',
+            ]);
+
+            if (!$candidateJob) {
+                throw new Exception(__('content.message.job.unsave.not_save_yet'));
+            }
+
+            $candidate->job()->where('job_id', $job->id)->delete();
+
+            $success['data'] = $candidate->refresh();
+
+            return $this->successResponse($success, __('content.message.job.unsave.success'), 200);
+        } catch (Exception $exc) {
+            Log::error($exc->getMessage());
+            return $this->failedResponse([], __('content.message.job.unsave.failed') . ': ' . $exc->getMessage());
+        }
+    }
+
     public function applyJob(Request $request, $slug)
     {
         try {
@@ -193,7 +227,7 @@ class CandidateService extends BaseService
                 'description' => $request->description
             ]);
 
-            $success['data'] = [$candidate->refresh()];
+            $success['data'] = $candidate->refresh();
 
             return $this->successResponse($success, __('content.message.job.apply.success'), 200);
         } catch (Exception $exc) {
@@ -283,9 +317,10 @@ class CandidateService extends BaseService
                 'city_id' => $data['city_id'],
             ];
 
-            $address = $candidate->address()->updateOrCreate([
-                'candidate_id' => $candidate->id
-            ],
+            $address = $candidate->address()->updateOrCreate(
+                [
+                    'candidate_id' => $candidate->id
+                ],
                 $addressData
             );
 
@@ -294,7 +329,7 @@ class CandidateService extends BaseService
 
             $this->repo->update($data, $candidate->id);
 
-            $success['data'] = [$candidate->refresh()];
+            $success['data'] = $candidate->refresh();
 
             return $this->successResponse($success, __('content.message.update.success'), 201);
         } catch (Exception $exc) {
@@ -326,7 +361,7 @@ class CandidateService extends BaseService
                 'id' => $data['id'] ?? null,
             ], ($data['id'] != null ? $data : Arr::except($data, ['id'])));
 
-            $success['data'] = [$candidate->refresh()];
+            $success['data'] = $candidate->refresh();
 
             return $this->successResponse($success, __('content.message.update.success'), 201);
         } catch (Exception $exc) {
@@ -362,7 +397,7 @@ class CandidateService extends BaseService
                 'id' => $data['id'] ?? null,
             ], ($data['id'] != null ? $data : Arr::except($data, ['id'])));
 
-            $success['data'] = [$candidate->refresh()];
+            $success['data'] = $candidate->refresh();
 
             return $this->successResponse($success, __('content.message.update.success'), 201);
         } catch (Exception $exc) {
@@ -391,7 +426,7 @@ class CandidateService extends BaseService
                 'id' => $data['id'] ?? null,
             ], ($data['id'] != null ? $data : Arr::except($data, ['id'])));
 
-            $success['data'] = [$candidate->refresh()];
+            $success['data'] = $candidate->refresh();
 
             return $this->successResponse($success, __('content.message.update.success'), 201);
         } catch (Exception $exc) {
@@ -414,7 +449,7 @@ class CandidateService extends BaseService
 
             $candidate->resumes()->create($data);
 
-            $success['data'] = [$candidate->refresh()];
+            $success['data'] = $candidate->refresh();
 
             return $this->successResponse($success, __('content.message.update.success'), 201);
         } catch (Exception $exc) {

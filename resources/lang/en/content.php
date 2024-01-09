@@ -31,6 +31,11 @@ return [
                 'failed' => 'Failed saved Job',
                 'already' => 'You have already save for this Job.',
             ],
+            'unsave' => [
+                'success' => 'Successfully unsaved Job',
+                'failed' => 'Failed unsaved Job',
+                'not_save_yet' => 'Cannot unsave this job, Job is not save yet.'
+            ],
             'apply' => [
                 'success' => 'Successfully apply this Job',
                 'failed' => 'Failed apply this Job',

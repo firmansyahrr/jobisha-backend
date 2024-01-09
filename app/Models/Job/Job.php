@@ -19,6 +19,8 @@ class Job extends Model implements Auditable
 
     protected $guarded = ['id', 'slug'];
 
+    protected $appends = ['is_saved', 'is_applied'];
+
     protected static function boot()
     {
         parent::boot();
@@ -80,5 +82,15 @@ class Job extends Model implements Auditable
 
     public function job_locations(){
         return $this->hasManyThrough(City::class, JobLocation::class, 'job_id', 'id', 'id', 'city_id');
+    }
+
+    public function getIsSavedAttribute()
+    {
+        return false;
+    }
+
+    public function getIsAppliedAttribute()
+    {
+        return false;
     }
 }
