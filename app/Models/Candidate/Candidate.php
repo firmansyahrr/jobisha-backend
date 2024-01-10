@@ -74,6 +74,11 @@ class Candidate extends Model implements Auditable, HasMedia
         return $this->hasMany(CandidateResume::class);
     }
 
+    public function completeness(): HasMany
+    {
+        return $this->hasMany(CandidateProfileCompleteness::class);
+    }
+
     public function gender(): BelongsTo
     {
         return $this->belongsTo(ApplicationParameter::class, 'gender_id', 'id');
