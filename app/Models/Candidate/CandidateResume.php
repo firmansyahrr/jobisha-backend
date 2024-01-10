@@ -7,6 +7,7 @@ use App\Traits\SoftDeleteWithUser;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 use OwenIt\Auditing\Contracts\Auditable;
 use Illuminate\Support\Str;
 use Spatie\Image\Manipulations;
@@ -22,7 +23,7 @@ class CandidateResume extends Model implements Auditable
     protected $table = 'candidate_resumes';
 
     protected $guarded = ['id'];
-    
+
     protected static function boot()
     {
         parent::boot();
@@ -30,5 +31,11 @@ class CandidateResume extends Model implements Auditable
         static::addGlobalScope('order', function (Builder $builder) {
             $builder->orderBy('created_at', 'DESC');
         });
+    }
+
+    public function getDownloadLinkAttribute()
+    {
+        $file = config('app.url') . Storage::url($this->filename);
+        return $file;
     }
 }
