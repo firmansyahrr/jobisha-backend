@@ -3,6 +3,7 @@
 namespace App\Services\Candidate;
 
 use App\Filters\Candidate\CandidateFilter;
+use App\Models\Candidate\CandidateProfileCompleteness;
 use App\Repositories\Candidate\CandidateJobRepository;
 use App\Repositories\Candidate\CandidateRepository;
 use App\Repositories\Job\JobRepository;
@@ -111,6 +112,8 @@ class CandidateService extends BaseService
             DB::commit();
             event(new Registered($user));
             $success['data'] = $candidate;
+
+            CandidateProfileCompleteness::updateOrCreate(['activity' => 'create_account', 'candidate_id' => $candidate->id], ['activity' => 'skill', 'candidate_id' => $candidate->id, 'is_complete' => true]);
 
             return $this->successResponse($success, __('content.message.register.success'), 201);
         } catch (Exception $exc) {
@@ -331,6 +334,8 @@ class CandidateService extends BaseService
 
             $success['data'] = $candidate->refresh();
 
+            CandidateProfileCompleteness::updateOrCreate(['activity' => 'profile_completeness', 'candidate_id' => $candidate->id], ['activity' => 'skill', 'candidate_id' => $candidate->id, 'is_complete' => true]);
+
             return $this->successResponse($success, __('content.message.update.success'), 201);
         } catch (Exception $exc) {
             Log::error($exc->getMessage());
@@ -362,6 +367,8 @@ class CandidateService extends BaseService
             ], ($data['id'] != null ? $data : Arr::except($data, ['id'])));
 
             $success['data'] = $candidate->refresh();
+
+            CandidateProfileCompleteness::updateOrCreate(['activity' => 'education', 'candidate_id' => $candidate->id], ['activity' => 'skill', 'candidate_id' => $candidate->id, 'is_complete' => true]);
 
             return $this->successResponse($success, __('content.message.update.success'), 201);
         } catch (Exception $exc) {
@@ -399,6 +406,8 @@ class CandidateService extends BaseService
 
             $success['data'] = $candidate->refresh();
 
+            CandidateProfileCompleteness::updateOrCreate(['activity' => 'work_experience', 'candidate_id' => $candidate->id], ['activity' => 'skill', 'candidate_id' => $candidate->id, 'is_complete' => true]);
+
             return $this->successResponse($success, __('content.message.update.success'), 201);
         } catch (Exception $exc) {
             Log::error($exc->getMessage());
@@ -427,6 +436,8 @@ class CandidateService extends BaseService
             ], ($data['id'] != null ? $data : Arr::except($data, ['id'])));
 
             $success['data'] = $candidate->refresh();
+
+            CandidateProfileCompleteness::updateOrCreate(['activity' => 'skill', 'candidate_id' => $candidate->id], ['activity' => 'skill', 'candidate_id' => $candidate->id, 'is_complete' => true]);
 
             return $this->successResponse($success, __('content.message.update.success'), 201);
         } catch (Exception $exc) {
