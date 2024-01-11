@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\General\ContactUsController;
 use App\Http\Controllers\Api\General\TestimonyController;
 use App\Http\Controllers\Auth\AuthenticationController;
 use App\Http\Controllers\Candidate\CandidateController;
@@ -95,6 +96,8 @@ Route::middleware(['custom_api'])->group(function () {
         Route::get('/provinces', [ProvinceController::class, 'index']);
         Route::get('/provinces/{id}/cities', [CityController::class, 'index']);
     });
+
+    Route::post('/contact-us', [ContactUsController::class, 'create']);
 
     Route::prefix('landing')->group(function () {
         Route::get('/testimonies', [LandingPageController::class, 'getTestimony']);
