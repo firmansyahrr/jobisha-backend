@@ -367,7 +367,7 @@ class CandidateService extends BaseService
                 'id' => $data['id'] ?? null,
             ], ($data['id'] != null ? $data : Arr::except($data, ['id'])));
 
-            $success['data'] = $candidate->refresh();
+            $success['data'] = $candidate->educations()->get();
 
             CandidateProfileCompleteness::updateOrCreate(['activity' => 'education', 'candidate_id' => $candidate->id], ['activity' => 'skill', 'candidate_id' => $candidate->id, 'is_complete' => true]);
 
@@ -405,7 +405,7 @@ class CandidateService extends BaseService
                 'id' => $data['id'] ?? null,
             ], ($data['id'] != null ? $data : Arr::except($data, ['id'])));
 
-            $success['data'] = $candidate->refresh();
+            $success['data'] = $candidate->work_experiences()->get();
 
             CandidateProfileCompleteness::updateOrCreate(['activity' => 'work_experience', 'candidate_id' => $candidate->id], ['activity' => 'skill', 'candidate_id' => $candidate->id, 'is_complete' => true]);
 
@@ -436,7 +436,7 @@ class CandidateService extends BaseService
                 'id' => $data['id'] ?? null,
             ], ($data['id'] != null ? $data : Arr::except($data, ['id'])));
 
-            $success['data'] = $candidate->refresh();
+            $success['data'] = $candidate->skills()->get();
 
             CandidateProfileCompleteness::updateOrCreate(['activity' => 'skill', 'candidate_id' => $candidate->id], ['activity' => 'skill', 'candidate_id' => $candidate->id, 'is_complete' => true]);
 
@@ -461,7 +461,7 @@ class CandidateService extends BaseService
 
             $candidate->resumes()->create($data);
 
-            $success['data'] = $candidate->refresh();
+            $success['data'] = $candidate->resumes()->get();
 
             return $this->successResponse($success, __('content.message.update.success'), 201);
         } catch (Exception $exc) {
