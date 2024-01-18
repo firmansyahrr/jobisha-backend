@@ -17,24 +17,8 @@ class Company extends Model implements Auditable
     use \OwenIt\Auditing\Auditable;
     use HasFactory, AddCreatedUser, SoftDeleteWithUser;
 
-    protected $fillable = [
-        'name',
-        'email',
-        'description',
-        'phone_number',
-        'province_id',
-        'city_id',
-        'address',
-        'zip_code',
-        'employee_size_id',
-        'company_industry_id',
-        'website',
-        'nib_no',
-        'nib_file',
-        'since_year',
-        'slug',
-    ];
-    
+    protected $guarded = ['id', 'slug'];
+
     protected static function boot()
     {
         parent::boot();

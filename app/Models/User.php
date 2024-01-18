@@ -58,7 +58,8 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function getRoleAttribute()
     {
-        return $this->roles()->pluck('name');
+        $roles = $this->roles()->pluck('name');
+        return $roles[0];
     }
 
     protected $appends = ['role'];
