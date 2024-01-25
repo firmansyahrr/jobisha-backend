@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Candidate\CandidateController;
 use App\Http\Controllers\EmailVerifyController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -16,7 +17,21 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
+})->name('home');
+
+Route::get('/login', function () {
+    return view('login.main');
+})->name('auth.login');
+
+Route::prefix('candidate')->group(function () {
+    Route::post('/', [CandidateController::class, 'store'])->name('candidate.store');
+
+    Route::post('/{id}/education', [CandidateController::class, 'updateEducationWeb'])->name('candidate.update.education');
+
+    Route::get('/', [CandidateController::class, 'indexWeb'])->name('candidate.index');
+    Route::get('/create', [CandidateController::class, 'createWeb'])->name('candidate.create');
+    Route::get('/{id}', [CandidateController::class, 'detailWeb'])->name('candidate.detail');
 });
 
 Route::prefix('email')->group(function () {

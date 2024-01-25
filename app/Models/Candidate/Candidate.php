@@ -3,8 +3,10 @@
 namespace App\Models\Candidate;
 
 use App\Models\Master\ApplicationParameter;
+use App\Models\User;
 use App\Traits\AddCreatedUser;
 use App\Traits\SoftDeleteWithUser;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -34,6 +36,10 @@ class Candidate extends Model implements Auditable, HasMedia
             $obj->slug = Str::uuid();
             $obj->save();
         });
+
+        static::addGlobalScope('order', function (Builder $builder) {
+            $builder->orderBy('created_at', 'DESC');
+        });
     }
 
     public function registerMediaConversions(Media $media = null): void
@@ -42,6 +48,11 @@ class Candidate extends Model implements Auditable, HasMedia
             ->addMediaConversion('preview')
             ->fit(Manipulations::FIT_CROP, 300, 300)
             ->nonQueued();
+    }
+
+    public function user(): HasOne
+    {
+        return $this->hasOne(User::class);
     }
 
     public function address(): HasOne

@@ -9,9 +9,15 @@ use App\Http\Requests\Candidate\CandidateUpdateEducationRequest;
 use App\Http\Requests\Candidate\CandidateUpdateResumeRequest;
 use App\Http\Requests\Candidate\CandidateUpdateSkillRequest;
 use App\Http\Requests\Candidate\CandidateUpdateWorkExperienceRequest;
+use App\Http\Requests\Candidate\CreateCandidateRequest;
 use App\Http\Requests\Candidate\RegisterCandidateRequest;
+use App\Models\Candidate\Candidate;
+use App\Models\Master\ApplicationParameter;
+use App\Models\Master\City;
+use App\Models\Master\Province;
 use App\Services\Candidate\CandidateService;
 use Illuminate\Http\Request;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class CandidateController extends Controller
 {
@@ -19,6 +25,92 @@ class CandidateController extends Controller
     public function __construct(CandidateService $service)
     {
         $this->service = $service;
+    }
+
+    public function indexWeb(Request $request)
+    {
+        $breadcrumbsItems = [
+            [
+                'name' => 'Candidate',
+                'url' => route('candidate.index'),
+                'active' => true
+            ],
+        ];
+
+        $q = $request->get('q');
+        $perPage = $request->get('per_page', 10);
+        $sort = $request->get('sort');
+
+        $datas = QueryBuilder::for(Candidate::class)
+            ->allowedSorts(['name'])
+            ->latest()
+            ->paginate($perPage)
+            ->appends(['per_page' => $perPage, 'q' => $q, 'sort' => $sort]);
+
+        return view('pages.candidate.index', [
+            'candidates' => $datas,
+            'breadcrumbItems' => $breadcrumbsItems,
+            'pageTitle' => 'Candidate'
+        ]);
+    }
+
+    public function detailWeb(Request $request, $id)
+    {
+        $candidate = ($this->service->getData($id))->getData()->result->data;
+
+        $applicationParams = ApplicationParameter::all();
+
+        $breadcrumbsItems = [
+            [
+                'name' => 'Candidate',
+                'url' => route('candidate.index'),
+                'active' => false
+            ],
+            [
+                'name' => 'Detail',
+                'url' => '#',
+                'active' => true
+            ],
+        ];
+
+        $q = $request->get('q');
+        $perPage = $request->get('per_page', 10);
+        $sort = $request->get('sort');
+
+        return view('pages.candidate.detail', [
+            'candidate' => $candidate,
+            'breadcrumbItems' => $breadcrumbsItems,
+            'pageTitle' => 'Candidate Detail',
+            'applicationParams' => $applicationParams
+        ]);
+    }
+
+    public function createWeb(Request $request)
+    {
+        $provinces = Province::all();
+        $cities = City::all();
+        $genders = ApplicationParameter::where('type', 'genders')->get();
+
+        $breadcrumbsItems = [
+            [
+                'name' => 'Candidate',
+                'url' => route('candidate.index'),
+                'active' => false
+            ],
+            [
+                'name' => 'Create',
+                'url' => '#',
+                'active' => true
+            ],
+        ];
+
+        return view('pages.candidate.create', [
+            'breadcrumbItems' => $breadcrumbsItems,
+            'pageTitle' => 'Candidate Create',
+            'provinces' => $provinces,
+            'cities' => $cities,
+            'genders' => $genders,
+        ]);
     }
 
     // =========================================================== Start of Super Admin
@@ -29,7 +121,20 @@ class CandidateController extends Controller
 
     public function store(Request $request)
     {
-        // 
+        $register = $this->service->register($request, false);
+        $candidate = $register->getData()->result->data;
+        $candidate = Candidate::find($candidate->id)->first();
+        $updateAboutMe = $this->service->processUpdateAboutMe($candidate, $request);
+
+        return redirect()->route('candidate.detail', ['id' => $candidate->id])->with('message', 'Candidate registered successfully');
+    }
+
+    public function updateEducationWeb(CandidateUpdateEducationRequest $request, $id)
+    {
+        $candidate = Candidate::find($id)->first();
+        $updateEducation = $this->service->processUpdateEducation($candidate, $request);
+
+        return redirect()->route('candidate.detail', ['id' => $candidate->id])->with('message', 'Candidate update successfully');
     }
 
     public function update(Request $request, $id)
@@ -55,7 +160,7 @@ class CandidateController extends Controller
 
     public function register(RegisterCandidateRequest $request)
     {
-        return $this->service->register($request);
+        return $this->service->register($request, true);
     }
 
     public function postSaveJob(Request $request, $slug)

@@ -31,4 +31,12 @@ class CandidateUpdateEducationRequest extends FormRequest
             'graduation_date' => ['nullable', 'required_if:is_till_current,false', 'date_format:Y-m'],
         ];
     }
+
+    protected function prepareForValidation(): void
+    {
+        $isTillCurrent = filter_var($this->is_till_current, FILTER_VALIDATE_BOOLEAN);
+        $this->merge([
+            'is_till_current' => $isTillCurrent
+        ]);
+    }
 }
