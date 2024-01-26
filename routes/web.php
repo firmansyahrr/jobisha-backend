@@ -20,10 +20,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::get('/login', [AuthenticationController::class, 'showLogin'])->name('auth.login');
+Route::get('/login', [AuthenticationController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthenticationController::class, 'loginWeb'])->name('auth.login.submit');
 
 Route::middleware(['auth'])->group(function () {
+    Route::get('/logout', [AuthenticationController::class, 'logout'])->name('logout');
 
     Route::get('/', [HomeController::class, 'home'])->name('home');
 

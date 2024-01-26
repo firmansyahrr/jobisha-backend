@@ -42,7 +42,7 @@ class AuthenticationController extends Controller
                 return back()->with('error', 'Invalid Username and Password.');
             }
 
-            
+
             $token = $user->createToken('MyApp')->plainTextToken;
             $request->session()->put('app_token', $token);
             $request->session()->put('authenticated', true);
@@ -52,5 +52,26 @@ class AuthenticationController extends Controller
         } else {
             return back()->with('error', 'Invalid Username and Password.');
         }
+    }
+
+    public function logout(Request $request)
+    {
+        $data = [
+            'app_token' => session()->get('app_token'),
+            'authenticated' => session()->get('authenticated'),
+        ];
+
+        $request->merge($data);
+
+        $request->session()->invalidate();
+        $request->session()->forget('app_token');
+        $request->session()->forget('user');
+        $request->session()->forget('authenticated');
+        $request->session()->forget('permissions');
+        $request->session()->flush();
+        $request->session()->put('authenticated', false);
+        $redirect = redirect()->route('login');
+
+        return $redirect;
     }
 }
