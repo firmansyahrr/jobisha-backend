@@ -25,7 +25,7 @@ class AuthMiddleware
             $request->session()->forget('authenticated');
             $request->session()->flush();
 
-            return redirect()->route('login')->with('error', 'You must login first');
+            return redirect()->route('auth.login')->with('error', 'You must login first');
         }
 
         return $next($request);
