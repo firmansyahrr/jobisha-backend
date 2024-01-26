@@ -24,6 +24,8 @@ class CandidateResume extends Model implements Auditable
 
     protected $guarded = ['id'];
 
+    protected $appends = ['download_link'];
+
     protected static function boot()
     {
         parent::boot();

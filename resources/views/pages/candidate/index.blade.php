@@ -36,7 +36,13 @@
                             <td>{{ $data->name }}</td>
                             <td>{{ $data->email }}</td>
                             <td>{{ $data->phone_number }}</td>
-                            <td>Detail | Edit | Delete</td>
+                            <td class="table-report__action w-56">
+                                <div class="flex justify-center items-center">
+                                    <a class="flex items-center mr-3" href="{{ route('candidate.detail', ['id' => $data->id]) }}" title="View"> <i data-lucide="glasses" class="w-4 h-4 mr-1"></i></a>
+                                    <a class="flex items-center mr-3" href="javascript:;" title="Edit"> <i data-lucide="check-square" class="w-4 h-4 mr-1"></i></a>
+                                    <a class="flex items-center text-danger" href="javascript:;" title="Delete" data-tw-toggle="modal" data-tw-target="#delete-confirmation-modal"> <i data-lucide="trash-2" class="w-4 h-4 mr-1"></i></a>
+                                </div>
+                            </td>
                         </tr>
                         @empty
                         <tr>

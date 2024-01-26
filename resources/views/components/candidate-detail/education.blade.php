@@ -24,7 +24,8 @@
                                 <option value=""></option>
                                 @foreach($applicationParams as $data)
                                 @if($data->type == 'education_levels')
-                                <option value="{{ $data->id }}">{{ $data->label }}</option>
+                                <option value="{{ $data->id }}" @selected( old('education_level_id')==$data->id)>{{
+                                    $data->label }}</option>
                                 @endif
                                 @endforeach
                             </select>
@@ -35,8 +36,15 @@
 
                         <div class="@error('graduation_date') input-form has-error @enderror mt-3">
                             <label for="frm-edu-graduation-date" class="form-label">Graduation Date</label>
-                            <input id="frm-edu-graduation-date" name="graduation_date" type="text" class="form-control"
-                                value="{{ old('graduation_date') }}">
+                            <div class="relative">
+                                <div
+                                    class="absolute rounded-l w-10 h-full flex items-center justify-center bg-slate-100 border text-slate-500 dark:bg-darkmode-700 dark:border-darkmode-800 dark:text-slate-400">
+                                    <i data-lucide="calendar" class="w-4 h-4"></i>
+                                </div>
+                                <input id="frm-edu-graduation-date" name="graduation_date" type="text"
+                                    class="datepicker-yearmonth form-control pl-12" data-single-mode="true"
+                                    value="{{ old('graduation_date') }}">
+                            </div>
                             @error('graduation_date')
                             <div class="pristine-error text-danger mt-2">{{ $message }}</div>
                             @enderror

@@ -7,8 +7,8 @@
     <div class="dropdown-menu w-56">
         <ul class="dropdown-content bg-primary text-white">
             <li class="p-2">
-                <div class="font-medium">{ Name }</div>
-                <div class="text-xs text-white/70 mt-0.5 dark:text-slate-500">{ Role }</div>
+                <div class="font-medium">{{ request()->session()->get('user')['name'] }}</div>
+                <div class="text-xs text-white/70 mt-0.5 dark:text-slate-500">{{ request()->session()->get('user')['role'] }}</div>
             </li>
             {{--
             <li>

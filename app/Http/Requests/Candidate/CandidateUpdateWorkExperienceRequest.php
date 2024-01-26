@@ -35,4 +35,12 @@ class CandidateUpdateWorkExperienceRequest extends FormRequest
             'job_specialization_id' => ['required', 'exists:application_parameters,id'],
         ];
     }
+
+    protected function prepareForValidation(): void
+    {
+        $isTillCurrent = filter_var($this->is_till_current, FILTER_VALIDATE_BOOLEAN);
+        $this->merge([
+            'is_till_current' => $isTillCurrent
+        ]);
+    }
 }

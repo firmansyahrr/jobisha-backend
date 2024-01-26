@@ -12,6 +12,8 @@ use App\Http\Requests\Candidate\CandidateUpdateWorkExperienceRequest;
 use App\Http\Requests\Candidate\CreateCandidateRequest;
 use App\Http\Requests\Candidate\RegisterCandidateRequest;
 use App\Models\Candidate\Candidate;
+use App\Models\Job\JobRole;
+use App\Models\Job\JobSpecialization;
 use App\Models\Master\ApplicationParameter;
 use App\Models\Master\City;
 use App\Models\Master\Province;
@@ -59,6 +61,8 @@ class CandidateController extends Controller
         $candidate = ($this->service->getData($id))->getData()->result->data;
 
         $applicationParams = ApplicationParameter::all();
+        $jobRoles = JobRole::all();
+        $jobSpecializations = JobSpecialization::all();
 
         $breadcrumbsItems = [
             [
@@ -81,7 +85,9 @@ class CandidateController extends Controller
             'candidate' => $candidate,
             'breadcrumbItems' => $breadcrumbsItems,
             'pageTitle' => 'Candidate Detail',
-            'applicationParams' => $applicationParams
+            'applicationParams' => $applicationParams,
+            'jobRoles' => $jobRoles,
+            'jobSpecializations' => $jobSpecializations,
         ]);
     }
 
@@ -119,7 +125,7 @@ class CandidateController extends Controller
         return $this->service->all($request->all());
     }
 
-    public function store(Request $request)
+    public function store(CreateCandidateRequest $request)
     {
         $register = $this->service->register($request, false);
         $candidate = $register->getData()->result->data;
@@ -131,8 +137,32 @@ class CandidateController extends Controller
 
     public function updateEducationWeb(CandidateUpdateEducationRequest $request, $id)
     {
-        $candidate = Candidate::find($id)->first();
+        $candidate = Candidate::where('id',$id)->first();
         $updateEducation = $this->service->processUpdateEducation($candidate, $request);
+
+        return redirect()->route('candidate.detail', ['id' => $candidate->id])->with('message', 'Candidate update successfully');
+    }
+
+    public function updateWorkExperienceWeb(CandidateUpdateWorkExperienceRequest $request, $id)
+    {
+        $candidate = Candidate::where('id',$id)->first();
+        $updateWorkExperience = $this->service->processUpdateWorkExperience($candidate, $request);
+
+        return redirect()->route('candidate.detail', ['id' => $candidate->id])->with('message', 'Candidate update successfully');
+    }
+
+    public function updateSkilleWeb(CandidateUpdateSkillRequest $request, $id)
+    {
+        $candidate = Candidate::where('id',$id)->first();
+        $updateSkill = $this->service->processUpdateSkill($candidate, $request);
+
+        return redirect()->route('candidate.detail', ['id' => $candidate->id])->with('message', 'Candidate update successfully');
+    }
+
+    public function updateResumeWeb(CandidateUpdateResumeRequest $request, $id)
+    {
+        $candidate = Candidate::where('id',$id)->first();
+        $updateSkill = $this->service->processUpdateResume($candidate, $request);
 
         return redirect()->route('candidate.detail', ['id' => $candidate->id])->with('message', 'Candidate update successfully');
     }

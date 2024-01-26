@@ -430,92 +430,112 @@ class CandidateService extends BaseService
             $user = $this->userRepo->find($request->user()->id);
             $candidate = $user->candidate;
 
-            $data = $request->all();
-
-            $explodeStart = explode("-", $data['start_of_work']);
-            $data['start_of_month'] = $explodeStart[1];
-            $data['start_of_year'] = $explodeStart[0];
-
-            if (isset($data['end_of_work'])) {
-                $explodeEnd = explode("-", $data['end_of_work']);
-                $data['end_of_month'] = $explodeEnd[1];
-                $data['end_of_year'] = $explodeEnd[0];
-            }
-
-            if ($data['is_till_current']) {
-                $data['end_of_month'] = null;
-                $data['end_of_year'] = null;
-            }
-
-            $candidate->work_experiences()->updateOrCreate([
-                'id' => $data['id'] ?? null,
-            ], ($data['id'] != null ? $data : Arr::except($data, ['id'])));
-
-            $success['data'] = $candidate->work_experiences()->get();
-
-            CandidateProfileCompleteness::updateOrCreate(['activity' => 'work_experience', 'candidate_id' => $candidate->id], ['activity' => 'skill', 'label' => 'Add Work Experience', 'candidate_id' => $candidate->id, 'is_complete' => true]);
-
-            return $this->successResponse($success, __('content.message.update.success'), 201);
+            return $this->processUpdateWorkExperience($candidate, $request);
         } catch (Exception $exc) {
             Log::error($exc->getMessage());
             return $this->failedResponse(null, $exc->getMessage());
         }
     }
-    // ============================================================================== START UPDATE WORK EXPERIENCE ==============================================================================
 
+    public function processUpdateWorkExperience($candidate, $request)
+    {
+        $data = $request->all();
+
+        $explodeStart = explode("-", $data['start_of_work']);
+        $data['start_of_month'] = $explodeStart[1];
+        $data['start_of_year'] = $explodeStart[0];
+
+        if (isset($data['end_of_work'])) {
+            $explodeEnd = explode("-", $data['end_of_work']);
+            $data['end_of_month'] = $explodeEnd[1];
+            $data['end_of_year'] = $explodeEnd[0];
+        }
+
+        if ($data['is_till_current']) {
+            $data['end_of_month'] = null;
+            $data['end_of_year'] = null;
+        }
+
+        $candidate->work_experiences()->updateOrCreate([
+            'id' => $data['id'] ?? null,
+        ], ($data['id'] != null ? $data : Arr::except($data, ['id'])));
+
+        $success['data'] = $candidate->work_experiences()->get();
+
+        CandidateProfileCompleteness::updateOrCreate(['activity' => 'work_experience', 'candidate_id' => $candidate->id], ['activity' => 'skill', 'label' => 'Add Work Experience', 'candidate_id' => $candidate->id, 'is_complete' => true]);
+
+        return $this->successResponse($success, __('content.message.update.success'), 201);
+    }
+    // ============================================================================== END UPDATE WORK EXPERIENCE ==============================================================================
+
+
+    // ============================================================================== START UPDATE SKILL ==============================================================================
     public function updateSkill(Request $request)
     {
         try {
             $user = $this->userRepo->find($request->user()->id);
             $candidate = $user->candidate;
 
-            $data = $request->all();
-
-            $skillLabel = ucwords($data['skill']);
-            $skill = $this->skillRepo->findWhere(['label' => $skillLabel]);
-            if (!$skill) {
-                $skill = $this->skillRepo->create(['label' => $skillLabel]);
-            }
-
-            $data['skill'] = $skillLabel;
-
-            $candidate->skills()->updateOrCreate([
-                'id' => $data['id'] ?? null,
-            ], ($data['id'] != null ? $data : Arr::except($data, ['id'])));
-
-            $success['data'] = $candidate->skills()->get();
-
-            CandidateProfileCompleteness::updateOrCreate(['activity' => 'skill', 'candidate_id' => $candidate->id], ['activity' => 'skill', 'label' => 'Add Skill', 'candidate_id' => $candidate->id, 'is_complete' => true]);
-
-            return $this->successResponse($success, __('content.message.update.success'), 201);
+            return $this->processUpdateSkill($candidate, $request);
         } catch (Exception $exc) {
             Log::error($exc->getMessage());
             return $this->failedResponse(null, $exc->getMessage());
         }
     }
 
+    public function processUpdateSkill($candidate, $request)
+    {
+        $data = $request->all();
+
+        $skillLabel = ucwords($data['skill']);
+        $skill = $this->skillRepo->findWhere(['label' => $skillLabel]);
+        if (!$skill) {
+            $skill = $this->skillRepo->create(['label' => $skillLabel]);
+        }
+
+        $data['skill'] = $skillLabel;
+
+        $candidate->skills()->updateOrCreate([
+            'id' => $data['id'] ?? null,
+        ], ($data['id'] != null ? $data : Arr::except($data, ['id'])));
+
+        $success['data'] = $candidate->skills()->get();
+
+        CandidateProfileCompleteness::updateOrCreate(['activity' => 'skill', 'candidate_id' => $candidate->id], ['activity' => 'skill', 'label' => 'Add Skill', 'candidate_id' => $candidate->id, 'is_complete' => true]);
+
+        return $this->successResponse($success, __('content.message.update.success'), 201);
+    }
+    // ============================================================================== END UPDATE SKILL ==============================================================================
+    
+    // ============================================================================== START UPDATE RESUME ==============================================================================
     public function updateResume(Request $request)
     {
         try {
             $user = $this->userRepo->find($request->user()->id);
             $candidate = $user->candidate;
-
-            $path = $request->file('resume')->store('candidate-resumes');
-
-            $data = [];
-            $data['filename'] = $path;
-            $data['is_active'] = true;
-
-            $candidate->resumes()->create($data);
-
-            $success['data'] = $candidate->resumes()->get();
-
-            return $this->successResponse($success, __('content.message.update.success'), 201);
+            
+            return $this->processUpdateResume($candidate, $request);
         } catch (Exception $exc) {
             Log::error($exc->getMessage());
             return $this->failedResponse(null, $exc->getMessage());
         }
     }
+    
+    public function processUpdateResume($candidate, $request)
+    {
+        $path = $request->file('resume')->store('candidate-resumes');
+
+        $data = [];
+        $data['filename'] = $path;
+        $data['is_active'] = true;
+
+        $candidate->resumes()->create($data);
+
+        $success['data'] = $candidate->resumes()->get();
+
+        return $this->successResponse($success, __('content.message.update.success'), 201);
+    }
+    // ============================================================================== END UPDATE RESUME ==============================================================================
 
     public function deleteUpdateEducation($request, $id)
     {

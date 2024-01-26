@@ -16,8 +16,7 @@
     <div class="flex flex-col lg:flex-row border-b border-slate-200/60 dark:border-darkmode-400 pb-5 -mx-5">
         <div class="flex flex-1 px-5 items-center justify-center lg:justify-start">
             <div class="w-20 h-20 sm:w-24 sm:h-24 flex-none lg:w-32 lg:h-32 image-fit relative">
-                <img alt="Midone - HTML Admin Template" class="rounded-full"
-                    src="{{ asset('dist/images/profile-14.jpg') }}">
+                <img alt="Midone - HTML Admin Template" class="rounded-full" src="{{ asset('dist/images/profile-14.jpg') }}">    
                 <div
                     class="absolute mb-1 mr-1 flex items-center justify-center bottom-0 right-0 bg-primary rounded-full p-2">
                     <i class="w-4 h-4 text-white" data-lucide="camera"></i>
@@ -25,7 +24,11 @@
             </div>
             <div class="ml-5">
                 <div class="w-24 sm:w-40 truncate sm:whitespace-normal font-medium text-lg">{{ $candidate->name }}</div>
-                <div class="text-slate-500">{Job Specialization}</div>
+                <div class="text-slate-500">
+                    @if(sizeof($candidate->work_experiences) > 0)
+                        {{ $candidate->work_experiences[0]->job_specialization->label }}
+                    @endif
+                </div>
             </div>
         </div>
         <div
@@ -61,7 +64,7 @@
                 aria-controls="dashboard" aria-selected="true" role="tab"> Work Experience </a>
         </li>
         <li id="account-and-profile-tab" class="nav-item" role="presentation">
-            <a href="javascript:;" class="nav-link py-4" data-tw-target="#education" aria-selected="false" role="tab">
+            <a href="javascript:;" class="nav-link py-4 " data-tw-target="#education" aria-selected="false" role="tab">
                 Education </a>
         </li>
         <li id="activities-tab" class="nav-item" role="presentation">
@@ -87,11 +90,11 @@
                     <a href="javascript:;" data-tw-toggle="modal" data-tw-target="#modal-form-work-experience" class="btn btn-primary btn-sm mr-1 mb-2">Add New</a>
                 </div>
                 <div class="p-5">
-                    as
+                    <x-candidate-detail.work_experience-list :candidate="$candidate"/>
                 </div>
             </div>
 
-            <div id="education" class="tab-pane leading-relaxed box" role="tabpanel">
+            <div id="education" class="tab-pane leading-relaxed box " role="tabpanel">
                 <div class="flex items-center p-5 border-b border-slate-200/60 dark:border-darkmode-400">
                     <h2 class="font-medium text-base mr-auto">
                         Education
@@ -99,7 +102,7 @@
                     <a href="javascript:;" data-tw-toggle="modal" data-tw-target="#modal-form-education" class="btn btn-primary btn-sm mr-1 mb-2">Add New</a> 
                 </div>
                 <div class="p-5">
-                    as
+                    <x-candidate-detail.education-list :candidate="$candidate"/>
                 </div>
             </div>
 
@@ -111,7 +114,7 @@
                     <a href="javascript:;" data-tw-toggle="modal" data-tw-target="#modal-form-skill" class="btn btn-primary btn-sm mr-1 mb-2">Add New</a>
                 </div>
                 <div class="p-5">
-                    as
+                    <x-candidate-detail.skill-list :candidate="$candidate"/>
                 </div>
             </div>
 
@@ -123,7 +126,7 @@
                     <a href="javascript:;" data-tw-toggle="modal" data-tw-target="#modal-form-resume" class="btn btn-primary btn-sm mr-1 mb-2">Add New</a>
                 </div>
                 <div class="p-5">
-                    as
+                    <x-candidate-detail.resume-list :candidate="$candidate"/>
                 </div>
             </div>
 
@@ -131,9 +134,9 @@
     </div>
 </div>
 
-<x-candidate-detail.work_experience />
+<x-candidate-detail.work_experience :candidate="$candidate" :applicationParams="$applicationParams" :jobRoles="$jobRoles" :jobSpecializations="$jobSpecializations"/>
 <x-candidate-detail.education :candidate="$candidate" :applicationParams="$applicationParams"/>
-<x-candidate-detail.skill />
-<x-candidate-detail.resume />
+<x-candidate-detail.skill :candidate="$candidate" :applicationParams="$applicationParams"/>
+<x-candidate-detail.resume :candidate="$candidate" :applicationParams="$applicationParams"/>
 
 @endsection

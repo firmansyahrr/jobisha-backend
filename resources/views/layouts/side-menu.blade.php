@@ -45,6 +45,15 @@ $expl = explode('.', $r);
                     </a>
                 </li>
 
+                <li>
+                    <a href="{{ route('job.index') }}" class="side-menu @if($expl[0] == 'job') side-menu--active @endif">
+                        <div class="side-menu__icon"> <i data-lucide="briefcase"></i> </div>
+                        <div class="side-menu__title">
+                            Job
+                        </div>
+                    </a>
+                </li>
+
             </ul>
         </nav>
         <!-- END: Side Menu -->

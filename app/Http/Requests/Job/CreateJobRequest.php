@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Job;
 
+use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CreateJobRequest extends FormRequest

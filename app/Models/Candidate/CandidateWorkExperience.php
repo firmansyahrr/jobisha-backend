@@ -36,7 +36,7 @@ class CandidateWorkExperience extends Model implements Auditable
         parent::boot();
 
         static::addGlobalScope('order', function (Builder $builder) {
-            $builder->orderBy('created_at', 'ASC');
+            $builder->orderBy('created_at', 'DESC');
         });
     }
 
