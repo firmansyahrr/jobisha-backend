@@ -1,13 +1,6 @@
-{--
-<li class="onhover-dropdown p-0">
-    <button class="btn btn-primary-light" type="button"><a ><i
-                data-feather="log-out"></i>Log out</a></button>
-</li>
---}
-
 <!-- BEGIN: Delete Confirmation Modal -->
 <div id="delete-confirmation-modal" class="modal" tabindex="-1" aria-hidden="true">
-    <form id="delete-form" action="{{ route('logout') }}" method="POST" class="d-none">
+    <form id="delete-form" action="" method="POST" class="d-none">
         @csrf
     </form>
 

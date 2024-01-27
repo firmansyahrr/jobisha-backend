@@ -6,9 +6,7 @@
         <table class="table table-report -mt-2">
             <thead>
                 <tr>
-                    <th class="whitespace-nowrap">
-                        #
-                    </th>
+                    <th class="whitespace-nowrap">#</th>
                     <th class="whitespace-nowrap">COMPANY NAME</th>
                     <th class="text-center whitespace-nowrap">CAREER LEVEL</th>
                     <th class="text-center whitespace-nowrap">JOB ROLE</th>
@@ -40,17 +38,14 @@
                     <td class="text-center">{{ $data->start_of_work }} - {{ ($data->is_till_current) ? 'NOW' : $data->end_of_work }}</td>
                     <td class="table-report__action w-56">
                         <div class="flex justify-center items-center">
-                            <a class="flex items-center mr-3" href="javascript:;"> <i data-lucide="check-square"
-                                    class="w-4 h-4 mr-1"></i> Edit </a>
-                            <a class="flex items-center text-danger" href="javascript:;" data-tw-toggle="modal"
-                                data-tw-target="#delete-confirmation-modal"> <i data-lucide="trash-2"
-                                    class="w-4 h-4 mr-1"></i> Delete </a>
+                            <a class="flex items-center mr-3" href="javascript:;"> <i data-lucide="check-square" class="w-4 h-4 mr-1"></i></a>
+                            <a class="flex items-center text-danger delete-button" data-action="{{ route('candidate.delete.work-experience', ['id' => $data->id]) }}" data-item="{{ json_encode($data) }}" href="javascript:;" data-tw-toggle="modal" data-tw-target="#delete-confirmation-modal"> <i data-lucide="trash-2" class="w-4 h-4 mr-1"></i></a>
                         </div>
                     </td>
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="7">
+                    <td colspan="11">
                         <center>No Data</center>
                     </td>
                 </tr>

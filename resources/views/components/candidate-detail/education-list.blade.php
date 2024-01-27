@@ -6,9 +6,7 @@
         <table class="table table-report -mt-2">
             <thead>
                 <tr>
-                    <th class="whitespace-nowrap">
-                        #
-                    </th>
+                    <th class="whitespace-nowrap">#</th>
                     <th class="whitespace-nowrap">NAME</th>
                     <th class="text-center whitespace-nowrap">EDUCATION LEVEL</th>
                     <th class="text-center whitespace-nowrap">GRADUATION DATE</th>
@@ -28,11 +26,8 @@
                     <td class="text-center">{{ $data->description }}</td>
                     <td class="table-report__action w-56">
                         <div class="flex justify-center items-center">
-                            <a class="flex items-center mr-3" href="javascript:;"> <i data-lucide="check-square"
-                                    class="w-4 h-4 mr-1"></i> Edit </a>
-                            <a class="flex items-center text-danger" href="javascript:;" data-tw-toggle="modal"
-                                data-tw-target="#delete-confirmation-modal"> <i data-lucide="trash-2"
-                                    class="w-4 h-4 mr-1"></i> Delete </a>
+                            <a class="flex items-center mr-3" href="javascript:;"> <i data-lucide="check-square" class="w-4 h-4 mr-1"></i></a>
+                            <a class="flex items-center text-danger delete-button" data-action="{{ route('candidate.delete.education', ['id' => $data->id]) }}" data-item="{{ json_encode($data) }}" href="javascript:;" data-tw-toggle="modal" data-tw-target="#delete-confirmation-modal"> <i data-lucide="trash-2" class="w-4 h-4 mr-1"></i></a>
                         </div>
                     </td>
                 </tr>

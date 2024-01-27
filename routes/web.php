@@ -33,9 +33,16 @@ Route::middleware(['auth'])->group(function () {
         
         Route::post('/del/{id}', [CandidateController::class, 'deleteWeb'])->name('candidate.delete');
 
+        Route::post('/{id}/education/delete', [CandidateController::class, 'deleteEducation'])->name('candidate.delete.education');
         Route::post('/{id}/education', [CandidateController::class, 'updateEducationWeb'])->name('candidate.update.education');
+        
+        Route::post('/{id}/work-experience/delete', [CandidateController::class, 'deleteWorkExperience'])->name('candidate.delete.work-experience');
         Route::post('/{id}/work-experience', [CandidateController::class, 'updateWorkExperienceWeb'])->name('candidate.update.work-experience');
+        
+        Route::post('/{id}/skill/delete', [CandidateController::class, 'deleteSkill'])->name('candidate.delete.skill');
         Route::post('/{id}/skill', [CandidateController::class, 'updateSkilleWeb'])->name('candidate.update.skill');
+        
+        Route::post('/{id}/resume/delete', [CandidateController::class, 'deleteResume'])->name('candidate.delete.resume');
         Route::post('/{id}/resume', [CandidateController::class, 'updateResumeWeb'])->name('candidate.update.resume');
 
         Route::get('/', [CandidateController::class, 'indexWeb'])->name('candidate.index');

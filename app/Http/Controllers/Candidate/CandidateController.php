@@ -12,6 +12,10 @@ use App\Http\Requests\Candidate\CandidateUpdateWorkExperienceRequest;
 use App\Http\Requests\Candidate\CreateCandidateRequest;
 use App\Http\Requests\Candidate\RegisterCandidateRequest;
 use App\Models\Candidate\Candidate;
+use App\Models\Candidate\CandidateEducation;
+use App\Models\Candidate\CandidateResume;
+use App\Models\Candidate\CandidateSkill;
+use App\Models\Candidate\CandidateWorkExperience;
 use App\Models\Job\JobRole;
 use App\Models\Job\JobSpecialization;
 use App\Models\Master\ApplicationParameter;
@@ -117,6 +121,30 @@ class CandidateController extends Controller
             'cities' => $cities,
             'genders' => $genders,
         ]);
+    }
+
+    public function deleteWorkExperience($id)
+    {
+        $process = CandidateWorkExperience::where('id', $id)->delete();
+        return redirect()->back()->with('message', 'Data deleted successfully');
+    }
+
+    public function deleteEducation($id)
+    {
+        $process = CandidateEducation::where('id', $id)->delete();
+        return redirect()->back()->with('message', 'Data deleted successfully');
+    }
+
+    public function deleteSkill($id)
+    {
+        $process = CandidateSkill::where('id', $id)->delete();
+        return redirect()->back()->with('message', 'Data deleted successfully');
+    }
+
+    public function deleteResume($id)
+    {
+        $process = CandidateResume::where('id', $id)->delete();
+        return redirect()->back()->with('message', 'Data deleted successfully');
     }
     // =========================================================== Start of Super Admin
     public function index(Request $request)
