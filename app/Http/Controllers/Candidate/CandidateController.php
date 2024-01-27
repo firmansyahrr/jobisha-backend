@@ -11,6 +11,7 @@ use App\Http\Requests\Candidate\CandidateUpdateSkillRequest;
 use App\Http\Requests\Candidate\CandidateUpdateWorkExperienceRequest;
 use App\Http\Requests\Candidate\CreateCandidateRequest;
 use App\Http\Requests\Candidate\RegisterCandidateRequest;
+use App\Http\Requests\Candidate\UpdateCandidateRequest;
 use App\Models\Candidate\Candidate;
 use App\Models\Candidate\CandidateEducation;
 use App\Models\Candidate\CandidateResume;
@@ -95,6 +96,47 @@ class CandidateController extends Controller
         ]);
     }
 
+    public function editWeb(Request $request, $id)
+    {
+        $candidate = ($this->service->getData($id))->getData()->result->data;
+
+        $provinces = Province::all();
+        $cities = City::all();
+        $genders = ApplicationParameter::where('type', 'genders')->get();
+        $applicationParams = ApplicationParameter::all();
+        $jobRoles = JobRole::all();
+        $jobSpecializations = JobSpecialization::all();
+
+        $breadcrumbsItems = [
+            [
+                'name' => 'Candidate',
+                'url' => route('candidate.index'),
+                'active' => false
+            ],
+            [
+                'name' => 'Detail',
+                'url' => '#',
+                'active' => true
+            ],
+        ];
+
+        $q = $request->get('q');
+        $perPage = $request->get('per_page', 10);
+        $sort = $request->get('sort');
+
+        return view('pages.candidate.form', [
+            'candidate' => $candidate,
+            'breadcrumbItems' => $breadcrumbsItems,
+            'pageTitle' => 'Candidate Detail',
+            'applicationParams' => $applicationParams,
+            'jobRoles' => $jobRoles,
+            'jobSpecializations' => $jobSpecializations,
+            'provinces' => $provinces,
+            'cities' => $cities,
+            'genders' => $genders,
+        ]);
+    }
+
     public function createWeb(Request $request)
     {
         $provinces = Province::all();
@@ -152,6 +194,14 @@ class CandidateController extends Controller
         return $this->service->all($request->all());
     }
 
+    public function update(UpdateCandidateRequest $request, $id)
+    {
+        $candidate = Candidate::find($id)->first();
+        $updateAboutMe = $this->service->processUpdateAboutMe($candidate, $request);
+
+        return redirect()->route('candidate.detail', ['id' => $candidate->id])->with('message', 'Candidate registered successfully');
+    }
+
     public function store(CreateCandidateRequest $request)
     {
         $register = $this->service->register($request, false);
@@ -192,11 +242,6 @@ class CandidateController extends Controller
         $updateSkill = $this->service->processUpdateResume($candidate, $request);
 
         return redirect()->route('candidate.detail', ['id' => $candidate->id])->with('message', 'Candidate update successfully');
-    }
-
-    public function update(Request $request, $id)
-    {
-        // 
     }
 
     public function delete(Request $request, $id)

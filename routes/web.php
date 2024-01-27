@@ -32,6 +32,7 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('candidate')->group(function () {
         Route::post('/', [CandidateController::class, 'store'])->name('candidate.store');
         
+        Route::post('/{id}', [CandidateController::class, 'update'])->name('candidate.update');
         Route::post('/del/{id}', [CandidateController::class, 'deleteWeb'])->name('candidate.delete');
 
         Route::post('/{id}/education/delete', [CandidateController::class, 'deleteEducation'])->name('candidate.delete.education');
@@ -49,6 +50,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/', [CandidateController::class, 'indexWeb'])->name('candidate.index');
         Route::get('/create', [CandidateController::class, 'createWeb'])->name('candidate.create');
         Route::get('/{id}', [CandidateController::class, 'detailWeb'])->name('candidate.detail');
+        Route::get('/{id}/edit', [CandidateController::class, 'editWeb'])->name('candidate.edit');
     });
     
     Route::prefix('job')->group(function () {

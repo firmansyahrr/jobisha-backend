@@ -39,7 +39,7 @@
                             <td class="table-report__action w-56">
                                 <div class="flex justify-center items-center">
                                     <a class="flex items-center mr-3" href="{{ route('candidate.detail', ['id' => $data->id]) }}" title="View"> <i data-lucide="glasses" class="w-4 h-4 mr-1"></i></a>
-                                    <a class="flex items-center mr-3" href="javascript:;" title="Edit"> <i data-lucide="check-square" class="w-4 h-4 mr-1"></i></a>
+                                    <a class="flex items-center mr-3" href="{{ route('candidate.edit', ['id' => $data->id]) }}" title="Edit"> <i data-lucide="check-square" class="w-4 h-4 mr-1"></i></a>
                                     <a class="flex items-center text-danger delete-button" data-action="{{ route('candidate.delete', ['id' => $data->id]) }}" data-item="{{ $data }}" href="javascript:;" title="Delete" data-tw-toggle="modal" data-tw-target="#delete-confirmation-modal"> <i data-lucide="trash-2" class="w-4 h-4 mr-1"></i></a>
                                 </div>
                             </td>
