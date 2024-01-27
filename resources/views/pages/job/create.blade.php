@@ -133,8 +133,40 @@
                         @enderror
                     </div>
 
+                    <div class="@error('job_preferences') input-form has-error @enderror mt-3">
+                        <label for="frm-date-of-birth" class="form-label">Job Preference</label>
+                        <select data-placeholder="Select your favorite actors" class="tom-select w-full"
+                            name="job_preferences[]" multiple>
+                            @foreach($applicationParams as $data)
+                            @if($data->type == 'work_preferences')
+                            <option value="{{ $data->id }}" @selected( old('career_level_id')==$data->id)>{{
+                                $data->label }}</option>
+                            @endif
+                            @endforeach
+                        </select>
+
+                        @error('job_preferences')
+                        <div class="pristine-error text-danger mt-2">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="@error('job_locations') input-form has-error @enderror mt-3">
+                        <label for="frm-date-of-birth" class="form-label">Job Location</label>
+                        <select data-placeholder="Select your favorite actors" class="tom-select w-full"
+                            name="job_locations[]" multiple>
+                            @foreach($cities as $data)
+                            <option value="{{ $data->id }}" @selected( old('career_level_id')==$data->id)>{{
+                                $data->name }}</option>
+                            @endforeach
+                        </select>
+
+                        @error('job_locations')
+                        <div class="pristine-error text-danger mt-2">{{ $message }}</div>
+                        @enderror
+                    </div>
+
                     <div class="mt-3">
-                        <label for="frm-job-description" class="form-label">About Me</label>
+                        <label for="frm-job-description" class="form-label">Job Description</label>
                         <textarea rows="4" id="frm-job-description" class="form-control"
                             name="job_description">{{ old('job_description') }}</textarea>
                         @error('job_description')

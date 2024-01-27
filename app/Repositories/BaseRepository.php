@@ -350,10 +350,10 @@ class BaseRepository
      * @param string|int
      * @return object
      */
-    public function delete($id): object|null
+    public function delete($id): bool
     {
         $object = $this->model->findOrFail($id);
-
+        
         return $object->delete();
     }
 

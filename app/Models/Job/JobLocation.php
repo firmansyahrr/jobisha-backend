@@ -15,9 +15,5 @@ class JobLocation extends Model implements Auditable
 
     protected $table = 'job_location';
 
-    protected $fillable = [
-        'job_id',
-        'province_id',
-        'city_id',
-    ];
+    protected $guarded = ['id'];
 }

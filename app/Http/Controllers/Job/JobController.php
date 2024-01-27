@@ -7,6 +7,7 @@ use App\Http\Requests\Job\CreateJobRequest;
 use App\Http\Requests\Job\CreateJobRequestWeb;
 use App\Models\Companies\Company;
 use App\Models\Job\Job;
+use App\Models\Job\JobPreference;
 use App\Models\Job\JobRole;
 use App\Models\Job\JobSpecialization;
 use App\Models\Master\ApplicationParameter;
@@ -51,6 +52,37 @@ class JobController extends Controller
         ]);
     }
 
+    public function detailWeb(Request $request, $id)
+    {
+        $job = ($this->service->getData($id))->getData()->result->data;
+
+        $applicationParams = ApplicationParameter::all();
+
+        $breadcrumbsItems = [
+            [
+                'name' => 'Job',
+                'url' => route('job.index'),
+                'active' => false
+            ],
+            [
+                'name' => 'Detail',
+                'url' => '#',
+                'active' => true
+            ],
+        ];
+
+        $q = $request->get('q');
+        $perPage = $request->get('per_page', 10);
+        $sort = $request->get('sort');
+
+        return view('pages.job.detail', [
+            'job' => $job,
+            'breadcrumbItems' => $breadcrumbsItems,
+            'pageTitle' => 'Job Detail',
+            'applicationParams' => $applicationParams,
+        ]);
+    }
+
     public function createWeb(Request $request)
     {
         $companies = Company::all();
@@ -81,7 +113,7 @@ class JobController extends Controller
             'applicationParams' => $applicationParams,
             'jobRoles' => $jobRoles,
             'jobSpecializations' => $jobSpecializations,
-            'companies' => $companies
+            'companies' => $companies,
         ]);
     }
 

@@ -62,6 +62,8 @@ class BaseService
             $execute = DB::transaction(function () use ($data) {
                 $created = $this->repo->create($data);
 
+                
+
                 return $created->refresh();
             });
 
@@ -100,7 +102,7 @@ class BaseService
                 return $this->repo->delete($id);
             });
 
-            $success['data'] = $execute;
+            $success['data'] = null;
 
             return $this->successResponse($success, __('content.message.delete.success'));
         } catch (Exception $exc) {

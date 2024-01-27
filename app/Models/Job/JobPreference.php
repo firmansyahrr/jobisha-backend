@@ -15,8 +15,5 @@ class JobPreference extends Model implements Auditable
 
     protected $table = 'job_preference';
 
-    protected $fillable = [
-        'job_id',
-        'preference_id',
-    ];
+    protected $guarded = ['id'];
 }

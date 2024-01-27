@@ -118,7 +118,6 @@ class CandidateController extends Controller
             'genders' => $genders,
         ]);
     }
-
     // =========================================================== Start of Super Admin
     public function index(Request $request)
     {
@@ -137,7 +136,7 @@ class CandidateController extends Controller
 
     public function updateEducationWeb(CandidateUpdateEducationRequest $request, $id)
     {
-        $candidate = Candidate::where('id',$id)->first();
+        $candidate = Candidate::where('id', $id)->first();
         $updateEducation = $this->service->processUpdateEducation($candidate, $request);
 
         return redirect()->route('candidate.detail', ['id' => $candidate->id])->with('message', 'Candidate update successfully');
@@ -145,7 +144,7 @@ class CandidateController extends Controller
 
     public function updateWorkExperienceWeb(CandidateUpdateWorkExperienceRequest $request, $id)
     {
-        $candidate = Candidate::where('id',$id)->first();
+        $candidate = Candidate::where('id', $id)->first();
         $updateWorkExperience = $this->service->processUpdateWorkExperience($candidate, $request);
 
         return redirect()->route('candidate.detail', ['id' => $candidate->id])->with('message', 'Candidate update successfully');
@@ -153,7 +152,7 @@ class CandidateController extends Controller
 
     public function updateSkilleWeb(CandidateUpdateSkillRequest $request, $id)
     {
-        $candidate = Candidate::where('id',$id)->first();
+        $candidate = Candidate::where('id', $id)->first();
         $updateSkill = $this->service->processUpdateSkill($candidate, $request);
 
         return redirect()->route('candidate.detail', ['id' => $candidate->id])->with('message', 'Candidate update successfully');
@@ -161,7 +160,7 @@ class CandidateController extends Controller
 
     public function updateResumeWeb(CandidateUpdateResumeRequest $request, $id)
     {
-        $candidate = Candidate::where('id',$id)->first();
+        $candidate = Candidate::where('id', $id)->first();
         $updateSkill = $this->service->processUpdateResume($candidate, $request);
 
         return redirect()->route('candidate.detail', ['id' => $candidate->id])->with('message', 'Candidate update successfully');

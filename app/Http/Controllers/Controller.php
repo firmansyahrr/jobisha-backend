@@ -15,4 +15,11 @@ class Controller extends BaseController
     {
         return $this->service->getDatatables();
     }
+
+    public function deleteWeb($id)
+    {
+        $process = $this->service->delete($id);
+        return redirect()->back()->with('message', 'Data deleted successfully');
+    }
+
 }

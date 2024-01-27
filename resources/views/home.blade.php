@@ -34,6 +34,19 @@
                         <div class="report-box zoom-in">
                             <div class="box p-5">
                                 <div class="flex">
+                                    <i data-lucide="building" class="report-box__icon text-danger"></i>
+                                    <div class="ml-auto">
+                                    </div>
+                                </div>
+                                <div class="text-3xl font-medium leading-8 mt-6">{{ $registered_company }}</div>
+                                <div class="text-base text-slate-500 mt-1">Registered Companies</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
+                        <div class="report-box zoom-in">
+                            <div class="box p-5">
+                                <div class="flex">
                                     <i data-lucide="briefcase" class="report-box__icon text-info"></i>
                                     <div class="ml-auto">
                                     </div>
