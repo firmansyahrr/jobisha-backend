@@ -83,6 +83,48 @@ class JobController extends Controller
         ]);
     }
 
+    public function editWeb(Request $request, $id)
+    {
+        $job = ($this->service->getData($id))->getData()->result->data;
+
+        $companies = Company::all();
+        $provinces = Province::all();
+        $cities = City::all();
+        $applicationParams = ApplicationParameter::all();
+        $jobSpecializations = JobSpecialization::all();
+        $jobRoles = JobRole::all();
+
+        $breadcrumbsItems = [
+            [
+                'name' => 'Job',
+                'url' => route('job.index'),
+                'active' => false
+            ],
+            [
+                'name' => 'Detail',
+                'url' => '#',
+                'active' => true
+            ],
+        ];
+
+        $q = $request->get('q');
+        $perPage = $request->get('per_page', 10);
+        $sort = $request->get('sort');
+
+        return view('pages.job.form', [
+            'job' => $job,
+            'breadcrumbItems' => $breadcrumbsItems,
+            'action' => 'edit',
+            'pageTitle' => 'Edit Job',
+            'provinces' => $provinces,
+            'cities' => $cities,
+            'applicationParams' => $applicationParams,
+            'jobRoles' => $jobRoles,
+            'jobSpecializations' => $jobSpecializations,
+            'companies' => $companies,
+        ]);
+    }
+
     public function createWeb(Request $request)
     {
         $companies = Company::all();
@@ -105,9 +147,10 @@ class JobController extends Controller
             ],
         ];
 
-        return view('pages.job.create', [
+        return view('pages.job.form', [
             'breadcrumbItems' => $breadcrumbsItems,
-            'pageTitle' => 'Candidate Create',
+            'action' => 'create',
+            'pageTitle' => 'Create Job',
             'provinces' => $provinces,
             'cities' => $cities,
             'applicationParams' => $applicationParams,
@@ -122,6 +165,12 @@ class JobController extends Controller
     {
         $this->service->create($request->all());
         return redirect()->route('job.index')->with('message', 'Job registered successfully');
+    }
+
+    public function postUpdateJobWeb(Request $request, $id)
+    {
+        $this->service->update($request->all(), $id);
+        return redirect()->route('job.detail', ['id' => $id])->with('message', 'Job registered successfully');
     }
     // ========================================================================= WEB
 

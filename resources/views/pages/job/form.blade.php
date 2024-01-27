@@ -19,6 +19,7 @@
                         <form method="POST" action="{{ route('job.store') }}" class="max-w-4xl m-auto">
                     @else
                         <form method="POST" action="{{ route('job.update', ['id' => $job->id]) }}" class="max-w-4xl m-auto">
+                            <input type="hidden" name="id" value="{{ $job->id }}" />
                 @endif
                 @csrf
                 <div class="preview">
@@ -51,8 +52,7 @@
                             <option value=""></option>
                             @foreach ($applicationParams as $data)
                                 @if ($data->type == 'job_types')
-                                    <option value="{{ $data->id }}" @selected(old('job_type_id', isset($job) ? $job->job_type_id : '') == $data->id)> {{ $data->label }}
-                                    </option>
+                                    <option value="{{ $data->id }}" @selected(old('job_type_id', isset($job) ? $job->job_type_id : '') == $data->id)> {{ $data->label }}</option>
                                 @endif
                             @endforeach
                         </select>
@@ -142,19 +142,7 @@
                             name="job_preferences[]" multiple>
                             @foreach ($applicationParams as $data)
                                 @if ($data->type == 'work_preferences')
-                                    <option value="{{ $data->id }}" @selected(
-    in_array(
-        $data->id,
-        old(
-            'job_preferences',
-            isset($job)
-                ? collect($job->job_preferences)
-                    ->pluck('id')
-                    ->toArray()
-                : [],
-        ),
-    ),
-)>{{ $data->label }}
+                                    <option value="{{ $data->id }}" @selected( in_array($data->id, old('job_preferences', isset($job) ? collect($job->job_preferences)->pluck('id')->toArray(): [])))>{{ $data->label }}
                                     </option>
                                 @endif
                             @endforeach
@@ -170,19 +158,7 @@
                         <select data-placeholder="Select your favorite actors" class="tom-select w-full"
                             name="job_locations[]" multiple>
                             @foreach ($cities as $data)
-                                <option value="{{ $data->id }}" @selected(
-    in_array(
-        $data->id,
-        old(
-            'job_locations',
-            isset($job)
-                ? collect($job->job_locations)
-                    ->pluck('id')
-                    ->toArray()
-                : [],
-        ),
-    ),
-)>{{ $data->name }}
+                                <option value="{{ $data->id }}" @selected(in_array($data->id, old('job_locations',isset($job) ? collect($job->job_locations)->pluck('id')->toArray(): [])))>{{ $data->name }}
                                 </option>
                             @endforeach
                         </select>
@@ -202,7 +178,7 @@
 
                     <div class="@error('requirement') input-form has-error @enderror mt-3">
                         <label for="frm-requirement" class="form-label">Requirement</label>
-                        <textarea rows="4" id="frm-requirement" class="form-control" name="requirement">{{ old('requirement'), isset($job) ? $job->requirement : '' }}</textarea>
+                        <textarea rows="4" id="frm-requirement" class="form-control" name="requirement">{{ old('requirement', isset($job) ? $job->requirement : '') }}</textarea>
                         @error('requirement')
                             <div class="pristine-error text-danger mt-2">{{ $message }}</div>
                         @enderror

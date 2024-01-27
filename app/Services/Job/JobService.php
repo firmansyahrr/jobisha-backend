@@ -63,7 +63,7 @@ class JobService extends BaseService
                 foreach ($preferences as $key => $preference) {
                     $jobPref = JobPreference::updateOrCreate(['job_id' => $created->id, 'preference_id' => $preference], ['job_id' => $created->id, 'preference_id' => $preference]);
                 }
-                
+
                 $cities = $data['job_locations'];
                 foreach ($cities as $key => $ct) {
                     $city = City::where('id', $ct)->get()->first();
@@ -78,6 +78,38 @@ class JobService extends BaseService
             return $this->successResponse($success, __('content.message.create.success'), 201);
         } catch (Exception $exc) {
             Log::error($exc);
+            return $this->failedResponse(null, __('content.message.create.failed'), 400);
+        }
+    }
+
+    public function update(array $data, $id)
+    {
+        try {
+            $execute = DB::transaction(function () use ($data, $id) {
+                $updated = $this->repo->update($data, $id);
+
+                $preferences = $data['job_preferences'];
+                JobPreference::where('job_id', $updated->id)->delete();
+                foreach ($preferences as $key => $preference) {
+                    $jobPref = JobPreference::updateOrCreate(['job_id' => $updated->id, 'preference_id' => $preference], ['job_id' => $updated->id, 'preference_id' => $preference]);
+                }
+
+                $cities = $data['job_locations'];
+                JobLocation::where('job_id', $updated->id)->delete();
+                foreach ($cities as $key => $ct) {
+                    $city = City::where('id', $ct)->get()->first();
+                    $jobLoc = JobLocation::updateOrCreate(['job_id' => $updated->id, 'city_id' => $city->id], ['job_id' => $updated->id, 'city_id' => $city->id, 'province_id' => $city->province_id]);
+                }
+
+                return $updated;
+            });
+
+            $success['data'] = $execute;
+
+            return $this->successResponse($success, __('content.message.update.success'));
+        } catch (Exception $exc) {
+            Log::error('Updating data from ' . get_class($this), $exc);
+
             return $this->failedResponse(null, __('content.message.create.failed'), 400);
         }
     }

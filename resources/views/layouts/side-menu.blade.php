@@ -54,6 +54,15 @@ $expl = explode('.', $r);
                     </a>
                 </li>
 
+                <li>
+                    <a href="{{ route('company.index') }}" class="side-menu @if($expl[0] == 'company') side-menu--active @endif">
+                        <div class="side-menu__icon"> <i data-lucide="building"></i> </div>
+                        <div class="side-menu__title">
+                            Company
+                        </div>
+                    </a>
+                </li>
+
             </ul>
         </nav>
         <!-- END: Side Menu -->

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\AuthenticationController;
 use App\Http\Controllers\Candidate\CandidateController;
+use App\Http\Controllers\Company\CompanyController;
 use App\Http\Controllers\EmailVerifyController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Job\JobController;
@@ -53,11 +54,23 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('job')->group(function () {
         Route::post('/', [JobController::class, 'postCreateJobWeb'])->name('job.store');
 
+        Route::post('/{id}', [JobController::class, 'postUpdateJobWeb'])->name('job.update');
         Route::post('/del/{id}', [JobController::class, 'deleteWeb'])->name('job.delete');
 
         Route::get('/', [JobController::class, 'indexWeb'])->name('job.index');
         Route::get('/create', [JobController::class, 'createWeb'])->name('job.create');
+        Route::get('/{id}/edit', [JobController::class, 'editWeb'])->name('job.edit');
         Route::get('/{id}', [JobController::class, 'detailWeb'])->name('job.detail');
+    });
+    
+    Route::prefix('company')->group(function () {
+        // Route::post('/', [JobController::class, 'postCreateJobWeb'])->name('job.store');
+
+        // Route::post('/del/{id}', [JobController::class, 'deleteWeb'])->name('job.delete');
+
+        Route::get('/', [CompanyController::class, 'indexWeb'])->name('company.index');
+        // Route::get('/create', [JobController::class, 'createWeb'])->name('job.create');
+        // Route::get('/{id}', [JobController::class, 'detailWeb'])->name('job.detail');
     });
 
 });
