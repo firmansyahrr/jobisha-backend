@@ -41,10 +41,8 @@
                         class="w-4 h-4 mr-2"></i>{{ $candidate->phone_number }}</div>
                 <div class="truncate sm:whitespace-normal flex items-center mt-3"> <i data-lucide="calendar"
                         class="w-4 h-4 mr-2"></i>{{ $candidate->place_of_birth }}, {{ date('d M Y', strtotime($candidate->birthday)); }}</div>
-                <div class="truncate sm:whitespace-normal flex items-center mt-3"> <i data-lucide="banknote"
-                        class="w-4 h-4 mr-2"></i>Rp. {{ $candidate->current_sallary }} - {{ $candidate->expected_sallary }}</div>
                 <div class="truncate sm:whitespace-normal flex items-center mt-3"> 
-                    <button class="btn btn-outline-secondary hidden sm:flex"> <i data-lucide="pencil" class="w-4 h-4 mr-2"></i> Edit Profile </button>
+                    <a href="{{ route('candidate.edit', ['id' => $candidate->id]) }}" class="btn btn-outline-secondary hidden sm:flex"> <i data-lucide="pencil" class="w-4 h-4 mr-2"></i> Edit Profile </a>
                 </div>
             </div>
         </div>

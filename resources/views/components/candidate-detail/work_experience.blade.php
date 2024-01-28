@@ -132,7 +132,6 @@
                             <label for="frm-we-till-current" class="form-label">Is Still Current ?</label>
                             <input id="frm-we-till-current" class="form-check-input" name="is_till_current"
                                 type="checkbox" value="true">
-                            <label class="form-check-label" for="frm-we-till-current">Is Still Current ?</label>
                             @error('is_till_current')
                             <div class="pristine-error text-danger mt-2">{{ $message }}</div>
                             @enderror

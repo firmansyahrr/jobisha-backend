@@ -26,7 +26,6 @@ class UpdateCandidateRequest extends FormRequest
     {
         return [
             'name' => ['required', 'max:255'],
-            'password' => ['required', 'string', 'confirmed', Password::min('8')->mixedCase()->numbers()->symbols()],
             'phone_number' => ['string', 'nullable', 'max:18'],
             'place_of_birth' => ['string', 'nullable', 'max:100'],
             'gender' => ['nullable', 'exists:application_parameters,id'],
