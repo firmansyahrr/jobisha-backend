@@ -37,7 +37,10 @@ class CreateJobRequest extends FormRequest
             'career_level_id' => ['exists:application_parameters,id'],
             'job_role_id' => ['exists:job_roles,id'],
             'job_specialization_id' => ['exists:job_specializations,id'],
-            'valid_until' => ['required', 'date_format:Y-m-d', 'after:today']
+            'valid_until' => ['required', 'date_format:Y-m-d', 'after:today'],
+
+            'job_preferences' => ['array', 'min:1', 'required', 'exists:application_parameters,id'],
+            'job_locations' => ['array', 'min:1', 'required', 'exists:cities,id'],
         ];
     }
 }
