@@ -11,11 +11,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
 use Illuminate\Support\Str;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Company extends Model implements Auditable
+class Company extends Model implements Auditable, HasMedia
 {
     use \OwenIt\Auditing\Auditable;
-    use HasFactory, AddCreatedUser, SoftDeleteWithUser;
+    use HasFactory, AddCreatedUser, SoftDeleteWithUser, InteractsWithMedia;
 
     protected $guarded = ['id', 'slug'];
 
