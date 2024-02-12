@@ -546,6 +546,10 @@ class CandidateService extends BaseService
             $candidate->educations()->where('id', $id)->delete();
 
             $success['data'] = $candidate->educations()->get();
+            
+            if($candidate->educations()->count() == 0){
+                CandidateProfileCompleteness::updateOrCreate(['activity' => 'education', 'candidate_id' => $candidate->id], ['activity' => 'education', 'candidate_id' => $candidate->id, 'is_complete' => false]);
+            }
 
             return $this->successResponse($success, __('content.message.delete.success'), 201);
         } catch (Exception $exc) {
@@ -564,6 +568,10 @@ class CandidateService extends BaseService
 
             $success['data'] = $candidate->work_experiences()->get();
 
+            if($candidate->work_experiences()->count() == 0){
+                CandidateProfileCompleteness::updateOrCreate(['activity' => 'work_experience', 'candidate_id' => $candidate->id], ['activity' => 'work_experience', 'candidate_id' => $candidate->id, 'is_complete' => false]);
+            }
+
             return $this->successResponse($success, __('content.message.delete.success'), 201);
         } catch (Exception $exc) {
             Log::error($exc->getMessage());
@@ -580,6 +588,10 @@ class CandidateService extends BaseService
             $candidate->skills()->where('id', $id)->delete();
 
             $success['data'] = $candidate->skills()->get();
+            
+            if($candidate->skills()->count() == 0){
+                CandidateProfileCompleteness::updateOrCreate(['activity' => 'skill', 'candidate_id' => $candidate->id], ['activity' => 'skill', 'candidate_id' => $candidate->id, 'is_complete' => false]);
+            }
 
             return $this->successResponse($success, __('content.message.delete.success'), 201);
         } catch (Exception $exc) {
