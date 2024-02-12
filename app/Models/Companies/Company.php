@@ -19,6 +19,8 @@ class Company extends Model implements Auditable
 
     protected $guarded = ['id', 'slug'];
 
+    protected $appends = ['photo'];
+
     protected static function boot()
     {
         parent::boot();
@@ -40,6 +42,11 @@ class Company extends Model implements Auditable
         }
 
         return $slug;
+    }
+    
+    public function getPhotoAttribute()
+    {
+        return $this->getFirstMedia('company-profile-image');
     }
 
     public function province(){
