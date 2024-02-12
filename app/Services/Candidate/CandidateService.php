@@ -142,7 +142,7 @@ class CandidateService extends BaseService
 
             $success['data'] = $candidate;
 
-            CandidateProfileCompleteness::updateOrCreate(['activity' => 'create_account', 'candidate_id' => $candidate->id], ['activity' => 'skill', 'label' => 'Create Account', 'candidate_id' => $candidate->id, 'is_complete' => true]);
+            CandidateProfileCompleteness::updateOrCreate(['activity' => 'create_account', 'candidate_id' => $candidate->id], ['activity' => 'create_account', 'label' => 'Create Account', 'candidate_id' => $candidate->id, 'is_complete' => true]);
 
             return $this->successResponse($success, __('content.message.register.success'), 201);
         } catch (Exception $exc) {
@@ -374,7 +374,7 @@ class CandidateService extends BaseService
 
         $success['data'] = $candidate->refresh();
 
-        CandidateProfileCompleteness::updateOrCreate(['activity' => 'profile_completeness', 'candidate_id' => $candidate->id], ['activity' => 'skill', 'label' => 'Complete Basic Info', 'candidate_id' => $candidate->id, 'is_complete' => true]);
+        CandidateProfileCompleteness::updateOrCreate(['activity' => 'profile_completeness', 'candidate_id' => $candidate->id], ['activity' => 'profile_completeness', 'label' => 'Complete Basic Info', 'candidate_id' => $candidate->id, 'is_complete' => true]);
 
         return $this->successResponse($success, __('content.message.update.success'), 201);
     }
@@ -417,7 +417,7 @@ class CandidateService extends BaseService
 
         $success['data'] = $candidate->educations()->get();
 
-        CandidateProfileCompleteness::updateOrCreate(['activity' => 'education', 'candidate_id' => $candidate->id], ['activity' => 'skill', 'label' => 'Add Education', 'candidate_id' => $candidate->id, 'is_complete' => true]);
+        CandidateProfileCompleteness::updateOrCreate(['activity' => 'education', 'candidate_id' => $candidate->id], ['activity' => 'education', 'label' => 'Add Education', 'candidate_id' => $candidate->id, 'is_complete' => true]);
 
         return $this->successResponse($success, __('content.message.update.success'), 201);
     }
@@ -462,7 +462,7 @@ class CandidateService extends BaseService
 
         $success['data'] = $candidate->work_experiences()->get();
 
-        CandidateProfileCompleteness::updateOrCreate(['activity' => 'work_experience', 'candidate_id' => $candidate->id], ['activity' => 'skill', 'label' => 'Add Work Experience', 'candidate_id' => $candidate->id, 'is_complete' => true]);
+        CandidateProfileCompleteness::updateOrCreate(['activity' => 'work_experience', 'candidate_id' => $candidate->id], ['activity' => 'work_experience', 'label' => 'Add Work Experience', 'candidate_id' => $candidate->id, 'is_complete' => true]);
 
         return $this->successResponse($success, __('content.message.update.success'), 201);
     }
