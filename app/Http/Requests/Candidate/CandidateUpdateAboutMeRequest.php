@@ -35,4 +35,16 @@ class CandidateUpdateAboutMeRequest extends FormRequest
             'photo' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:1024'],
         ];
     }
+
+    
+
+    protected function prepareForValidation(): void
+    {
+        $photo = $this->photo;
+        if($photo == "null" || $photo == ""){
+            $this->merge([
+                'photo' => null
+            ]);
+        }
+    }
 }
