@@ -42,11 +42,21 @@ class UpdateCandidateRequest extends FormRequest
 
     protected function prepareForValidation(): void
     {
+        $arr = [];
+
         $birthday = $this->birthday;
         $formatted = Carbon::createFromFormat('d M, Y', $birthday)->toDateString();
 
-        $this->merge([
-            'birthday' => $formatted
-        ]);
+        $photo = $this->photo;
+        if($photo == "null" || $photo == ""){
+            $this->merge([
+                'birthday' => $formatted,
+                'photo' => null
+            ]);
+        } else {   
+            $this->merge([
+                'birthday' => $formatted
+            ]);
+        }
     }
 }
