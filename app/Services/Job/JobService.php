@@ -21,7 +21,7 @@ class JobService extends BaseService
         $this->object = 'Job';
         $this->filterClass = $filter;
         $this->indexWith = [
-            'company',
+            'company.company_industry',
             'job_type',
             'career_level',
             'job_role',
