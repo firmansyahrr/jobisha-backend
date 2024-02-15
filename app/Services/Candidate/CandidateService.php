@@ -64,7 +64,6 @@ class CandidateService extends BaseService
     {
         try {
             $user = $this->userRepo->find($request->user()->id);
-
             // $user->getMedia();
 
             $success['data'] = $user;

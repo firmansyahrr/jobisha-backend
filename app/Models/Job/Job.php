@@ -2,11 +2,13 @@
 
 namespace App\Models\Job;
 
+use App\Models\Candidate\CandidateJob;
 use App\Models\Companies\Company;
 use App\Models\Master\ApplicationParameter;
 use App\Models\Master\City;
 use App\Traits\AddCreatedUser;
 use App\Traits\SoftDeleteWithUser;
+use Auth;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
@@ -76,21 +78,53 @@ class Job extends Model implements Auditable
         return $this->belongsTo(JobSpecialization::class);
     }
 
-    public function job_preferences(){
+    public function job_preferences()
+    {
         return $this->hasManyThrough(ApplicationParameter::class, JobPreference::class, 'job_id', 'id', 'id', 'preference_id');
     }
 
-    public function job_locations(){
+    public function job_locations()
+    {
         return $this->hasManyThrough(City::class, JobLocation::class, 'job_id', 'id', 'id', 'city_id');
     }
 
     public function getIsSavedAttribute()
     {
-        return false;
+        $isSaved = false;
+        $authCheck = auth('sanctum')->check();
+
+        if ($authCheck) {
+            $user = auth('sanctum')->user();
+            $candidateId = $user->candidate_id;
+
+            if ($candidateId != null) {
+                $count = CandidateJob::where('candidate_id', $candidateId)->where('job_id', $this->id)->where('type', 'saved')->count();
+                if ($count > 0) {
+                    $isSaved = true;
+                }
+            }
+        }
+
+        return $isSaved;
     }
 
     public function getIsAppliedAttribute()
     {
-        return false;
+        $isApplied = false;
+        $authCheck = auth('sanctum')->check();
+
+        if ($authCheck) {
+            $user = auth('sanctum')->user();
+            $candidateId = $user->candidate_id;
+
+            if ($candidateId != null) {
+                $count = CandidateJob::where('candidate_id', $candidateId)->where('job_id', $this->id)->where('type', 'applied')->count();
+                if ($count > 0) {
+                    $isApplied = true;
+                }
+            }
+        }
+
+        return $isApplied;
     }
 }
