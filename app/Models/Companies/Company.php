@@ -59,7 +59,7 @@ class Company extends Model implements Auditable, HasMedia
         return $this->belongsTo(City::class);
     }
 
-    public function employe_size(){
+    public function employee_size(){
         return $this->belongsTo(ApplicationParameter::class, 'employee_size_id', 'id');
     }
 

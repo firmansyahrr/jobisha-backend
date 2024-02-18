@@ -25,14 +25,14 @@ class CompanyService extends BaseService
         $this->indexWith = [
             'province',
             'city',
-            'employe_size',
+            'employee_size',
             'company_industry',
         ];
 
         $this->detailWith = [
             'province',
             'city',
-            'employe_size',
+            'employee_size',
             'company_industry',
         ];
 
