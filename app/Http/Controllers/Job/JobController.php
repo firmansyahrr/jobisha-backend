@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Job;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Job\CreateJobRequest;
 use App\Http\Requests\Job\CreateJobRequestWeb;
+use App\Models\Candidate\CandidateJob;
 use App\Models\Companies\Company;
 use App\Models\Job\Job;
 use App\Models\Job\JobPreference;
@@ -56,6 +57,18 @@ class JobController extends Controller
     {
         $job = ($this->service->getData($id))->getData()->result->data;
 
+
+        $q = $request->get('q');
+        $perPage = $request->get('per_page', 10);
+        $sort = $request->get('sort');
+        $appliedCandidates = QueryBuilder::for(CandidateJob::class)
+            ->allowedIncludes(['candidate'])
+            ->latest()
+            ->where('job_id', $id)
+            ->paginate($perPage)
+            ->appends(['per_page' => $perPage, 'q' => $q, 'sort' => $sort]);
+        ;
+
         $applicationParams = ApplicationParameter::all();
 
         $breadcrumbsItems = [
@@ -77,6 +90,7 @@ class JobController extends Controller
 
         return view('pages.job.detail', [
             'job' => $job,
+            'appliedCandidates' => $appliedCandidates,
             'breadcrumbItems' => $breadcrumbsItems,
             'pageTitle' => 'Job Detail',
             'applicationParams' => $applicationParams,

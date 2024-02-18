@@ -16,44 +16,49 @@ class CompanyController extends Controller
         $this->service = $service;
     }
 
-        // ========================================================================= WEB
-        public function indexWeb(Request $request)
-        {
-            $breadcrumbsItems = [
-                [
-                    'name' => 'Company',
-                    'url' => route('company.index'),
-                    'active' => true
-                ],
-            ];
-    
-            $q = $request->get('q');
-            $perPage = $request->get('per_page', 10);
-            $sort = $request->get('sort');
-    
-            $datas = QueryBuilder::for(Company::class)
-                ->allowedSorts(['name'])
-                ->latest()
-                ->paginate($perPage)
-                ->appends(['per_page' => $perPage, 'q' => $q, 'sort' => $sort]);
-    
-            return view('pages.company.index', [
-                'companies' => $datas,
-                'breadcrumbItems' => $breadcrumbsItems,
-                'pageTitle' => 'Job'
-            ]);
-        }
-        // ========================================================================= WEB
+    // ========================================================================= WEB
+    public function indexWeb(Request $request)
+    {
+        $breadcrumbsItems = [
+            [
+                'name' => 'Company',
+                'url' => route('company.index'),
+                'active' => true
+            ],
+        ];
+
+        $q = $request->get('q');
+        $perPage = $request->get('per_page', 10);
+        $sort = $request->get('sort');
+
+        $datas = QueryBuilder::for(Company::class)
+            ->allowedSorts(['name'])
+            ->latest()
+            ->paginate($perPage)
+            ->appends(['per_page' => $perPage, 'q' => $q, 'sort' => $sort]);
+
+        return view('pages.company.index', [
+            'companies' => $datas,
+            'breadcrumbItems' => $breadcrumbsItems,
+            'pageTitle' => 'Job'
+        ]);
+    }
+
+    public function detailWeb(Request $request)
+    {
+        // 
+    }
+    // ========================================================================= WEB
 
     public function index(Request $request)
     {
-        
+
         return $this->service->all($request->all());
     }
 
     public function getBySlug(Request $request, $slug)
     {
-        
+
         return $this->service->getBySlug($slug);
     }
 

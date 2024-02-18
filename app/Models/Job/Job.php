@@ -127,4 +127,14 @@ class Job extends Model implements Auditable
 
         return $isApplied;
     }
+
+    public function applied_candidates()
+    {
+        return $this->hasMany(CandidateJob::class)->where('type', 'applied');
+    }
+
+    public function saved_candidates()
+    {
+        return $this->hasMany(CandidateJob::class)->where('type', 'saved');
+    }
 }

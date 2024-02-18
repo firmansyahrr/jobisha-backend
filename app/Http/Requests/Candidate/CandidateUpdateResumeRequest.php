@@ -25,7 +25,7 @@ class CandidateUpdateResumeRequest extends FormRequest
         return [
             'resume' => [
                 'required',
-                File::types(['pdf'])
+                File::types(['pdf', 'doc', 'docx'])
                     ->max('5mb')
             ]
         ];

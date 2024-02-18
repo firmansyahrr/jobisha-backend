@@ -166,4 +166,44 @@
         </div>
         <!-- END: FAQ Content -->
     </div>
+
+    <!-- BEGIN: Striped Rows -->
+    <div class="intro-y box mt-5">
+        <div class="p-5" id="striped-rows-table">
+            <div class="preview">
+                <div class="flex items-center p-5 border-b border-slate-200/60 dark:border-darkmode-400">
+                    <h2 class="font-medium text-base mr-auto">
+                        Candidate Applied
+                    </h2>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th class="whitespace-nowrap">#</th>
+                                <th class="whitespace-nowrap">Candidate Name</th>
+                                <th class="whitespace-nowrap">Applied Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse ($appliedCandidates as $key => $data)
+                            <tr>
+                                <td>{{ $appliedCandidates->firstItem() + $key }}</td>
+                                <td>{{ $data->candidate->name }}</td>
+                                <td>{{ $data->created_at }}</td>
+                            </tr>
+                            @empty
+                            <tr>
+                                <td colspan="3">
+                                    <center>No Data</center>
+                                </td>
+                            </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                    <x-table-footer :per-page-route-name="'job.detail'" :data="$appliedCandidates" :route-attribute="['id' => $job->id ] "/>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection

@@ -6,6 +6,7 @@ use App\Filters\Job\JobFilter;
 use App\Models\Job\JobLocation;
 use App\Models\Job\JobPreference;
 use App\Models\Master\City;
+use App\Repositories\Candidate\CandidateJobRepository;
 use App\Repositories\Job\JobRepository;
 use App\Services\BaseService;
 use Exception;
@@ -14,12 +15,15 @@ use Illuminate\Support\Facades\Log;
 
 class JobService extends BaseService
 {
-    public function __construct(JobRepository $repo, JobFilter $filter)
+    private $candidateJobRepo;
+
+    public function __construct(JobRepository $repo, JobFilter $filter, CandidateJobRepository $candidateJobRepo)
     {
         parent::__construct();
         $this->repo = $repo;
         $this->object = 'Job';
         $this->filterClass = $filter;
+        $this->candidateJobRepo = $candidateJobRepo;
         $this->indexWith = [
             'company.company_industry',
             'job_type',
@@ -52,6 +56,16 @@ class JobService extends BaseService
         return $this->successResponse($success, __('content.message.default.success'));
     }
 
+    public function getAppliedJob($id)
+    {
+        $data = $this->candidateJobRepo->with(['candidate'])->getWhereIn('job_id', [$id]);
+        $success['data'] = [];
+        if (isset($data)) {
+            $success['data'] = $data;
+        }
+
+        return $this->successResponse($success, __('content.message.default.success'));
+    }
 
     public function create(array $data)
     {

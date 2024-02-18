@@ -28,6 +28,7 @@
                             <th class="whitespace-nowrap">Website</th>
                             <th class="whitespace-nowrap">Address</th>
                             <th class="whitespace-nowrap">Phone Number</th>
+                            <th class="whitespace-nowrap">Description</th>
                             <th class="whitespace-nowrap">Action</th>
                         </tr>
                     </thead>
@@ -40,6 +41,7 @@
                             <td>{{ $data->website }}</td>
                             <td>{{ $data->address }}</td>
                             <td>{{ $data->phone_number }}</td>
+                            <td>{{ $data->description }}</td>
                             <td class="table-report__action w-56">
                                 <div class="flex justify-center items-center">
                                     
