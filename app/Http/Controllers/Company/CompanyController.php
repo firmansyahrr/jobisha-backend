@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Company;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Company\RegisterEmployerRequest;
 use App\Models\Companies\Company;
+use App\Models\Job\Job;
 use App\Services\Company\CompanyService;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -44,9 +45,43 @@ class CompanyController extends Controller
         ]);
     }
 
-    public function detailWeb(Request $request)
+    public function detailWeb(Request $request, $id)
     {
-        // 
+
+        $company = ($this->service->getData($id))->getData()->result->data;
+
+
+        $q = $request->get('q');
+        $perPage = $request->get('per_page', 10);
+        $sort = $request->get('sort');
+
+        $jobs = QueryBuilder::for(Job::class)
+            ->allowedIncludes(['candidate'])
+            ->latest()
+            ->where('company_id', $id)
+            ->paginate($perPage)
+            ->appends(['per_page' => $perPage, 'q' => $q, 'sort' => $sort]);
+        ;
+
+        $breadcrumbsItems = [
+            [
+                'name' => 'Company',
+                'url' => route('company.index'),
+                'active' => false
+            ],
+            [
+                'name' => 'Detail',
+                'url' => '#',
+                'active' => true
+            ],
+        ];
+
+        return view('pages.company.detail', [
+            'company' => $company,
+            'jobs' => $jobs,
+            'breadcrumbItems' => $breadcrumbsItems,
+            'pageTitle' => 'Job Detail'
+        ]);
     }
     // ========================================================================= WEB
 

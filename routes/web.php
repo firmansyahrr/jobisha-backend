@@ -72,7 +72,7 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('/', [CompanyController::class, 'indexWeb'])->name('company.index');
         // Route::get('/create', [JobController::class, 'createWeb'])->name('job.create');
-        // Route::get('/{id}', [JobController::class, 'detailWeb'])->name('job.detail');
+        Route::get('/{id}', [CompanyController::class, 'detailWeb'])->name('company.detail');
     });
 
 });

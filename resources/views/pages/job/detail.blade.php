@@ -201,7 +201,7 @@
                             @endforelse
                         </tbody>
                     </table>
-                    <x-table-footer :per-page-route-name="'job.detail'" :data="$appliedCandidates" :route-attribute="['id' => $job->id ] "/>
+                    <x-table-footer :per-page-route-name="'job.detail'" :data="$appliedCandidates" :route-attribute="['id' => $job->id ]"/>
                 </div>
             </div>
         </div>

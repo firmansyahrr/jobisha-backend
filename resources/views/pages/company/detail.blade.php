@@ -18,151 +18,110 @@
                     <a class="flex items-center font-medium" href="#">
                         <i data-lucide="activity" class="w-4 h-4 mr-2"></i> Company Name
                     </a>
-                    {{ $job->company->name }}
+                    {{ $company->name }}
 
                     <br />
 
                     <a class="flex items-center mt-5" href="#">
-                        <i data-lucide="box" class="w-4 h-4 mr-2"></i> Job Title
+                        <i data-lucide="activity" class="w-4 h-4 mr-2"></i> Website
                     </a>
-                    {{ $job->title }}
+                    {{ $company->website }}
 
                     <br />
 
                     <a class="flex items-center mt-5" href="#">
-                        <i data-lucide="box" class="w-4 h-4 mr-2"></i> Job Type
+                        <i data-lucide="activity" class="w-4 h-4 mr-2"></i> Email
                     </a>
-                    {{ $job->job_type->label }}
+                    {{ $company->email }}
 
                     <br />
 
                     <a class="flex items-center mt-5" href="#">
-                        <i data-lucide="box" class="w-4 h-4 mr-2"></i> Year Experience
+                        <i data-lucide="activity" class="w-4 h-4 mr-2"></i> Since
                     </a>
-                    {{ $job->year_of_experience }} yr
+                    {{ $company->since_year }}
 
                     <br />
 
                     <a class="flex items-center mt-5" href="#">
-                        <i data-lucide="box" class="w-4 h-4 mr-2"></i> Career Level
+                        <i data-lucide="activity" class="w-4 h-4 mr-2"></i> Company Phone Number
                     </a>
-                    {{ $job->career_level->label }}
+                    {{ $company->phone_number }}
 
                     <br />
 
                     <a class="flex items-center mt-5" href="#">
-                        <i data-lucide="box" class="w-4 h-4 mr-2"></i> Job Specialization
+                        <i data-lucide="activity" class="w-4 h-4 mr-2"></i> Address
                     </a>
-                    {{ $job->job_specialization->label }}
+                    {{ $company->address }}, {{ $company->province->name }}, {{ $company->city->name }},
+                    {{ $company->zip_code }}
 
                     <br />
 
                     <a class="flex items-center mt-5" href="#">
-                        <i data-lucide="box" class="w-4 h-4 mr-2"></i> Job Role
+                        <i data-lucide="activity" class="w-4 h-4 mr-2"></i> description
                     </a>
-                    {{ $job->job_role->label }}
+                    {{ $company->description }}
 
                     <br />
 
-                    <a class="flex items-center mt-5" href="#">
-                        <i data-lucide="box" class="w-4 h-4 mr-2"></i> Job Preferences
-                    </a>
-                    @foreach ($job->job_preferences as $item)
-                        <span
-                            class="px-2 py-1 rounded-full border text-slate-600 dark:border-darkmode-100/40 dark:text-slate-300 mr-1">{{ $item->label }}</span>
-                    @endforeach
-
-                    <br />
-
-                    <a class="flex items-center mt-5" href="#">
-                        <i data-lucide="box" class="w-4 h-4 mr-2"></i> Job Location
-                    </a>
-                    @foreach ($job->job_locations as $item)
-                        <span
-                            class="px-2 py-1 rounded-full border text-slate-600 dark:border-darkmode-100/40 dark:text-slate-300 mr-1">{{ $item->name }}</span>
-                    @endforeach
                 </div>
             </div>
         </div>
         <!-- END: FAQ Menu -->
+
         <!-- BEGIN: FAQ Content -->
         <div class="intro-y col-span-12 lg:col-span-8 xl:col-span-9">
-
             <div class="intro-y box lg:mt-5">
                 <div class="flex items-center p-5 border-b border-slate-200/60 dark:border-darkmode-400">
                     <h2 class="font-medium text-base mr-auto">
-                        Job Description
+                        Job List
                     </h2>
                 </div>
                 <div id="faq-accordion-1" class="accordion p-5">
-                    <div id="faq-accordion-content-1" class="accordion-header">
-                        <button class="accordion-button" type="button" data-tw-toggle="collapse" data-tw-target="#faq-accordion-collapse-1" aria-expanded="true" aria-controls="faq-accordion-collapse-1">
-                            {!! $job->job_description !!}
-                        </button>
+                    <div class="overflow-x-auto">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th class="whitespace-nowrap">#</th>
+                                    <th class="whitespace-nowrap">Company</th>
+                                    <th class="whitespace-nowrap">Title</th>
+                                    <th class="whitespace-nowrap">Job Type</th>
+                                    <th class="whitespace-nowrap">Specialization</th>
+                                    <th class="whitespace-nowrap">Role</th>
+                                    <th class="whitespace-nowrap">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse ($jobs as $key => $data)
+                                    <tr>
+                                        <td>{{ $jobs->firstItem() + $key }}</td>
+                                        <td>{{ $data->company->name }}</td>
+                                        <td>{{ $data->title }}</td>
+                                        <td>{{ $data->job_type->label }}</td>
+                                        <td>{{ $data->job_specialization->label }}</td>
+                                        <td>{{ $data->job_role->label }}</td>
+                                        <td class="table-report__action w-56">
+                                            <div class="flex justify-center items-center">
+                                                <a class="flex items-center mr-3"
+                                                    href="{{ route('job.detail', ['id' => $data->id]) }}" title="View">
+                                                    <i data-lucide="glasses" class="w-4 h-4 mr-1"></i></a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="5">
+                                            No Data
+                                        </td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
-
-            <div class="intro-y box lg:mt-5">
-                <div class="flex items-center p-5 border-b border-slate-200/60 dark:border-darkmode-400">
-                    <h2 class="font-medium text-base mr-auto">
-                        Requirement
-                    </h2>
-                </div>
-                <div id="faq-accordion-1" class="accordion p-5">
-                    <div id="faq-accordion-content-1" class="accordion-header">
-                        <button class="accordion-button" type="button" data-tw-toggle="collapse" data-tw-target="#faq-accordion-collapse-1" aria-expanded="true" aria-controls="faq-accordion-collapse-1">
-                            {!! $job->requirement !!}
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="intro-y box lg:mt-5">
-                <div class="flex items-center p-5 border-b border-slate-200/60 dark:border-darkmode-400">
-                    <h2 class="font-medium text-base mr-auto">
-                        Responsibilities
-                    </h2>
-                </div>
-                <div id="faq-accordion-1" class="accordion p-5">
-                    <div id="faq-accordion-content-1" class="accordion-header">
-                        <button class="accordion-button" type="button" data-tw-toggle="collapse" data-tw-target="#faq-accordion-collapse-1" aria-expanded="true" aria-controls="faq-accordion-collapse-1">
-                            {!! $job->responsibilities !!}
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="intro-y box lg:mt-5">
-                <div class="flex items-center p-5 border-b border-slate-200/60 dark:border-darkmode-400">
-                    <h2 class="font-medium text-base mr-auto">
-                        Benefit
-                    </h2>
-                </div>
-                <div id="faq-accordion-1" class="accordion p-5">
-                    <div id="faq-accordion-content-1" class="accordion-header">
-                        <button class="accordion-button" type="button" data-tw-toggle="collapse" data-tw-target="#faq-accordion-collapse-1" aria-expanded="true" aria-controls="faq-accordion-collapse-1">
-                            {!! $job->benefit !!}
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="intro-y box lg:mt-5">
-                <div class="flex items-center p-5 border-b border-slate-200/60 dark:border-darkmode-400">
-                    <h2 class="font-medium text-base mr-auto">
-                        Qualification
-                    </h2>
-                </div>
-                <div id="faq-accordion-1" class="accordion p-5">
-                    <div id="faq-accordion-content-1" class="accordion-header">
-                        <button class="accordion-button" type="button" data-tw-toggle="collapse" data-tw-target="#faq-accordion-collapse-1" aria-expanded="true" aria-controls="faq-accordion-collapse-1">
-                            {!! $job->qualification !!}
-                        </button>
-                    </div>
-                </div>
-            </div>
-
+            <x-table-footer :per-page-route-name="'company.detail'" :data="$jobs" :route-attribute="['id' => $company->id ] "/>
         </div>
         <!-- END: FAQ Content -->
     </div>

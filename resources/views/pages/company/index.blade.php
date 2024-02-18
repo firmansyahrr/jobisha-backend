@@ -44,7 +44,7 @@
                             <td>{{ $data->description }}</td>
                             <td class="table-report__action w-56">
                                 <div class="flex justify-center items-center">
-                                    
+                                    <a class="flex items-center mr-3" href="{{ route('company.detail', ['id' => $data->id]) }}" title="View"> <i data-lucide="glasses" class="w-4 h-4 mr-1"></i></a>
                                 </div>
                             </td>
                         </tr>
