@@ -118,7 +118,7 @@
                 </div>
             </div>
 
-            <div class="intro-y box lg:mt-5">
+            {{-- <div class="intro-y box lg:mt-5">
                 <div class="flex items-center p-5 border-b border-slate-200/60 dark:border-darkmode-400">
                     <h2 class="font-medium text-base mr-auto">
                         Responsibilities
@@ -131,7 +131,7 @@
                         </button>
                     </div>
                 </div>
-            </div>
+            </div> --}}
 
             <div class="intro-y box lg:mt-5">
                 <div class="flex items-center p-5 border-b border-slate-200/60 dark:border-darkmode-400">
@@ -148,7 +148,7 @@
                 </div>
             </div>
 
-            <div class="intro-y box lg:mt-5">
+            {{-- <div class="intro-y box lg:mt-5">
                 <div class="flex items-center p-5 border-b border-slate-200/60 dark:border-darkmode-400">
                     <h2 class="font-medium text-base mr-auto">
                         Qualification
@@ -161,7 +161,7 @@
                         </button>
                     </div>
                 </div>
-            </div>
+            </div> --}}
 
         </div>
         <!-- END: FAQ Content -->
@@ -189,8 +189,8 @@
                             @forelse ($appliedCandidates as $key => $data)
                             <tr>
                                 <td>{{ $appliedCandidates->firstItem() + $key }}</td>
-                                <td>{{ $data->candidate->name }}</td>
-                                <td>{{ $data->created_at }}</td>
+                                <td><a href="{{ route('candidate.detail', ['id' => $data->candidate->id]) }}" target="_blank">{{ $data->candidate->name }}</a></td>
+                                <td>{{ $data->created_at->diffForHumans() }}</td>
                             </tr>
                             @empty
                             <tr>
