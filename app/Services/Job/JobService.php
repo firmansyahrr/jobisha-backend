@@ -36,6 +36,7 @@ class JobService extends BaseService
 
         $this->detailWith = [
             'company.company_industry',
+            'company.employee_size',
             'job_type',
             'career_level',
             'job_role',
