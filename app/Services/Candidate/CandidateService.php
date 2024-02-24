@@ -214,7 +214,7 @@ class CandidateService extends BaseService
                 throw new Exception(__('content.message.job.unsave.not_save_yet'));
             }
 
-            $candidate->job()->where('job_id', $job->id)->delete();
+            $candidate->job()->where('job_id', $job->id)->where('candidate_id', $candidate->id)->where('type', 'saved')->delete();
 
             $success['data'] = $candidate->refresh();
 
