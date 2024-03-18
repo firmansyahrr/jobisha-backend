@@ -85,4 +85,31 @@ class CompanyService extends BaseService
             return $this->failedResponse([], $exc->getMessage());
         }
     }
+
+    public function createCompany($request)
+    {
+        try {
+            $execute = DB::transaction(function () use ($request) {
+                $data = $request->all();
+
+                $company = $this->repo->create($data);
+
+                // Insert company profile pictures
+                if ($request->hasFile('photo')) {
+                    $company->clearMediaCollection('company-profile-image');
+                    $company->addMediaFromRequest('photo')->toMediaCollection('company-profile-image');
+                }
+
+                return $company->refresh();
+            });
+
+            $success['data'] = $execute;
+
+            return $this->successResponse($success, __('content.message.create.success'), 201);
+        } catch (Exception $exc) {
+            Log::error($exc);
+            // Log::error('Creating data from ' . get_class($this), $exc->getMessage());
+            return $this->failedResponse(null, __('content.message.create.failed'), 400);
+        }
+    }
 }

@@ -3,9 +3,13 @@
 namespace App\Http\Controllers\Company;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Company\CompanyCreateRequest;
 use App\Http\Requests\Company\RegisterEmployerRequest;
 use App\Models\Companies\Company;
 use App\Models\Job\Job;
+use App\Models\Master\ApplicationParameter;
+use App\Models\Master\City;
+use App\Models\Master\Province;
 use App\Services\Company\CompanyService;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -82,6 +86,41 @@ class CompanyController extends Controller
             'breadcrumbItems' => $breadcrumbsItems,
             'pageTitle' => 'Job Detail'
         ]);
+    }
+
+    public function createWeb(Request $request)
+    {
+        $provinces = Province::all();
+        $cities = City::all();
+        $applicationParams = ApplicationParameter::all();
+
+        $breadcrumbsItems = [
+            [
+                'name' => 'Job',
+                'url' => route('job.index'),
+                'active' => false
+            ],
+            [
+                'name' => 'Create',
+                'url' => '#',
+                'active' => true
+            ],
+        ];
+
+        return view('pages.company.create', [
+            'breadcrumbItems' => $breadcrumbsItems,
+            'action' => 'create',
+            'pageTitle' => 'Create Job',
+            'provinces' => $provinces,
+            'cities' => $cities,
+            'applicationParams' => $applicationParams,
+        ]);
+    }
+
+    public function postCreateWeb(CompanyCreateRequest $request)
+    {
+        $this->service->createCompany($request);
+        return redirect()->route('company.index')->with('message', 'Company registered successfully');
     }
     // ========================================================================= WEB
 

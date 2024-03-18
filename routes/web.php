@@ -66,12 +66,12 @@ Route::middleware(['auth'])->group(function () {
     });
     
     Route::prefix('company')->group(function () {
-        // Route::post('/', [JobController::class, 'postCreateJobWeb'])->name('job.store');
+        Route::post('/', [CompanyController::class, 'postCreateWeb'])->name('company.store');
 
         // Route::post('/del/{id}', [JobController::class, 'deleteWeb'])->name('job.delete');
 
         Route::get('/', [CompanyController::class, 'indexWeb'])->name('company.index');
-        // Route::get('/create', [JobController::class, 'createWeb'])->name('job.create');
+        Route::get('/create', [CompanyController::class, 'createWeb'])->name('company.create');
         Route::get('/{id}', [CompanyController::class, 'detailWeb'])->name('company.detail');
     });
 

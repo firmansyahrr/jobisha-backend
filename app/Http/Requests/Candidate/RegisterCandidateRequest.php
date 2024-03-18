@@ -29,6 +29,7 @@ class RegisterCandidateRequest extends FormRequest
             'phone_number' => ['string', 'nullable'],
             'place_of_birth' => ['string', 'nullable'],
             'gender' => ['string', 'in:male,female', 'nullable'],
+            'agreement' => ['accepted']
         ];
     }
 }

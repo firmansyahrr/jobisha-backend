@@ -7,7 +7,7 @@
 @section('subcontent')
 <div class="intro-y flex flex-col sm:flex-row items-center mt-8">
     <h2 class="text-lg font-medium mr-auto">
-        New Job
+        New Company
     </h2>
 </div>
 
@@ -15,197 +15,138 @@
     <!-- BEGIN: Vertical Form -->
     <div class="intro-y box">
         <div id="vertical-form" class="p-5">
-            <form method="POST" action="{{ route('job.store') }}" class="max-w-4xl m-auto"
-                enctype="multipart/form-data">
+            <form method="POST" action="{{ route('company.store') }}" class="max-w-4xl m-auto" enctype="multipart/form-data">
                 @csrf
-                <div class="preview">
-                    <div class="">
-                        <label for="frm-company" class="form-label">Company</label>
-                        <select class="tom-select w-full" name="company_id">
+                <div class="preview">                    
+                    <div class=" @error('photo') input-form has-error @enderror">
+                        <label for="frm-photo" class="form-label">Photo</label>
+                        <div class="fallback"> <input name="photo" type="file" /> </div>
+                        @error('photo')
+                        <div class="pristine-error text-danger mt-2">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="@error('name') input-form has-error @enderror mt-3">
+                        <label for="frm-name" class="form-label">Name</label>
+                        <input id="frm-job-title" name="name" type="text" class="form-control" value="{{ old('name') }}">
+                        @error('name')
+                        <div class="pristine-error text-danger mt-2">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="@error('email') input-form has-error @enderror mt-3">
+                        <label for="frm-email" class="form-label">Email</label>
+                        <input id="frm-email" name="email" type="email" class="form-control" value="{{ old('email') }}">
+                        @error('email')
+                        <div class="pristine-error text-danger mt-2">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="@error('website') input-form has-error @enderror mt-3">
+                        <label for="frm-website" class="form-label">Website</label>
+                        <input id="frm-website" name="website" type="text" class="form-control" value="{{ old('website') }}">
+                        @error('website')
+                        <div class="pristine-error text-danger mt-2">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="@error('since_year') input-form has-error @enderror mt-3">
+                        <label for="frm-since_year" class="form-label">Since Year</label>
+                        <input id="frm-since_year" name="since_year" type="text" class="form-control" value="{{ old('since_year') }}">
+                        @error('since_year')
+                        <div class="pristine-error text-danger mt-2">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="@error('description') input-form has-error @enderror mt-3">
+                        <label for="frm-description" class="form-label">Description</label>
+                        <textarea rows="4" id="frm-description" class="form-control" name="description">{{ old('description') }}</textarea>
+                        @error('description')
+                        <div class="pristine-error text-danger mt-2">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="@error('phone_number') input-form has-error @enderror mt-3">
+                        <label for="frm-phone_number" class="form-label">Phone Number</label>
+                        <input id="frm-phone_number" name="phone_number" type="text" class="form-control" value="{{ old('phone_number') }}">
+                        @error('phone_number')
+                        <div class="pristine-error text-danger mt-2">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="mt-3">
+                        <label for="frm-province" class="form-label">Province</label>
+                        <select class="tom-select w-full" name="province_id">
                             <option value=""></option>
-                            @foreach($companies as $data)
-                            <option value="{{ $data->id }}" @selected( old('company_id')==$data->id)>{{ $data->name }}
+                            @foreach($provinces as $data)
+                            <option value="{{ $data->id }}" @selected( old('province_id', (isset($candidate)) ? $candidate->province_id : '')==$data->id)>{{ $data->name }}
                             </option>
                             @endforeach
                         </select>
-                        @error('company_id')
-                        <div class="pristine-error text-danger mt-2">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <div class="@error('title') input-form has-error @enderror mt-3">
-                        <label for="frm-job-title" class="form-label">Job Title</label>
-                        <input id="frm-job-title" name="title" type="text" class="form-control"
-                            value="{{ old('title') }}">
-                        @error('title')
+                        @error('province_id')
                         <div class="pristine-error text-danger mt-2">{{ $message }}</div>
                         @enderror
                     </div>
 
                     <div class="mt-3">
-                        <label for="frm-job_type" class="form-label">Job Type</label>
-                        <select class="tom-select w-full" name="job_type_id">
+                        <label for="frm-city" class="form-label">City</label>
+                        <select class="tom-select w-full" name="city_id">
                             <option value=""></option>
-                            @foreach($applicationParams as $data)
-                            @if($data->type == 'job_types')
-                            <option value="{{ $data->id }}" @selected( old('job_type_id')==$data->id)>{{
-                                $data->label }}</option>
-                            @endif
-                            @endforeach
-                        </select>
-                        @error('job_type_id')
-                        <div class="pristine-error text-danger mt-2">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <div class="mt-3">
-                        <label for="frm-year_of_experience" class="form-label">Experiences</label>
-                        <select class="tom-select w-full" name="year_of_experience">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                        </select>
-                        @error('year_of_experience')
-                        <div class="pristine-error text-danger mt-2">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <div class="@error('career_level_id') input-form has-error @enderror mt-3">
-                        <label for="frm-we-career-level-id" class="form-label">Career Level</label>
-                        <select class="tom-select w-full" name="career_level_id">
-                            <option value=""></option>
-                            @foreach($applicationParams as $data)
-                            @if($data->type == 'career_levels')
-                            <option value="{{ $data->id }}" @selected( old('career_level_id')==$data->id)>{{
-                                $data->label }}</option>
-                            @endif
-                            @endforeach
-                        </select>
-                        @error('career_level_id')
-                        <div class="pristine-error text-danger mt-2">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <div class="@error('job_specialization_id') input-form has-error @enderror mt-3">
-                        <label for="frm-we-job-specialization-id" class="form-label">Job Specialization</label>
-                        <select class="tom-select w-full" name="job_specialization_id">
-                            <option value=""></option>
-                            @foreach($jobSpecializations as $data)
-                            <option value="{{ $data->id }}" @selected( old('job_specialization_id')==$data->id)>{{
-                                $data->label }}</option>
-                            @endforeach
-                        </select>
-                        @error('job_specialization_id')
-                        <div class="pristine-error text-danger mt-2">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <div class="@error('job_role_id') input-form has-error @enderror mt-3">
-                        <label for="frm-we-job-role-id" class="form-label">Job Role</label>
-                        <select class="tom-select w-full" name="job_role_id">
-                            <option value=""></option>
-                            @foreach($jobRoles as $data)
-                            <option value="{{ $data->id }}" @selected( old('job_role_id')==$data->id)>{{
-                                $data->label }}</option>
-                            @endforeach
-                        </select>
-                        @error('job_role_id')
-                        <div class="pristine-error text-danger mt-2">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <div class="@error('valid_until') input-form has-error @enderror mt-3">
-                        <label for="frm-date-of-birth" class="form-label">Job Post Valid Until ?</label>
-                        <div class="relative">
-                            <div
-                                class="absolute rounded-l w-10 h-full flex items-center justify-center bg-slate-100 border text-slate-500 dark:bg-darkmode-700 dark:border-darkmode-800 dark:text-slate-400">
-                                <i data-lucide="calendar" class="w-4 h-4"></i>
-                            </div>
-                            <input id="frm-date-of-birth" name="valid_until" type="text"
-                                class="datepicker form-control pl-12" data-single-mode="true"
-                                value="{{ old('valid_until') }}">
-                        </div>
-
-                        @error('valid_until')
-                        <div class="pristine-error text-danger mt-2">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <div class="@error('job_preferences') input-form has-error @enderror mt-3">
-                        <label for="frm-date-of-birth" class="form-label">Job Preference</label>
-                        <select data-placeholder="Select your favorite actors" class="tom-select w-full"
-                            name="job_preferences[]" multiple>
-                            @foreach($applicationParams as $data)
-                            @if($data->type == 'work_preferences')
-                            <option value="{{ $data->id }}" @selected( old('career_level_id')==$data->id)>{{
-                                $data->label }}</option>
-                            @endif
-                            @endforeach
-                        </select>
-
-                        @error('job_preferences')
-                        <div class="pristine-error text-danger mt-2">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <div class="@error('job_locations') input-form has-error @enderror mt-3">
-                        <label for="frm-date-of-birth" class="form-label">Job Location</label>
-                        <select data-placeholder="Select your favorite actors" class="tom-select w-full"
-                            name="job_locations[]" multiple>
                             @foreach($cities as $data)
-                            <option value="{{ $data->id }}" @selected( old('career_level_id')==$data->id)>{{
-                                $data->name }}</option>
+                            <option value="{{ $data->id }}" @selected( old('city_id', (isset($candidate)) ? $candidate->city_id : '')==$data->id)>{{ $data->name }}
+                            </option>
                             @endforeach
                         </select>
-
-                        @error('job_locations')
+                        @error('city_id')
                         <div class="pristine-error text-danger mt-2">{{ $message }}</div>
                         @enderror
                     </div>
 
-                    <div class="mt-3">
-                        <label for="frm-job-description" class="form-label">Job Description</label>
-                        <textarea rows="4" id="frm-job-description" class="form-control"
-                            name="job_description">{{ old('job_description') }}</textarea>
-                        @error('job_description')
+
+                    <div class="@error('address') input-form has-error @enderror mt-3">
+                        <label for="frm-address" class="form-label">Address</label>
+                        <textarea rows="2" id="frm-address" class="form-control" name="address">{{ old('address') }}</textarea>
+                        @error('address')
                         <div class="pristine-error text-danger mt-2">{{ $message }}</div>
                         @enderror
                     </div>
 
-                    <div class="mt-3">
-                        <label for="frm-requirement" class="form-label">Requirement</label>
-                        <textarea rows="4" id="frm-requirement" class="form-control"
-                            name="requirement">{{ old('requirement') }}</textarea>
-                        @error('requirement')
+                    <div class="@error('zip_code') input-form has-error @enderror mt-3">
+                        <label for="frm-zip_code" class="form-label">Zip Code</label>
+                        <input id="frm-zip_code" name="zip_code" type="text" class="form-control" value="{{ old('zip_code') }}">
+                        @error('zip_code')
                         <div class="pristine-error text-danger mt-2">{{ $message }}</div>
                         @enderror
                     </div>
 
-                    <div class="mt-3">
-                        <label for="frm-responsibilities" class="form-label">Responsibilities</label>
-                        <textarea rows="4" id="frm-responsibilities" class="form-control"
-                            name="responsibilities">{{ old('responsibilities') }}</textarea>
-                        @error('responsibilities')
+                    <div class="@error('employee_size_id') input-form has-error @enderror mt-3">
+                        <label for="frm-we-career-level-id" class="form-label">Employee Size</label>
+                        <select class="tom-select w-full" name="employee_size_id">
+                            <option value=""></option>
+                            @foreach($applicationParams as $data)
+                            @if($data->type == 'employee_sizes')
+                            <option value="{{ $data->id }}" @selected( old('employee_size_id')==$data->id)>{{
+                                $data->label }}</option>
+                            @endif
+                            @endforeach
+                        </select>
+                        @error('employee_size_id')
                         <div class="pristine-error text-danger mt-2">{{ $message }}</div>
                         @enderror
                     </div>
 
-                    <div class="mt-3">
-                        <label for="frm-benefit" class="form-label">Benefit</label>
-                        <textarea rows="4" id="frm-benefit" class="form-control"
-                            name="benefit">{{ old('benefit') }}</textarea>
-                        @error('benefit')
-                        <div class="pristine-error text-danger mt-2">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <div class="mt-3">
-                        <label for="frm-qualification" class="form-label">Qualification</label>
-                        <textarea rows="4" id="frm-qualification" class="form-control"
-                            name="qualification">{{ old('qualification') }}</textarea>
-                        @error('qualification')
+                    <div class="@error('company_industry_id') input-form has-error @enderror mt-3">
+                        <label for="frm-we-career-level-id" class="form-label">Company Industry</label>
+                        <select class="tom-select w-full" name="company_industry_id">
+                            <option value=""></option>
+                            @foreach($applicationParams as $data)
+                            @if($data->type == 'company_industries')
+                            <option value="{{ $data->id }}" @selected( old('company_industry_id')==$data->id)>{{
+                                $data->label }}</option>
+                            @endif
+                            @endforeach
+                        </select>
+                        @error('company_industry_id')
                         <div class="pristine-error text-danger mt-2">{{ $message }}</div>
                         @enderror
                     </div>
