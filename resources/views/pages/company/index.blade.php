@@ -10,7 +10,7 @@
         Company
     </h2>
     <div class="w-full sm:w-auto flex mt-4 sm:mt-0">
-
+        <a href="{{ route('company.create') }}" class="btn btn-primary shadow-md mr-2">Add New Company</a>
     </div>
 </div>
 
